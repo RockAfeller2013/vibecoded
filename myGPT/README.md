@@ -18,6 +18,10 @@ Intended for learning and experimentation, not production.
 - Configurable model size, depth, and training hyperparameters
 - PyTorch-based, compatible with Python 3.10+
 
+# Hardware
+
+- https://www.hyperscalers.com.au/about-us-hyperscale
+- 
 ---
 
 ## Requirements
