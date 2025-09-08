@@ -1,1 +1,1 @@
-This is my personal affimations, I using ChatGPT and Deepseek, to convert to a ePub, while I am jogging, I can use iPhone read-aloud features as a audiobook feature.
+This is my personal affimations, I used ChatGPT and Deepseek, to convert to a ePub. I can use my iPhone read-aloud features as a audiobook feature to read this book. Cool huh.
