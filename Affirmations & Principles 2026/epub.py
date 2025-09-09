@@ -6,7 +6,7 @@ output_file = "Affirmations_Principles_2026.epub"
 
 book_xhtml = """<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <title>Affirmations &amp; Principles 2026</title>
     <meta charset="utf-8"/>
@@ -22,7 +22,7 @@ book_xhtml = """<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <body>
     <h1>Affirmations &amp; Principles 2026</h1>
 
-    <h2>Affirmations</h2>
+    <h2 id="affirmations">Affirmations</h2>
     <ul class="list">
         <li>I am confident and calm in all situations.</li>
         <li>I approach challenges with clarity and purpose.</li>
@@ -36,7 +36,7 @@ book_xhtml = """<?xml version="1.0" encoding="utf-8" standalone="no"?>
         <li>I am worthy of success and happiness.</li>
     </ul>
 
-    <h2>Mindset Principles</h2>
+    <h2 id="principles">Mindset Principles</h2>
     <ul class="list">
         <li>Clarity over confusion – simplify decisions.</li>
         <li>Respond, don’t react.</li>
@@ -50,7 +50,7 @@ book_xhtml = """<?xml version="1.0" encoding="utf-8" standalone="no"?>
         <li>Confidence comes from preparation and repetition.</li>
     </ul>
 
-    <h2>Resilience Reminders</h2>
+    <h2 id="resilience">Resilience Reminders</h2>
     <ul class="list">
         <li>Breathe, then act.</li>
         <li>Obstacles are stepping stones.</li>
@@ -60,7 +60,7 @@ book_xhtml = """<?xml version="1.0" encoding="utf-8" standalone="no"?>
         <li>You’ve overcome before, you’ll overcome again.</li>
     </ul>
 
-    <h2>Closing Thought</h2>
+    <h2 id="closing">Closing Thought</h2>
     <p class="poem">
         “Confidence is silent. Strength is calm. Growth is steady.  
         Keep moving forward, one step at a time.”
@@ -83,6 +83,29 @@ title_xhtml = """<?xml version="1.0" encoding="utf-8"?>
 <body>
   <h1>Affirmations &amp; Principles 2026</h1>
   <h2>By Your Name</h2>
+</body>
+</html>
+"""
+
+toc_xhtml = """<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:epub="http://www.idpf.org/2007/ops" lang="en">
+<head>
+  <title>Table of Contents</title>
+  <meta charset="utf-8"/>
+</head>
+<body>
+  <nav epub:type="toc" id="toc">
+    <h1>Table of Contents</h1>
+    <ol>
+      <li><a href="title.xhtml">Title Page</a></li>
+      <li><a href="book.xhtml#affirmations">Affirmations</a></li>
+      <li><a href="book.xhtml#principles">Mindset Principles</a></li>
+      <li><a href="book.xhtml#resilience">Resilience Reminders</a></li>
+      <li><a href="book.xhtml#closing">Closing Thought</a></li>
+    </ol>
+  </nav>
 </body>
 </html>
 """
@@ -112,6 +135,7 @@ content_opf = f"""<?xml version="1.0" encoding="utf-8"?>
   <manifest>
     <item id="title" href="title.xhtml" media-type="application/xhtml+xml"/>
     <item id="book" href="book.xhtml" media-type="application/xhtml+xml"/>
+    <item id="toc" href="toc.xhtml" media-type="application/xhtml+xml" properties="nav"/>
   </manifest>
 
   <spine>
@@ -126,6 +150,7 @@ with zipfile.ZipFile(output_file, "w") as epub:
     epub.writestr("META-INF/container.xml", container_xml)
     epub.writestr("OEBPS/title.xhtml", title_xhtml)
     epub.writestr("OEBPS/book.xhtml", book_xhtml)
+    epub.writestr("OEBPS/toc.xhtml", toc_xhtml)
     epub.writestr("OEBPS/content.opf", content_opf)
 
 print(f"EPUB created: {output_file}")
