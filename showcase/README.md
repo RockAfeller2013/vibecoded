@@ -7,6 +7,11 @@
 - You can use AI to build awesome slides - https://r3f-3d-slideshow.vercel.app/
 - https://r3f-animated-book-slider-final.vercel.app/
 
+## JavaScript Libaraies 
+
+- https://gsap.com/showcase/
+
+
 ### Features
 - Audience Particpatation and engagment -
 - show.io
