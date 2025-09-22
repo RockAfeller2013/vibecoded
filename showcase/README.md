@@ -1,6 +1,7 @@
 # Build better Prezi
 
 - https://reactbits.dev/
+- https://animejs.com/
 - React Three.JS
 - Reveal.js
 - https://r3f.docs.pmnd.rs/getting-started/introduction
