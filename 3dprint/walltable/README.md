@@ -19,3 +19,5 @@ The foldout wall table model will be created in the 3D view.
 This script creates a basic foldout wall table with a tabletop, a wall bracket, and a hinge mechanism. You can modify the dimensions and add more details as needed.
 
 For more advanced folding operations, you can explore the Fold a Wall tool in the Sheet Metal Workbench, which allows you to fold sheet metal along a line. This tool can be useful for creating more complex foldout mechanisms
+
+- https://www.youtube.com/watch?v=Z8zmoXBMvyA
