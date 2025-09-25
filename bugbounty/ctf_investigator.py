@@ -4,7 +4,7 @@
 # sudo apt install -y python3 python3-pip
 
 # pip install requests urllib3
-# pip install requests urllib3
+# python3 ctf_investigator.py
 """
 ACK-ME CORP CTF - PRIORITY INVESTIGATION SCRIPT
 Focused on finding the developer's weekend knowledge-base chatbot
