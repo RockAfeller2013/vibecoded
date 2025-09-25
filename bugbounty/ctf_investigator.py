@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# pip install requests urllib3
+# pip install requests urllib3
 """
 ACK-ME CORP CTF - PRIORITY INVESTIGATION SCRIPT
 Focused on finding the developer's weekend knowledge-base chatbot
