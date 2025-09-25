@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# cat /etc/os-release
+# sudo apt update
+# sudo apt install -y python3 python3-pip
+
 # pip install requests urllib3
 # pip install requests urllib3
 """
