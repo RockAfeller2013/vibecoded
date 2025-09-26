@@ -18,6 +18,13 @@
 - npx gltfjsx <model.gltf or .glb> --transform --keepmeshes
 
 
+## Procedure
+
+- Find a 3d model on https://sketchfab.com/ https://www.turbosquid.com/ https://www.cgtrader.com/
+- Or use a Scriot creator to build a 3D model
+- Import to Blender to Animate
+- Export using gltjx
+- Create a Onepage scroll website template.
 
 # Using Three.js for Slide Presentations
 
