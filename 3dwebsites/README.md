@@ -128,4 +128,6 @@ animate();
 
 ✅ **Best Templates to Start Quickly:**
 - [threejs-presentation (GitHub)](https://github.com/fibo/threejs-presentation)  
-- [Three.js CSS3DRenderer example](https://threejs.org/examples/?q=css#css3d_periodictable)  
+- [Three.js CSS3DRenderer example](https://threejs.org/examples/?q=css#css3d_periodictable)
+
+- Examples - https://codesandbox.io/p/sandbox/r3f-gsap-scrolltrigger-forked-886nm?file=%2Fsrc%2Findex.js
