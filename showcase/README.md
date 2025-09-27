@@ -32,7 +32,8 @@
 - Choose from Interactive Backgrounds - https://www.sliderrevolution.com/resources/three-js-examples/, or submit your own via git
 - https://github.com/jeertmans/manim-slides-starter?tab=readme-ov-file
 - Slides but with a community to interact, chat and surevey and socilise.
-- Make a prezi animation , import cvs to animate the words simple animations using three.js with interaction and chat questions on the sides , like twich. just for presentations no video, text/youtube for text. You can pay for video recording, etc. 
+- Make a prezi animation , import cvs to animate the words simple animations using three.js with interaction and chat questions on the sides , like twich. just for presentations no video, text/youtube for text. You can pay for video recording, etc.
+- Follow Preseation/Communcation Metoldoogy - like the one i have in that folder. 
 
 ## Templates
 
