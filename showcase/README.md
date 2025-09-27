@@ -4,11 +4,13 @@
 
 - https://reactbits.dev/
 - https://animejs.com/
-- React Three.JS
+- Three.JS
 - Reveal.js
+- GSAP -https://gsap.com/docs/v3/Installation/guides/Club%20GSAP%20&%20Vercel/
 - https://r3f.docs.pmnd.rs/getting-started/introduction
 - You can use AI to build awesome slides - https://r3f-3d-slideshow.vercel.app/
 - https://r3f-animated-book-slider-final.vercel.app/
+- PaceUI - https://next.jqueryscript.net/next-js/animated-components-gsap-paceui/
 
 ## JavaScript Libaraies 
 
@@ -16,6 +18,7 @@
 
 
 ### Features
+
 - Audience Particpatation and engagment -
 - show.io
 - Import from Import your slides from Github Markup format
@@ -31,7 +34,11 @@
 - Slides but with a community to interact, chat and surevey and socilise.
 - Make a prezi animation , import cvs to animate the words simple animations using three.js with interaction and chat questions on the sides , like twich. just for presentations no video, text/youtube for text. You can pay for video recording, etc. 
 
+## Templates
+
+- 
 ### ChatGPT
 
 - https://chatgpt.com/c/689c1f63-72a8-832c-9f1c-834b38d8ea24
--  https://chatgpt.com/c/688282c4-a99c-800e-9ec0-b018de03dc78
+- https://chatgpt.com/c/688282c4-a99c-800e-9ec0-b018de03dc78
+- https://dash.cloudflare.com/cde2b83e96bce23a8db072465a882cc5/workers-and-pages/create/deploy-to-workers?repository=https%3A%2F%2Fgithub.com%2Fcloudflare%2Fvibesdk
