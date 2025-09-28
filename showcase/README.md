@@ -43,3 +43,4 @@
 - https://chatgpt.com/c/689c1f63-72a8-832c-9f1c-834b38d8ea24
 - https://chatgpt.com/c/688282c4-a99c-800e-9ec0-b018de03dc78
 - https://dash.cloudflare.com/cde2b83e96bce23a8db072465a882cc5/workers-and-pages/create/deploy-to-workers?repository=https%3A%2F%2Fgithub.com%2Fcloudflare%2Fvibesdk
+- https://build.cloudflare.dev/app/89993bf4-4421-446b-9091-8ef181acfa25
