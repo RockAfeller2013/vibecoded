@@ -37,7 +37,8 @@
 
 ## Templates
 
-- 
+- Play NextJS - https://github.com/NextJSTemplates/play-nextjs?utm_source=chatgpt.com
+- Next.js & shadcn/ui Admin Dashboard - https://vercel.com/new/templates/next.js/next-js-and-shadcn-ui-admin-dashboard
 ### ChatGPT
 
 - https://chatgpt.com/c/689c1f63-72a8-832c-9f1c-834b38d8ea24
