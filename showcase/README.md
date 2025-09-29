@@ -47,3 +47,8 @@
 - https://build.cloudflare.dev/app/89993bf4-4421-446b-9091-8ef181acfa25
 - https://prezi.com/p/rh_mfyroznft/understanding-prezi/?present=1
 - https://github.com/Rohan749/text-animations/tree/folding-text
+
+
+Presentations
+
+Transitions between slides 2d Space 3d scroll based 3d space based Dymanic 3d Space and Particles. Scroll video effect
