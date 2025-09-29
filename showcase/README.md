@@ -46,3 +46,4 @@
 - https://dash.cloudflare.com/cde2b83e96bce23a8db072465a882cc5/workers-and-pages/create/deploy-to-workers?repository=https%3A%2F%2Fgithub.com%2Fcloudflare%2Fvibesdk
 - https://build.cloudflare.dev/app/89993bf4-4421-446b-9091-8ef181acfa25
 - https://prezi.com/p/rh_mfyroznft/understanding-prezi/?present=1
+- https://github.com/Rohan749/text-animations/tree/folding-text
