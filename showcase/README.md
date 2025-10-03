@@ -51,4 +51,5 @@
 
 Presentations
 
+Prezi is 2D, my version is moving back and forth in a 3D Space with Objects and placing content in 3D space as well as Dynamic Animation Motion Graphics.
 Transitions between slides 2d Space 3d scroll based 3d space based Dymanic 3d Space and Particles. Scroll video effect
