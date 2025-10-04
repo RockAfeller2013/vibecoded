@@ -4,7 +4,7 @@ Another Vibe-coded weekend project, I never had a chance to read all of Paul Gra
 
 This will produce an EPUB with:
 
-All Paul Graham articles, starting with your three specified ones
+All Paul Graham articles.
 
 Inline images downloaded and embedded properly
 
