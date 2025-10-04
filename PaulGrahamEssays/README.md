@@ -1,4 +1,4 @@
-# Paul Graham articles
+# Paul Graham articles in EPUB format
 
 Another Vibe coded weekend projected, I never had a chance to read all of Paul Graham’s essays as they are all online and I prefer to read long form on my Kindle or Apple Books using the Speak Text feature. So this Python script converts all of his essays into an EPUB, or you can just download the EPUB.
 
