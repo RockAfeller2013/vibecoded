@@ -3,6 +3,7 @@
 # Use AI to gereate AI procedural image
 -Export to web format
 - Create a Onepage scroll website
+- React 3D Animation Website Tutorial with ThreeJS (WebGi) & GSAP - https://www.youtube.com/watch?v=IyBhFma4H1A
 
 - following links and examples should provide solid insight into that workflow if you're interested.
 
