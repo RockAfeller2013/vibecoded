@@ -11,6 +11,7 @@
 -https://threejs.org/docs/#manual/en/introduction/Loading-3D-models
 -https://threejs.org/docs/#examples/loaders/GLTFLoader
 -https://www.blend4web.com/en/
+- https://www.youtube.com/watch?v=pXpckHDDNYo
 
 - https://youtube.com/shorts/7lf31NIg_6w?si=DgT6Z2CnGLa7PxP_
 
