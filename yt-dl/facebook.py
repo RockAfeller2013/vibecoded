@@ -1,4 +1,9 @@
 # pip install yt-dlp
+# brew install yt-dlp
+# python3 -m venv venv
+# source venv/bin/activate
+#pip install yt-dlp
+# python facebook.py https://www.facebook.com/reel/801096865803336
 # python download_fb.py https://www.facebook.com/reel/801096865803336
 
 import sys
