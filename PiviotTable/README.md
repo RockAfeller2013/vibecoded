@@ -4,6 +4,8 @@ Requirements:
 1. Layout and frameworks
    - Include Bootstrap via CDN for layout and responsiveness.
    - Include a Google Material Design library (Material Icons and Material Components or Materialize) via CDN.
+   - Include https://tailwindcss.com/
+   - Include https://github.com/nicolaskruchten/pivottable
    - Page must render correctly on a typical 14-inch laptop screen. Default font-size should be appropriate for that display.
    - Provide zoom in/out controls to scale the table view.
 
@@ -49,9 +51,8 @@ DATE,DESCRIPTION,AMOUNT,CATEGORY
 
 
 Acceptance criteria:
-- Loading the example CSV populates months Jan–Dec.
+
 - Categories become columns.
-- Toggle Option for Month and Categories
 - Option to Swap Row to Colums
 - Remove File open, keep drag and drop only
 - Monthly sums and grand totals match CSV amounts.
@@ -60,7 +61,8 @@ Acceptance criteria:
 - Add a Sort order for each Accending and Descending for each Row, just click ascending click again descending
 - Add Toggle to select all Categories and unslect.
 - Remove Sample Options
-- Make the UI look nice and minimal 
+- Make the UI look nice and minimal
+- Selectable Categories items, select All.
 
 
 - Deepseek https://chat.deepseek.com/a/chat/s/57df61b4-ca8e-4792-9bc5-e34066da76e2
