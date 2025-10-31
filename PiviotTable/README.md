@@ -57,3 +57,4 @@ Acceptance criteria:
 - Monthly sums and grand totals match CSV amounts.
 - Sticky headers and sticky month column work while scrolling.
 - Zoom and export work.
+- Add a Sort order for each Accending and Descending for each Row, just click ascending click again descending
