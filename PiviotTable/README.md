@@ -58,6 +58,7 @@ Acceptance criteria:
 - Sticky headers and sticky month column work while scrolling.
 - Zoom and export work.
 - Add a Sort order for each Accending and Descending for each Row, just click ascending click again descending
+- Add Toggle to select all Categories and unslect. 
 
 
 - Deepseek https://chat.deepseek.com/a/chat/s/57df61b4-ca8e-4792-9bc5-e34066da76e2
