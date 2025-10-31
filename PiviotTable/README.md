@@ -65,5 +65,8 @@ Acceptance criteria:
 - Selectable Categories items, select All.
 
 
+Testing
+
 - Deepseek https://chat.deepseek.com/a/chat/s/57df61b4-ca8e-4792-9bc5-e34066da76e2
-- 
+- Claude - https://claude.ai/chat/3f3ecece-c510-46d9-8b1c-ade2bfc65566
+- CHatGPT - https://chatgpt.com/c/69044d7d-da00-8321-af16-939d60e51dec
