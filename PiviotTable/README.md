@@ -51,6 +51,9 @@ DATE,DESCRIPTION,AMOUNT,CATEGORY
 Acceptance criteria:
 - Loading the example CSV populates months Jan–Dec.
 - Categories become columns.
+- Toggle Option for Month and Categories
+- Option to Swap Row to Colums
+- Remove File open, keep drag and drop only
 - Monthly sums and grand totals match CSV amounts.
 - Sticky headers and sticky month column work while scrolling.
 - Zoom and export work.
