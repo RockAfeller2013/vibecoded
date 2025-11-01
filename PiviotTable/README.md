@@ -63,6 +63,58 @@ Acceptance criteria:
 - Remove Sample Options
 - Make the UI look nice and minimal
 - Selectable Categories items, select All.
+- 
+Grap
+- Add Selectable Graph with following ; 
+. Grouped Bar Chart (Recommended)
+
+X-axis: Months (Jan–Dec)
+
+Y-axis: Amount ($)
+
+Bars: Each bar group represents a month; each bar within a group represents a category.
+
+Use case: Compare spending across categories per month.
+
+Implementation: D3 grouped bar chart.
+
+2. Stacked Bar Chart (Alternative)
+
+X-axis: Months
+
+Y-axis: Total monthly spending (stacked by category).
+
+Use case: Show total spend per month while visualizing category proportions.
+
+Implementation: D3 stacked bar chart.
+
+3. Line Chart (for trend)
+
+X-axis: Months
+
+Y-axis: Amount
+
+Lines: One per category.
+
+Use case: Identify category trends across months.
+
+Implementation: D3 multi-line chart with a legend and tooltip.
+
+4. Treemap (summary view)
+
+Data: Categories → total yearly amounts.
+
+Use case: Show category share of total spend.
+
+Implementation: D3 treemap with color scale.
+
+Recommended Setup:
+
+Combine pivot table and grouped or stacked bar chart in the same page.
+
+Allow toggle between “Grouped” and “Stacked” view.
+
+Use D3’s tooltip (d3-tip or native) for hover details.
 
 
 Testing
