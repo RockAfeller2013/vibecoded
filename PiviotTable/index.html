@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Pivot Table</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- PapaParse for CSV parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: 14px;
+            background: #f5f5f5;
+        }
+        
+        #dropZone {
+            border: 3px dashed #ccc;
+            border-radius: 12px;
+            padding: 60px 20px;
+            text-align: center;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        #dropZone.drag-over {
+            border-color: #2196F3;
+            background: #E3F2FD;
+        }
+        
+        .pivot-container {
+            overflow: auto;
+            max-height: calc(100vh - 250px);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .pivot-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            font-size: 13px;
+        }
+        
+        .pivot-table th,
+        .pivot-table td {
+            padding: 10px 12px;
+            border: 1px solid #e0e0e0;
+            text-align: right;
+            white-space: nowrap;
+        }
+        
+        .pivot-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .pivot-table th.month-header {
+            text-align: left;
+            left: 0;
+            z-index: 11;
+        }
+        
+        .pivot-table td.month-cell {
+            text-align: left;
+            font-weight: 600;
+            background: #fafafa;
+            position: sticky;
+            left: 0;
+            z-index: 5;
+        }
+        
+        .pivot-table .total-row {
+            background: #fff3cd;
+            font-weight: 700;
+        }
+        
+        .pivot-table .total-col {
+            background: #d1ecf1;
+            font-weight: 600;
+        }
+        
+        .pivot-table .grand-total {
+            background: #c3e6cb;
+            font-weight: 700;
+        }
+        
+        .category-toggle {
+            display: inline-block;
+            margin: 4px;
+        }
+        
+        .category-toggle label {
+            cursor: pointer;
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            transition: all 0.2s;
+            font-size: 12px;
+        }
+        
+        .category-toggle input:checked + label {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+        
+        .control-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: #2196F3;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+        
+        .control-btn:hover {
+            background: #1976D2;
+        }
+        
+        .control-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .sort-icon {
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 4px;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        
+        .sort-icon:hover {
+            opacity: 1;
+        }
+        
+        .sort-icon.active {
+            opacity: 1;
+            color: #2196F3;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="text-3xl font-bold mb-2">
+                    <span class="material-icons" style="vertical-align: middle; font-size: 36px;">assessment</span>
+                    Expense Pivot Table Analyzer
+                </h1>
+                <p class="text-gray-600">Drop your CSV file to analyze expenses by month and category, example DATE,DESCRIPTION,AMOUNT,CATEGORY
+02/01/2025,VodaPhone Plan,$123.00,MOBILE</p>
+            </div>
+        </div>
+        
+        <!-- Drop Zone -->
+        <div id="dropZone" class="mb-4">
+            <span class="material-icons" style="font-size: 48px; color: #999;">cloud_upload</span>
+            <p class="mt-3 mb-0 text-lg">Drop CSV file here</p>
+            <p class="text-sm text-gray-500">or click to browse</p>
+            <input type="file" id="fileInput" accept=".csv" style="display: none;">
+        </div>
+        
+        <!-- Controls -->
+        <div id="controls" class="mb-4" style="display: none;">
+            <div class="row align-items-center">
+                <div class="col-md-auto mb-2">
+                    <button id="swapBtn" class="control-btn">
+                        <span class="material-icons" style="vertical-align: middle; font-size: 18px;">swap_horiz</span>
+                        Swap Rows/Columns
+                    </button>
+                </div>
+                <div class="col-md-auto mb-2">
+                    <button id="zoomInBtn" class="control-btn">
+                        <span class="material-icons" style="vertical-align: middle; font-size: 18px;">zoom_in</span>
+                        Zoom In
+                    </button>
+                    <button id="zoomOutBtn" class="control-btn">
+                        <span class="material-icons" style="vertical-align: middle; font-size: 18px;">zoom_out</span>
+                        Zoom Out
+                    </button>
+                    <button id="resetZoomBtn" class="control-btn">
+                        <span class="material-icons" style="vertical-align: middle; font-size: 18px;">refresh</span>
+                        Reset
+                    </button>
+                </div>
+                <div class="col-md-auto mb-2">
+                    <button id="exportBtn" class="control-btn">
+                        <span class="material-icons" style="vertical-align: middle; font-size: 18px;">file_download</span>
+                        Export CSV
+                    </button>
+                </div>
+                <div class="col-md-auto mb-2 ms-auto">
+                    <span class="text-sm text-gray-600">Zoom: <span id="zoomLevel">100%</span></span>
+                </div>
+            </div>
+            
+            <!-- Category Filters -->
+            <div class="mt-3 p-3 bg-white rounded border">
+                <div class="d-flex align-items-center mb-2">
+                    <strong class="me-3">Filter Categories:</strong>
+                    <button id="selectAllBtn" class="btn btn-sm btn-outline-primary me-2">Select All</button>
+                    <button id="deselectAllBtn" class="btn btn-sm btn-outline-secondary">Deselect All</button>
+                </div>
+                <div id="categoryFilters"></div>
+            </div>
+        </div>
+        
+        <!-- Pivot Table -->
+        <div id="pivotTableContainer" class="pivot-container" style="display: none;">
+            <table class="pivot-table" id="pivotTable"></table>
+        </div>
+    </div>
+
+    <script>
+        let csvData = [];
+        let currentZoom = 100;
+        let activeCategories = new Set();
+        let sortOrders = {}; // Stores sort order for each dimension
+        let isSwapped = false; // Track if rows and columns are swapped
+        
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const controls = document.getElementById('controls');
+        const pivotTableContainer = document.getElementById('pivotTableContainer');
+        const pivotTable = document.getElementById('pivotTable');
+        
+        // Drag and drop handlers
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file && file.name.endsWith('.csv')) {
+                loadCSV(file);
+            }
+        });
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) loadCSV(file);
+        });
+        
+        // Load and parse CSV
+        function loadCSV(file) {
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                dynamicTyping: false,
+                complete: (results) => {
+                    processData(results.data);
+                },
+                error: (error) => {
+                    alert('Error parsing CSV: ' + error.message);
+                }
+            });
+        }
+        
+        // Process CSV data
+        function processData(data) {
+            csvData = data.map(row => {
+                const amount = parseFloat(row.AMOUNT?.replace(/[$,]/g, ''));
+                if (isNaN(amount)) return null;
+                
+                // Parse date (DD/MM/YYYY format)
+                const dateParts = row.DATE?.split('/');
+                if (!dateParts || dateParts.length !== 3) return null;
+                
+                const day = parseInt(dateParts[0]);
+                const month = parseInt(dateParts[1]);
+                const year = parseInt(dateParts[2]);
+                
+                return {
+                    date: new Date(year, month - 1, day),
+                    month: month,
+                    year: year,
+                    description: row.DESCRIPTION,
+                    amount: amount,
+                    category: row.CATEGORY?.trim()
+                };
+            }).filter(row => row !== null);
+            
+            if (csvData.length === 0) {
+                alert('No valid data found in CSV');
+                return;
+            }
+            
+            // Get unique categories
+            const categories = [...new Set(csvData.map(row => row.category))].sort();
+            activeCategories = new Set(categories);
+            
+            dropZone.style.display = 'none';
+            controls.style.display = 'block';
+            pivotTableContainer.style.display = 'block';
+            
+            renderCategoryFilters(categories);
+            renderPivotTable();
+        }
+        
+        // Render category filter checkboxes
+        function renderCategoryFilters(categories) {
+            const container = document.getElementById('categoryFilters');
+            container.innerHTML = categories.map(cat => `
+                <div class="category-toggle">
+                    <input type="checkbox" id="cat_${cat}" checked>
+                    <label for="cat_${cat}">${cat}</label>
+                </div>
+            `).join('');
+            
+            categories.forEach(cat => {
+                document.getElementById(`cat_${cat}`).addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        activeCategories.add(cat);
+                    } else {
+                        activeCategories.delete(cat);
+                    }
+                    renderPivotTable();
+                });
+            });
+        }
+        
+        // Generate pivot table data
+        function generatePivotData() {
+            const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+            const categories = [...activeCategories].sort();
+            
+            const pivotData = {};
+            const categoryTotals = {};
+            const monthTotals = {};
+            let grandTotal = 0;
+            
+            // Initialize
+            months.forEach(month => {
+                pivotData[month] = {};
+                monthTotals[month] = 0;
+                categories.forEach(cat => {
+                    pivotData[month][cat] = 0;
+                });
+            });
+            
+            categories.forEach(cat => {
+                categoryTotals[cat] = 0;
+            });
+            
+            // Aggregate data
+            csvData.forEach(row => {
+                if (activeCategories.has(row.category)) {
+                    const monthName = months[row.month - 1];
+                    pivotData[monthName][row.category] += row.amount;
+                    categoryTotals[row.category] += row.amount;
+                    monthTotals[monthName] += row.amount;
+                    grandTotal += row.amount;
+                }
+            });
+            
+            return { pivotData, categoryTotals, monthTotals, grandTotal, months, categories };
+        }
+        
+        // Render pivot table
+        function renderPivotTable() {
+            const { pivotData, categoryTotals, monthTotals, grandTotal, months, categories } = generatePivotData();
+            
+            let sortedMonths = [...months];
+            let sortedCategories = [...categories];
+            
+            // Apply sorting
+            if (!isSwapped) {
+                if (sortOrders.months) {
+                    sortedMonths = sortedMonths.sort((a, b) => {
+                        const diff = monthTotals[b] - monthTotals[a];
+                        return sortOrders.months === 'asc' ? -diff : diff;
+                    });
+                }
+                if (sortOrders.categories) {
+                    sortedCategories = sortedCategories.sort((a, b) => {
+                        const diff = categoryTotals[b] - categoryTotals[a];
+                        return sortOrders.categories === 'asc' ? -diff : diff;
+                    });
+                }
+            } else {
+                if (sortOrders.categories) {
+                    sortedCategories = sortedCategories.sort((a, b) => {
+                        const diff = categoryTotals[b] - categoryTotals[a];
+                        return sortOrders.categories === 'asc' ? -diff : diff;
+                    });
+                }
+                if (sortOrders.months) {
+                    sortedMonths = sortedMonths.sort((a, b) => {
+                        const diff = monthTotals[b] - monthTotals[a];
+                        return sortOrders.months === 'asc' ? -diff : diff;
+                    });
+                }
+            }
+            
+            let html = '<thead><tr>';
+            
+            if (!isSwapped) {
+                // Normal view: months as rows, categories as columns
+                html += `<th class="month-header">
+                    Month
+                    <span class="material-icons sort-icon ${sortOrders.months ? 'active' : ''}" onclick="toggleSort('months')">
+                        ${sortOrders.months === 'desc' ? 'arrow_downward' : 'arrow_upward'}
+                    </span>
+                </th>`;
+                
+                sortedCategories.forEach(cat => {
+                    html += `<th>${cat}</th>`;
+                });
+                html += `<th class="total-col">Grand Total</th>`;
+                html += '</tr></thead><tbody>';
+                
+                sortedMonths.forEach(month => {
+                    if (monthTotals[month] > 0) {
+                        html += '<tr>';
+                        html += `<td class="month-cell">${month}</td>`;
+                        sortedCategories.forEach(cat => {
+                            const val = pivotData[month][cat];
+                            html += `<td>$${val.toFixed(2)}</td>`;
+                        });
+                        html += `<td class="total-col">$${monthTotals[month].toFixed(2)}</td>`;
+                        html += '</tr>';
+                    }
+                });
+                
+                // Category totals row
+                html += '<tr class="total-row">';
+                html += '<td class="month-cell">Grand Total</td>';
+                sortedCategories.forEach(cat => {
+                    html += `<td>$${categoryTotals[cat].toFixed(2)}</td>`;
+                });
+                html += `<td class="grand-total">$${grandTotal.toFixed(2)}</td>`;
+                html += '</tr>';
+                
+            } else {
+                // Swapped view: categories as rows, months as columns
+                html += `<th class="month-header">
+                    Category
+                    <span class="material-icons sort-icon ${sortOrders.categories ? 'active' : ''}" onclick="toggleSort('categories')">
+                        ${sortOrders.categories === 'desc' ? 'arrow_downward' : 'arrow_upward'}
+                    </span>
+                </th>`;
+                
+                sortedMonths.forEach(month => {
+                    if (monthTotals[month] > 0) {
+                        html += `<th>${month}</th>`;
+                    }
+                });
+                html += `<th class="total-col">Grand Total</th>`;
+                html += '</tr></thead><tbody>';
+                
+                sortedCategories.forEach(cat => {
+                    html += '<tr>';
+                    html += `<td class="month-cell">${cat}</td>`;
+                    sortedMonths.forEach(month => {
+                        if (monthTotals[month] > 0) {
+                            const val = pivotData[month][cat];
+                            html += `<td>$${val.toFixed(2)}</td>`;
+                        }
+                    });
+                    html += `<td class="total-col">$${categoryTotals[cat].toFixed(2)}</td>`;
+                    html += '</tr>';
+                });
+                
+                // Month totals row
+                html += '<tr class="total-row">';
+                html += '<td class="month-cell">Grand Total</td>';
+                sortedMonths.forEach(month => {
+                    if (monthTotals[month] > 0) {
+                        html += `<td>$${monthTotals[month].toFixed(2)}</td>`;
+                    }
+                });
+                html += `<td class="grand-total">$${grandTotal.toFixed(2)}</td>`;
+                html += '</tr>';
+            }
+            
+            html += '</tbody>';
+            pivotTable.innerHTML = html;
+        }
+        
+        // Toggle sort order
+        function toggleSort(dimension) {
+            if (!sortOrders[dimension]) {
+                sortOrders[dimension] = 'asc';
+            } else if (sortOrders[dimension] === 'asc') {
+                sortOrders[dimension] = 'desc';
+            } else {
+                delete sortOrders[dimension];
+            }
+            renderPivotTable();
+        }
+        
+        // Swap rows and columns
+        document.getElementById('swapBtn').addEventListener('click', () => {
+            isSwapped = !isSwapped;
+            renderPivotTable();
+        });
+        
+        // Zoom controls
+        document.getElementById('zoomInBtn').addEventListener('click', () => {
+            currentZoom = Math.min(200, currentZoom + 10);
+            applyZoom();
+        });
+        
+        document.getElementById('zoomOutBtn').addEventListener('click', () => {
+            currentZoom = Math.max(50, currentZoom - 10);
+            applyZoom();
+        });
+        
+        document.getElementById('resetZoomBtn').addEventListener('click', () => {
+            currentZoom = 100;
+            applyZoom();
+        });
+        
+        function applyZoom() {
+            pivotTableContainer.style.fontSize = currentZoom + '%';
+            document.getElementById('zoomLevel').textContent = currentZoom + '%';
+        }
+        
+        // Select/Deselect all categories
+        document.getElementById('selectAllBtn').addEventListener('click', () => {
+            const checkboxes = document.querySelectorAll('#categoryFilters input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                cb.checked = true;
+                const cat = cb.id.replace('cat_', '');
+                activeCategories.add(cat);
+            });
+            renderPivotTable();
+        });
+        
+        document.getElementById('deselectAllBtn').addEventListener('click', () => {
+            const checkboxes = document.querySelectorAll('#categoryFilters input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                cb.checked = false;
+                const cat = cb.id.replace('cat_', '');
+                activeCategories.delete(cat);
+            });
+            renderPivotTable();
+        });
+        
+        // Export to CSV
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            const { pivotData, categoryTotals, monthTotals, grandTotal, months, categories } = generatePivotData();
+            
+            let csv = '';
+            
+            if (!isSwapped) {
+                csv += 'Month,' + categories.join(',') + ',Grand Total\n';
+                months.forEach(month => {
+                    if (monthTotals[month] > 0) {
+                        csv += month;
+                        categories.forEach(cat => {
+                            csv += ',' + pivotData[month][cat].toFixed(2);
+                        });
+                        csv += ',' + monthTotals[month].toFixed(2) + '\n';
+                    }
+                });
+                csv += 'Grand Total';
+                categories.forEach(cat => {
+                    csv += ',' + categoryTotals[cat].toFixed(2);
+                });
+                csv += ',' + grandTotal.toFixed(2);
+            } else {
+                const activeMonths = months.filter(m => monthTotals[m] > 0);
+                csv += 'Category,' + activeMonths.join(',') + ',Grand Total\n';
+                categories.forEach(cat => {
+                    csv += cat;
+                    activeMonths.forEach(month => {
+                        csv += ',' + pivotData[month][cat].toFixed(2);
+                    });
+                    csv += ',' + categoryTotals[cat].toFixed(2) + '\n';
+                });
+                csv += 'Grand Total';
+                activeMonths.forEach(month => {
+                    csv += ',' + monthTotals[month].toFixed(2);
+                });
+                csv += ',' + grandTotal.toFixed(2);
+            }
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'pivot_export.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>
