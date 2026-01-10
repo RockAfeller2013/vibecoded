@@ -154,3 +154,8 @@ Transitions between slides
 3d space based
 Dymanic 3d Space and Particles.
 Scroll video effect
+
+
+## Research
+
+- 3D Parralax - https://www.youtube.com/watch?v=rbqIivbTJao
