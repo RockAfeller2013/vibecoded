@@ -145,6 +145,10 @@ Tools
 - Webflow
 - Framer.io - https://www.facebook.com/framerjs/videos/1730018957792346/?fs=e&mibextid=wwXIfr&rdid=fWFHqNS0ZwRdagzj#
 - https://www.facebook.com/framerjs/videos/1730018957792346/?fs=e&mibextid=wwXIfr&rdid=ATYkbjP6TyTNmSvq#
+- Google Antigravity (IDE)
+- Google Whisk (Image Generation)
+- Google Flow (Video Generation)
+- Ezgif (Sequence Conversion)
 
 Presentations
 
