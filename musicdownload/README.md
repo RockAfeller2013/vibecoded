@@ -60,8 +60,9 @@ pip3 install yt-dlp
 
 ### 1. Create a text file with song titles
 
-Create a file (e.g., `songs.txt`) with one song title per line:
+Create a file (e.g., `songs.txt`) with one song title per line.
 
+**Option A: Plain song titles**
 ```text
 Bohemian Rhapsody
 Stairway to Heaven
@@ -69,6 +70,16 @@ Hotel California
 Sweet Child O' Mine
 Imagine
 ```
+
+**Option B: File paths (extracts filenames automatically)**
+```text
+/Volumes/music/Feel/Feel Right (feat. Mystikal).mp3
+/Volumes/music/Feel/Sing a Song.mp3
+/Volumes/music/Feel/Love Fever - Radio Edit.mp3
+/Volumes/music/Feel/Hot Stuff - Single Version.mp3
+```
+
+The script automatically extracts song titles from file paths by removing the directory path and file extension.
 
 ### 2. Run the script
 
@@ -155,6 +166,23 @@ Change `'preferredquality'` to:
 - Delete or rename existing files if you want to keep them
 
 ## Tips
+
+### Converting From Existing Music Library
+
+If you have an existing music library and want to create a download list from it:
+
+**On macOS/Linux:**
+```bash
+# List all MP3 files in a directory
+find /path/to/music -name "*.mp3" > songs.txt
+```
+
+**On Windows (PowerShell):**
+```powershell
+Get-ChildItem -Path "C:\path\to\music" -Filter *.mp3 -Recurse | Select-Object -ExpandProperty FullName > songs.txt
+```
+
+The script will automatically extract the song titles from the file paths.
 
 ### Better Search Results
 
