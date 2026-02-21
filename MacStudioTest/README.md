@@ -9,9 +9,12 @@ There are allot of youtube personabilities testing Mac 4 node cluster, but, none
 
 ## Research
 
-- https://chatgpt.com/c/6993ad05-3ccc-83a1-96c3-7120f8b0d6c8
-- https://claude.ai/chat/761c488a-097d-48f8-ac2b-4150a70ac6fb
+-- https://chatgpt.com/c/6993ad05-3ccc-83a1-96c3-7120f8b0d6c8
+-- https://claude.ai/chat/761c488a-097d-48f8-ac2b-4150a70ac6fb
 - - https://chatgpt.com/c/6998e437-e274-839c-814e-1b120c749e9a
+  - https://github.com/ggml-org/llama.cpp/discussions/4167
+  - https://www.macstories.net/notes/notes-on-early-mac-studio-ai-benchmarks-with-qwen3-235b-a22b-and-qwen2-5-vl-72b/
+  - https://blogs.novita.ai/llama-3-1-8b/#:~:text=Llama%203.1%208B%20Hardware%20Requirements%20Model%20VRAM,10.29%20GB%20RTX%203090%202%C3%97%20RTX%204060
 
 ## llama.cpp, Ollama, and MLX
 
