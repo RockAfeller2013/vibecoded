@@ -1,12 +1,20 @@
 # Apple Mac Studio Local LLM Test
 
+
+
 The idea this script is to test a Local LLM on aApple Mac Studio and then cluster using more using EXO (https://github.com/exo-explore/exo), which I am postitive Apple will acquire and already intergrating. 
 
 There are allot of youtube personabilities testing Mac 4 node cluster, but, none of them are actualy show a viable Code Quality and development process for real world apps. This script is to try and create a Base line and maybe even create some example Applications, or a sample Application / Prompt from a Single sthot to see if local LLM are good enough. The Power of Mac and architecture is alredy proven. This is how to actualy check if local LLM can produce a App compared to the frontiner models. 
 
-## llama.cpp, Ollama, and MLX
+
+## Research
 
 - https://chatgpt.com/c/6993ad05-3ccc-83a1-96c3-7120f8b0d6c8
+- https://claude.ai/chat/761c488a-097d-48f8-ac2b-4150a70ac6fb
+- - https://chatgpt.com/c/6998e437-e274-839c-814e-1b120c749e9a
+
+## llama.cpp, Ollama, and MLX
+
 
 llama.cpp, Ollama, and MLX
 
@@ -20,7 +28,7 @@ MacStories
 
 ## Proompt to create the script
 
-- https://chatgpt.com/c/6998e437-e274-839c-814e-1b120c749e9a
+
 
 ```
 
