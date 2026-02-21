@@ -4,6 +4,20 @@ The idea this script is to test a Local LLM on aApple Mac Studio and then cluste
 
 There are allot of youtube personabilities testing Mac 4 node cluster, but, none of them are actualy show a viable Code Quality and development process for real world apps. This script is to try and create a Base line and maybe even create some example Applications, or a sample Application / Prompt from a Single sthot to see if local LLM are good enough. The Power of Mac and architecture is alredy proven. This is how to actualy check if local LLM can produce a App compared to the frontiner models. 
 
+## llama.cpp, Ollama, and MLX
+
+- https://chatgpt.com/c/6993ad05-3ccc-83a1-96c3-7120f8b0d6c8
+
+llama.cpp, Ollama, and MLX
+
+Llama 3.1 8B, Llama 3 8B
+DeepSeek R1
+Gemma-3-27b-q4
+Qwen3-235B-A22B 
+MacStories
+MacStories
+ +2
+
 ## Proompt to create the script
 
 - https://chatgpt.com/c/6998e437-e274-839c-814e-1b120c749e9a
