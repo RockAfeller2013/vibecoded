@@ -13,7 +13,8 @@ Features include :
 - Don't need to think about setting the right schedule, you pick based on the time you have to train.
 - Based on Eugene Teo a Fitness influncer advise on interval training https://www.facebook.com/watch/?v=911536631311769
 - Sounds, Colours and Voice to make it fun and interactive and Accissible
-- Use Safari to share/save on Home screen to create a App icon 
+- Use Safari to share/save on Home screen to create a App icon
+- Onces it is installed as App icon, it works offline, meaning, it doesnt need to connect nor access the internet. 
 - CHeck it out.
 
 https://www.detectx.com.au/apps/workout/
