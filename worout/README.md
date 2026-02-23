@@ -19,3 +19,10 @@ Features include :
 
 https://www.detectx.com.au/apps/workout/
 
+Voice Tesing
+```
+utterance.rate = 1.2;
+
+utterance.pitch = 0.4;  // low = robotic (0 to 2, default is 1)
+
+```
