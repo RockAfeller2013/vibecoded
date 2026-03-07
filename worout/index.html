@@ -1,0 +1,1045 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Tabata" />
+  <title>Tabata Timer</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:        #0a0a0a;
+      --surface:   #141414;
+      --card:      #1c1c1c;
+      --border:    #2a2a2a;
+      --work:      #ff3c3c;
+      --rest:      #00e5a0;
+      --prep:      #ffc940;
+      --text:      #f0f0f0;
+      --muted:     #666;
+      --radius:    18px;
+      --font-disp: 'Bebas Neue', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100dvh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.4;
+    }
+
+    .app-wrapper {
+      position: relative; z-index: 1;
+      min-height: 100dvh;
+      display: flex; flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    .app-header {
+      padding: 20px 24px 0;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .app-header .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--work); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .app-header .logo-icon .material-icons-round { font-size: 20px; color: #fff; }
+    .app-header h1 { font-family: var(--font-disp); font-size: 26px; letter-spacing: 2px; color: var(--text); }
+
+    /* ── SCREENS ── */
+    .screen { display: none; flex-direction: column; flex: 1; padding: 24px; }
+    .screen.active { display: flex; animation: fadeUp .3s ease both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HOME ── */
+    .home-tagline { font-size: 13px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .home-title { font-family: var(--font-disp); font-size: clamp(52px, 14vw, 80px); line-height: 0.95; letter-spacing: 2px; color: var(--text); margin-bottom: 8px; }
+    .home-title span { color: var(--work); }
+    .home-subtitle { font-size: 14px; color: var(--muted); margin-bottom: 36px; font-weight: 300; }
+
+    /* ── WORKOUT CARDS ── */
+    .workout-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 22px 20px; cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+      position: relative; overflow: hidden; margin-bottom: 14px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .workout-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 4px; background: var(--card-accent, var(--work)); border-radius: 4px 0 0 4px;
+    }
+    .workout-card:hover, .workout-card:active {
+      transform: scale(1.015);
+      border-color: var(--card-accent, var(--work));
+      box-shadow: 0 8px 32px rgba(0,0,0,.4);
+    }
+    .workout-card .card-icon {
+      width: 52px; height: 52px; flex-shrink: 0; border-radius: 14px;
+      background: var(--card-accent-bg, rgba(255,60,60,.12));
+      display: flex; align-items: center; justify-content: center;
+    }
+    .workout-card .card-icon .material-icons-round { font-size: 26px; color: var(--card-accent, var(--work)); }
+    .workout-card .card-body { flex: 1; }
+    .workout-card .card-duration { font-family: var(--font-disp); font-size: 30px; letter-spacing: 1px; color: var(--text); line-height: 1; }
+    .workout-card .card-name { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--card-accent, var(--work)); margin-bottom: 6px; }
+    .workout-card .card-meta { font-size: 12px; color: var(--muted); font-weight: 300; }
+    .workout-card .card-arrow .material-icons-round { font-size: 20px; color: var(--muted); }
+
+    /* ── TIMER SCREEN ── */
+    #timerScreen { padding: 16px 24px 32px; }
+
+    .timer-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .btn-back {
+      background: var(--card); border: 1px solid var(--border); color: var(--text);
+      border-radius: 12px; width: 42px; height: 42px;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .15s;
+    }
+    .btn-back:hover { background: var(--border); }
+    .btn-back .material-icons-round { font-size: 20px; }
+    .timer-workout-name { font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+
+    /* ── SOUND TOGGLE ── */
+    .sound-toggle {
+      background: var(--card); border: 1px solid var(--border); color: var(--muted);
+      border-radius: 10px; width: 36px; height: 36px; margin-left: auto;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; transition: color .15s;
+    }
+    .sound-toggle.muted { color: var(--border); }
+    .sound-toggle .material-icons-round { font-size: 18px; }
+
+    /* ── PREP BANNER ── */
+    .prep-banner {
+      display: none; align-items: center; gap: 8px;
+      padding: 8px 14px;
+      background: rgba(255,201,64,.08); border: 1px solid rgba(255,201,64,.2);
+      border-radius: 12px; margin-bottom: 10px;
+    }
+    .prep-banner.visible { display: flex; }
+    .prep-banner .material-icons-round { font-size: 16px; color: var(--prep); }
+    .prep-banner .prep-label { font-size: 12px; color: var(--prep); font-weight: 500; letter-spacing: 1px; }
+
+    /* ── PHASE BADGE ── */
+    .phase-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 50px;
+      font-family: var(--font-disp); font-size: 18px; letter-spacing: 3px;
+      transition: background .4s ease, color .4s ease;
+    }
+    .phase-badge.work { background: rgba(255,60,60,.15);  color: var(--work); }
+    .phase-badge.rest { background: rgba(0,229,160,.15);  color: var(--rest); }
+    .phase-badge.prep { background: rgba(255,201,64,.15); color: var(--prep); }
+    .phase-badge .material-icons-round { font-size: 16px; }
+
+    /* ── VOICE INDICATOR pill (shows what's being spoken) ── */
+    .voice-pill {
+      display: none;
+      align-items: center; gap: 5px;
+      padding: 3px 10px;
+      border-radius: 50px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      margin-left: 8px;
+    }
+    .voice-pill.speaking { display: inline-flex; animation: voiceFade 1.5s ease infinite; }
+    .voice-pill .material-icons-round { font-size: 12px; color: var(--muted); }
+    .voice-pill span { font-size: 11px; color: var(--muted); letter-spacing: 1px; font-weight: 500; text-transform: uppercase; }
+    @keyframes voiceFade {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: .45; }
+    }
+
+    /* ── CLOCK ── */
+    .clock-wrap {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      flex: 1; padding: 12px 0;
+    }
+    .clock-ring-wrap {
+      position: relative; width: min(280px, 80vw); height: min(280px, 80vw); margin-bottom: 16px;
+    }
+    .clock-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .clock-track { fill: none; stroke: var(--border); stroke-width: 8; }
+    .clock-prog { fill: none; stroke: var(--work); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset .5s linear, stroke .4s ease; }
+    .clock-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .clock-time {
+      font-family: var(--font-disp); font-size: clamp(58px, 18vw, 88px);
+      line-height: 1; letter-spacing: 2px; transition: color .4s ease;
+    }
+    .clock-time.work { color: var(--work); }
+    .clock-time.rest { color: var(--rest); }
+    .clock-time.prep { color: var(--prep); }
+
+    @keyframes prepPulse {
+      0%   { transform: scale(1.25); opacity: .55; }
+      100% { transform: scale(1);    opacity: 1;   }
+    }
+    .prep-pulse { animation: prepPulse .3s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+    .clock-sub {
+      font-size: 12px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--muted); margin-top: 4px; min-height: 18px;
+    }
+    .clock-sub.prep-text { color: var(--prep); }
+
+    .set-info { text-align: right; }
+    .clock-set-label { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+    .clock-set-val { font-family: var(--font-disp); font-size: 22px; letter-spacing: 1px; color: var(--text); }
+
+    /* ── SET DOTS ── */
+    .set-dots { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 8px; }
+    .set-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); transition: background .3s, transform .3s; }
+    .set-dot.done   { background: var(--muted); }
+    .set-dot.active { background: var(--work); transform: scale(1.4); }
+
+    /* ── CONTROLS ── */
+    .controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 4px; }
+    .ctrl-btn {
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .15s ease; font-family: var(--font-body);
+    }
+    .ctrl-btn:active { transform: scale(0.93); }
+    .ctrl-btn.secondary {
+      width: 54px; height: 54px; border-radius: 16px;
+      background: var(--card); border: 1px solid var(--border); color: var(--text);
+    }
+    .ctrl-btn.secondary .material-icons-round { font-size: 22px; }
+    .ctrl-btn.primary { width: 72px; height: 72px; border-radius: 22px; color: #fff; }
+    .ctrl-btn.primary.work-mode { background: var(--work); box-shadow: 0 8px 24px rgba(255,60,60,.4); }
+    .ctrl-btn.primary.rest-mode { background: var(--rest); box-shadow: 0 8px 24px rgba(0,229,160,.4); }
+    .ctrl-btn.primary.prep-mode { background: var(--prep); box-shadow: 0 8px 24px rgba(255,201,64,.35); }
+    .ctrl-btn.primary .material-icons-round { font-size: 30px; }
+
+    /* ── COMPLETE ── */
+    #completeScreen { align-items: center; justify-content: center; text-align: center; }
+    .complete-icon-wrap {
+      width: 100px; height: 100px; border-radius: 30px;
+      background: rgba(0,229,160,.15);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 28px;
+      animation: popIn .5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    }
+    .complete-icon-wrap .material-icons-round { font-size: 50px; color: var(--rest); }
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .complete-title { font-family: var(--font-disp); font-size: 52px; letter-spacing: 2px; color: var(--text); line-height: 1; margin-bottom: 10px; }
+    .complete-sub { font-size: 15px; color: var(--muted); margin-bottom: 40px; font-weight: 300; }
+    .complete-sub span { color: var(--rest); font-weight: 500; }
+    .btn-home {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--card); border: 1px solid var(--border); color: var(--text);
+      padding: 14px 32px; border-radius: 16px;
+      font-family: var(--font-body); font-size: 15px; font-weight: 500;
+      cursor: pointer; transition: background .15s, border-color .15s; text-decoration: none;
+    }
+    .btn-home:hover { background: var(--border); border-color: var(--muted); }
+    .btn-home .material-icons-round { font-size: 18px; }
+
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+      #timerScreen, #homeScreen, #completeScreen {
+        padding-bottom: calc(24px + env(safe-area-inset-bottom));
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+
+  <!-- HEADER -->
+  <header class="app-header" id="appHeader">
+    <div class="logo-icon"><span class="material-icons-round">fitness_center</span></div>
+    <h1>TABATA TIMER</h1>
+  </header>
+
+  <!-- ══════ HOME SCREEN ══════ -->
+  <section class="screen active" id="homeScreen">
+    <p class="home-tagline">Select your workout</p>
+    <div class="home-title">PUSH<br><span>YOUR</span><br>LIMIT.</div>
+    <p class="home-subtitle">Choose a protocol and go.</p>
+
+    <div class="workout-card" style="--card-accent:#ff3c3c;--card-accent-bg:rgba(255,60,60,.1)"
+         onclick="selectWorkout(0)" role="button" tabindex="0" aria-label="10 minute sprint workout">
+      <div class="card-icon"><span class="material-icons-round">bolt</span></div>
+      <div class="card-body">
+        <div class="card-name">Sprint</div>
+        <div class="card-duration">10 MINS</div>
+        <div class="card-meta">15s work · 45s rest · 10 sets</div>
+      </div>
+      <div class="card-arrow"><span class="material-icons-round">chevron_right</span></div>
+    </div>
+
+    <div class="workout-card" style="--card-accent:#ff8c00;--card-accent-bg:rgba(255,140,0,.1)"
+         onclick="selectWorkout(1)" role="button" tabindex="0" aria-label="20 minute endurance workout">
+      <div class="card-icon" style="background:rgba(255,140,0,.1)">
+        <span class="material-icons-round" style="color:#ff8c00">local_fire_department</span>
+      </div>
+      <div class="card-body">
+        <div class="card-name" style="color:#ff8c00">Endurance</div>
+        <div class="card-duration">20 MINS</div>
+        <div class="card-meta">1m work · 1m rest · 10 sets</div>
+      </div>
+      <div class="card-arrow"><span class="material-icons-round">chevron_right</span></div>
+    </div>
+
+    <div class="workout-card" style="--card-accent:#7c4dff;--card-accent-bg:rgba(124,77,255,.1)"
+         onclick="selectWorkout(2)" role="button" tabindex="0" aria-label="30 minute hard mode workout">
+      <div class="card-icon" style="background:rgba(124,77,255,.1)">
+        <span class="material-icons-round" style="color:#7c4dff">military_tech</span>
+      </div>
+      <div class="card-body">
+        <div class="card-name" style="color:#7c4dff">Hard Mode</div>
+        <div class="card-duration">30 MINS</div>
+        <div class="card-meta">4m work · 3m recovery · 4 sets</div>
+      </div>
+      <div class="card-arrow"><span class="material-icons-round">chevron_right</span></div>
+    </div>
+  </section>
+
+  <!-- ══════ TIMER SCREEN ══════ -->
+  <section class="screen" id="timerScreen">
+
+    <div class="timer-nav">
+      <button class="btn-back" onclick="goHome()" aria-label="Back to home">
+        <span class="material-icons-round">arrow_back</span>
+      </button>
+      <span class="timer-workout-name" id="workoutLabel">SPRINT</span>
+      <!-- Voice speaking indicator -->
+      <div class="voice-pill" id="voicePill">
+        <span class="material-icons-round">record_voice_over</span>
+        <span id="voicePillText">GO</span>
+      </div>
+      <!-- Sound/voice mute toggle -->
+      <button class="sound-toggle" id="soundToggle" onclick="toggleSound()" aria-label="Toggle sound and voice">
+        <span class="material-icons-round" id="soundIcon">volume_up</span>
+      </button>
+    </div>
+
+    <!-- Prep banner -->
+    <div class="prep-banner" id="prepBanner">
+      <span class="material-icons-round">hourglass_top</span>
+      <span class="prep-label">GET READY — 15 SECOND PREP</span>
+    </div>
+
+    <!-- Phase row -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <span class="phase-badge prep" id="phaseBadge">
+        <span class="material-icons-round">hourglass_top</span>
+        <span id="phaseLabel">PREP</span>
+      </span>
+      <div class="set-info">
+        <div class="clock-set-label">SET</div>
+        <div class="clock-set-val"><span id="currentSet">1</span> / <span id="totalSets">10</span></div>
+      </div>
+    </div>
+
+    <!-- Clock ring -->
+    <div class="clock-wrap">
+      <div class="clock-ring-wrap">
+        <svg class="clock-svg" viewBox="0 0 120 120">
+          <circle class="clock-track" cx="60" cy="60" r="52" />
+          <circle class="clock-prog" cx="60" cy="60" r="52" id="clockProg"
+            stroke-dasharray="326.73" stroke-dashoffset="0" />
+        </svg>
+        <div class="clock-inner">
+          <div class="clock-time prep" id="clockTime">00:15</div>
+          <div class="clock-sub prep-text" id="clockSub">GET READY</div>
+        </div>
+      </div>
+      <div class="set-dots" id="setDots"></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="ctrl-btn secondary" onclick="resetTimer()" aria-label="Reset">
+        <span class="material-icons-round">restart_alt</span>
+      </button>
+      <button class="ctrl-btn primary prep-mode" id="playPauseBtn" onclick="toggleTimer()" aria-label="Play or pause">
+        <span class="material-icons-round" id="playPauseIcon">pause</span>
+      </button>
+      <button class="ctrl-btn secondary" onclick="skipPhase()" aria-label="Skip phase">
+        <span class="material-icons-round">skip_next</span>
+      </button>
+    </div>
+
+  </section>
+
+  <!-- ══════ COMPLETE SCREEN ══════ -->
+  <section class="screen" id="completeScreen">
+    <div class="complete-icon-wrap">
+      <span class="material-icons-round">emoji_events</span>
+    </div>
+    <div class="complete-title">NAILED<br>IT.</div>
+    <p class="complete-sub">You crushed <span id="completeWorkoutName">10 MINS</span>.<br>Time to recover.</p>
+    <button class="btn-home" onclick="goHome()">
+      <span class="material-icons-round">home</span>
+      Back to workouts
+    </button>
+  </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════
+   CONSTANTS
+═══════════════════════════════════════════════════ */
+const PREP_SEC = 15;
+const CIRCUM   = 326.73; // 2π × 52
+
+const WORKOUTS = [
+  { name: 'SPRINT',    label: '10 MINS', workSec: 15,  restSec: 45,  sets: 10 },
+  { name: 'ENDURANCE', label: '20 MINS', workSec: 60,  restSec: 60,  sets: 10 },
+  { name: 'HARD MODE', label: '30 MINS', workSec: 240, restSec: 180, sets: 4  },
+];
+
+/* ═══════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════ */
+let state = {
+  workoutIdx:     0,
+  workout:        null,
+  phase:          'prep',
+  set:            1,
+  timeLeft:       PREP_SEC,
+  totalPhaseTime: PREP_SEC,
+  running:        false,
+  interval:       null,
+  completed:      false,
+};
+
+/* ═══════════════════════════════════════════════════
+   VOICE SYSTEM — Web Speech API
+   Robotic, fast Eddie-US style voice countdown.
+═══════════════════════════════════════════════════ */
+let voices       = [];
+let soundEnabled = true;
+
+// Load voices — they load async in most browsers
+function loadVoices() {
+  voices = speechSynthesis.getVoices();
+}
+loadVoices();
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+/**
+ * Voice priority:
+ * 1. Eddie (macOS/iOS) — natural but fast+low pitch = robotic
+ * 2. Any en-US voice
+ * 3. Any English voice
+ * 4. Whatever is available
+ */
+function getVoice() {
+  return (
+    voices.find(v => v.name.toLowerCase().includes('eddie') || v.voiceURI.toLowerCase().includes('eddie-us')) ||
+    voices.find(v => v.lang === 'en-US') ||
+    voices.find(v => v.lang.startsWith('en')) ||
+    voices[0] ||
+    null
+  );
+}
+
+/**
+ * speak(text) — fires voice + shows the pill indicator.
+ * Silenced by soundEnabled flag (same toggle as audio).
+ */
+function speak(text) {
+  if (!soundEnabled) return;
+  if (typeof speechSynthesis === 'undefined') return;
+  speechSynthesis.cancel();
+  const utterance  = new SpeechSynthesisUtterance(text);
+  const voice      = getVoice();
+  if (voice) { utterance.voice = voice; utterance.lang = voice.lang; }
+  utterance.rate   = 1.2;   // fast, punchy
+  utterance.pitch  = 0.4;   // low = robotic
+  utterance.volume = 1.0;
+  // Show pill while speaking
+  showVoicePill(text);
+  utterance.onend = () => hideVoicePill();
+  speechSynthesis.speak(utterance);
+}
+
+function showVoicePill(text) {
+  const pill = document.getElementById('voicePill');
+  document.getElementById('voicePillText').textContent = text.toUpperCase();
+  pill.classList.add('speaking');
+  clearTimeout(pill._hideTimer);
+  pill._hideTimer = setTimeout(hideVoicePill, 2000);
+}
+function hideVoicePill() {
+  document.getElementById('voicePill').classList.remove('speaking');
+}
+
+/* ═══════════════════════════════════════════════════
+   AUDIO ENGINE — sfxr-inspired Web Audio synthesis
+   iOS Safari hardened: context must be created AND
+   a sound played within the same gesture. After that
+   iOS suspends it on every tick — so we resume() before
+   every tone() call and retry if still suspended.
+═══════════════════════════════════════════════════ */
+let audioCtx      = null;
+let audioUnlocked = false;
+
+/**
+ * MUST be called synchronously inside a user-gesture handler.
+ * Creates the AudioContext, resumes it, plays a silent buffer
+ * (the iOS unlock trick), and warms up speech synthesis.
+ */
+function unlockAudio() {
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    // resume() returns a Promise — start it now while in gesture
+    audioCtx.resume().then(() => { audioUnlocked = true; });
+
+    // Silent 1-sample buffer — required by iOS Safari
+    const buf = audioCtx.createBuffer(1, 1, 22050);
+    const src = audioCtx.createBufferSource();
+    src.buffer = buf;
+    src.connect(audioCtx.destination);
+    src.start(0);
+
+    // Warm up speech synthesis on iOS (must be in gesture too)
+    if (typeof speechSynthesis !== 'undefined') {
+      const u = new SpeechSynthesisUtterance('');
+      u.volume = 0;
+      speechSynthesis.speak(u);
+    }
+  } catch(e) { console.warn('Audio unlock failed:', e); }
+}
+
+/**
+ * Keep AudioContext alive on iOS — it re-suspends after
+ * every gesture ends, so we hook touchstart to revive it.
+ */
+document.addEventListener('touchstart', () => {
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}, { passive: true });
+
+/**
+ * Also resume on visibilitychange (returning from background on iPhone)
+ */
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+});
+
+function getCtx() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  // Always kick a resume — harmless if already running
+  if (audioCtx.state !== 'running') {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+/** Mute button — silences BOTH Web Audio tones AND SpeechSynthesis */
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  document.getElementById('soundIcon').textContent = soundEnabled ? 'volume_up' : 'volume_off';
+  document.getElementById('soundToggle').classList.toggle('muted', !soundEnabled);
+  if (!soundEnabled && typeof speechSynthesis !== 'undefined') {
+    speechSynthesis.cancel();
+    hideVoicePill();
+  }
+}
+
+/**
+ * Core tone synthesizer — sfxr-style params.
+ * iOS safe: if context is suspended when called (common on iPhone)
+ * it resumes first then retries the tone after a short wait.
+ */
+function tone(p) {
+  if (!soundEnabled) return;
+  const ctx = getCtx();
+
+  // iOS suspends context between ticks — resume and retry once
+  if (ctx.state === 'suspended') {
+    ctx.resume().then(() => _playTone(ctx, p));
+    return;
+  }
+  _playTone(ctx, p);
+}
+
+function _playTone(ctx, p) {
+  try {
+    const now  = ctx.currentTime + (p.delay || 0);
+    const dur  = p.duration || 0.2;
+    const atk  = p.attack   || 0.008;
+    const rel  = p.release  || dur * 0.4;
+    const vol  = (p.volume  || 0.3) * 0.85;
+
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = p.type || 'square';
+    osc.frequency.setValueAtTime(p.freq, now);
+    if (p.endFreq) {
+      osc.frequency.exponentialRampToValueAtTime(Math.max(p.endFreq, 1), now + dur);
+    }
+
+    if (p.vibratoRate && p.vibratoDepth) {
+      const lfo  = ctx.createOscillator();
+      const lfoG = ctx.createGain();
+      lfo.frequency.value = p.vibratoRate;
+      lfoG.gain.value     = p.vibratoDepth;
+      lfo.connect(lfoG);
+      lfoG.connect(osc.frequency);
+      lfo.start(now);
+      lfo.stop(now + dur + 0.1);
+    }
+
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.linearRampToValueAtTime(vol, now + atk);
+    gain.gain.setValueAtTime(vol, now + dur - rel);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + dur + 0.05);
+  } catch(e) { console.warn('tone() error:', e); }
+}
+
+/* ─────────────────────────────────────────────────
+   SOUND LIBRARY
+───────────────────────────────────────────────── */
+const SFX = {
+
+  sprint_work() {
+    tone({ freq:660,  endFreq:990,  type:'square', duration:0.10, volume:0.38, attack:0.003, release:0.07 });
+    tone({ freq:990,  endFreq:1320, type:'square', duration:0.12, volume:0.42, attack:0.003, release:0.09, delay:0.10 });
+  },
+  sprint_rest() {
+    tone({ freq:1000, endFreq:280, type:'sine', duration:0.42, volume:0.38, attack:0.01, release:0.28 });
+    tone({ freq:500,  endFreq:140, type:'sine', duration:0.42, volume:0.18, attack:0.01, release:0.28 });
+  },
+
+  endurance_work() {
+    tone({ freq:220, endFreq:660,  type:'sawtooth', duration:0.35, volume:0.22, attack:0.015, release:0.15 });
+    tone({ freq:330, endFreq:880,  type:'sawtooth', duration:0.35, volume:0.18, attack:0.015, release:0.15 });
+    tone({ freq:880,               type:'square',   duration:0.18, volume:0.36, attack:0.005, release:0.13, delay:0.30 });
+    tone({ freq:1320,              type:'square',   duration:0.14, volume:0.30, attack:0.005, release:0.10, delay:0.42 });
+  },
+  endurance_rest() {
+    tone({ freq:528, endFreq:264, type:'sine', duration:0.60, volume:0.34, attack:0.03, release:0.35, vibratoRate:5, vibratoDepth:10 });
+    tone({ freq:352, endFreq:176, type:'sine', duration:0.60, volume:0.16, attack:0.04, release:0.35 });
+  },
+
+  hard_work() {
+    tone({ freq:110,  endFreq:38,  type:'sine',   duration:0.60, volume:0.60, attack:0.003, release:0.50 });
+    tone({ freq:220,  endFreq:75,  type:'sine',   duration:0.28, volume:0.38, attack:0.003, release:0.22 });
+    tone({ freq:1400, endFreq:500, type:'square', duration:0.07, volume:0.28, attack:0.002, release:0.06 });
+  },
+  hard_rest() {
+    tone({ freq:800, endFreq:60,  type:'sawtooth', duration:0.75, volume:0.22, attack:0.04, release:0.55 });
+    tone({ freq:400, endFreq:40,  type:'sine',     duration:0.75, volume:0.32, attack:0.04, release:0.55 });
+  },
+
+  prep_tick() {
+    tone({ freq:1100, endFreq:800, type:'square', duration:0.06, volume:0.18, attack:0.003, release:0.045 });
+  },
+  prep_beep() {
+    tone({ freq:1000, type:'square', duration:0.16, volume:0.48, attack:0.005, release:0.12 });
+  },
+  prep_go() {
+    [[440,0],[550,0.10],[660,0.20],[880,0.32],[1100,0.46]].forEach(([f,d]) => {
+      tone({ freq:f, type:'square', duration:0.16, volume:0.38, attack:0.005, release:0.12, delay:d });
+    });
+  },
+
+  countdown_beep(phase) {
+    if (phase === 'work') {
+      tone({ freq:1400, endFreq:1100, type:'square', duration:0.15, volume:0.48, attack:0.004, release:0.11 });
+    } else {
+      tone({ freq:660, endFreq:520, type:'sine', duration:0.18, volume:0.44, attack:0.006, release:0.14 });
+    }
+  },
+
+  soft_tick(phase) {
+    if (phase === 'work') {
+      tone({ freq:1600, endFreq:1200, type:'square', duration:0.04, volume:0.12, attack:0.002, release:0.03 });
+    } else {
+      tone({ freq:600,  endFreq:450,  type:'sine',   duration:0.05, volume:0.11, attack:0.003, release:0.04 });
+    }
+  },
+
+  complete() {
+    [523,659,784,659,784,1047,784].forEach((f,i) => {
+      tone({ freq:f, type:'square', duration:0.16, volume:0.32, attack:0.005, release:0.11, delay:i*0.1 });
+    });
+  },
+};
+
+function playPhase(phase, idx) {
+  if (phase === 'work') {
+    if      (idx === 0) SFX.sprint_work();
+    else if (idx === 1) SFX.endurance_work();
+    else                SFX.hard_work();
+  } else if (phase === 'rest') {
+    if      (idx === 0) SFX.sprint_rest();
+    else if (idx === 1) SFX.endurance_rest();
+    else                SFX.hard_rest();
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   DOM REFS
+═══════════════════════════════════════════════════ */
+const $phaseLabel  = document.getElementById('phaseLabel');
+const $phaseBadge  = document.getElementById('phaseBadge');
+const $clockTime   = document.getElementById('clockTime');
+const $clockProg   = document.getElementById('clockProg');
+const $clockSub    = document.getElementById('clockSub');
+const $currentSet  = document.getElementById('currentSet');
+const $totalSets   = document.getElementById('totalSets');
+const $workLabel   = document.getElementById('workoutLabel');
+const $playIcon    = document.getElementById('playPauseIcon');
+const $playBtn     = document.getElementById('playPauseBtn');
+const $setDots     = document.getElementById('setDots');
+const $complName   = document.getElementById('completeWorkoutName');
+const $prepBanner  = document.getElementById('prepBanner');
+
+/* ═══════════════════════════════════════════════════
+   SCREEN
+═══════════════════════════════════════════════════ */
+function showScreen(name) {
+  ['homeScreen','timerScreen','completeScreen'].forEach(id =>
+    document.getElementById(id).classList.remove('active'));
+  document.getElementById(name + 'Screen').classList.add('active');
+  document.getElementById('appHeader').style.display = name === 'home' ? 'flex' : 'none';
+}
+
+/* ═══════════════════════════════════════════════════
+   SELECT WORKOUT
+═══════════════════════════════════════════════════ */
+function selectWorkout(idx) {
+  unlockAudio(); // ← MUST be first, while gesture is still active
+
+  const w = WORKOUTS[idx];
+  state = { workoutIdx:idx, workout:w, phase:'prep', set:1,
+            timeLeft:PREP_SEC, totalPhaseTime:PREP_SEC,
+            running:false, interval:null, completed:false };
+
+  $workLabel.textContent  = w.name;
+  $totalSets.textContent  = w.sets;
+  $complName.textContent  = w.label;
+
+  buildDots(w.sets);
+  applyPhaseStyle('prep');
+  renderDisplay();
+  showScreen('timer');
+
+  setTimeout(autoStartPrep, 370);
+}
+
+function autoStartPrep() {
+  if (state.phase !== 'prep' || state.running) return;
+  state.running = true;
+  $playIcon.textContent = 'pause';
+  // Resume audio context right before starting the interval
+  // (we're still close enough to the gesture for iOS to allow it)
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  state.interval = setInterval(tick, 1000);
+}
+
+/* ═══════════════════════════════════════════════════
+   PHASE STYLE
+═══════════════════════════════════════════════════ */
+function applyPhaseStyle(phase) {
+  const badgeIcon = $phaseBadge.querySelector('.material-icons-round');
+  $phaseBadge.className = `phase-badge ${phase}`;
+  $clockTime.className  = `clock-time ${phase}`;
+
+  if (phase === 'prep') {
+    $phaseLabel.textContent = 'PREP';
+    badgeIcon.textContent   = 'hourglass_top';
+    $clockSub.textContent   = 'GET READY';
+    $clockSub.className     = 'clock-sub prep-text';
+    $clockProg.style.stroke = 'var(--prep)';
+    $playBtn.className      = 'ctrl-btn primary prep-mode';
+    $prepBanner.classList.add('visible');
+  } else if (phase === 'work') {
+    $phaseLabel.textContent = 'WORK';
+    badgeIcon.textContent   = 'flash_on';
+    $clockSub.textContent   = '';
+    $clockSub.className     = 'clock-sub';
+    $clockProg.style.stroke = 'var(--work)';
+    $playBtn.className      = 'ctrl-btn primary work-mode';
+    $prepBanner.classList.remove('visible');
+  } else {
+    $phaseLabel.textContent = 'REST';
+    badgeIcon.textContent   = 'self_improvement';
+    $clockSub.textContent   = '';
+    $clockSub.className     = 'clock-sub';
+    $clockProg.style.stroke = 'var(--rest)';
+    $playBtn.className      = 'ctrl-btn primary rest-mode';
+    $prepBanner.classList.remove('visible');
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   DISPLAY
+═══════════════════════════════════════════════════ */
+function renderDisplay() {
+  const t = state.timeLeft;
+  $clockTime.textContent  = `${pad(Math.floor(t/60))}:${pad(t%60)}`;
+  $currentSet.textContent = state.set;
+  const ratio = state.totalPhaseTime > 0 ? t / state.totalPhaseTime : 0;
+  $clockProg.style.strokeDashoffset = CIRCUM * (1 - ratio);
+}
+function pad(n) { return String(n).padStart(2,'0'); }
+
+/* ═══════════════════════════════════════════════════
+   TICK — runs every second
+   Handles tones + voice per phase.
+═══════════════════════════════════════════════════ */
+function tick() {
+  if (state.timeLeft <= 0) { advancePhase(); return; }
+
+  state.timeLeft--;
+  renderDisplay();
+
+  const t = state.timeLeft;
+
+  /* ── PREP phase ── */
+  if (state.phase === 'prep') {
+    if (t > 0 && t <= 5) {
+      // Beep + VOICE: "Five", "Four", "Three", "Two", "One"
+      SFX.prep_beep();
+      speak(['', 'One', 'Two', 'Three', 'Four', 'Five'][t]);
+      vibrate([25]);
+      pulseClock();
+    } else if (t > 5) {
+      SFX.prep_tick();
+    }
+
+  /* ── WORK or REST phases ── */
+  } else if (state.phase === 'work' || state.phase === 'rest') {
+    if (t > 0 && t <= 5) {
+      // Beep + VOICE countdown
+      SFX.countdown_beep(state.phase);
+      speak(['', 'One', 'Two', 'Three', 'Four', 'Five'][t]);
+      vibrate([20]);
+      pulseClock();
+    } else if (t > 0) {
+      SFX.soft_tick(state.phase);
+    }
+  }
+}
+
+function pulseClock() {
+  $clockTime.classList.remove('prep-pulse');
+  void $clockTime.offsetWidth; // force reflow
+  $clockTime.classList.add('prep-pulse');
+}
+
+/* ═══════════════════════════════════════════════════
+   ADVANCE PHASE
+═══════════════════════════════════════════════════ */
+function advancePhase() {
+  const { workout: w, workoutIdx: idx } = state;
+
+  if (state.phase === 'prep') {
+    // PREP → WORK
+    SFX.prep_go();
+    speak('Go!');
+    vibrate([60, 30, 60]);
+    state.phase = 'work'; state.timeLeft = w.workSec; state.totalPhaseTime = w.workSec;
+    applyPhaseStyle('work');
+    renderDisplay(); updateDots();
+    setTimeout(() => playPhase('work', idx), 560);
+
+  } else if (state.phase === 'work') {
+    // WORK → REST
+    speak('Rest');
+    playPhase('rest', idx);
+    vibrate([50]);
+    state.phase = 'rest'; state.timeLeft = w.restSec; state.totalPhaseTime = w.restSec;
+    applyPhaseStyle('rest');
+    renderDisplay();
+
+  } else {
+    // REST → next set or complete
+    if (state.set >= w.sets) {
+      clearInterval(state.interval);
+      state.running = false; state.completed = true;
+      SFX.complete();
+      vibrate([200, 80, 200, 80, 400]);
+      setTimeout(() => {
+        speak('Workout complete. Great job!');
+        showScreen('complete');
+      }, 900);
+      return;
+    }
+    state.set++;
+    speak(`Work. Set ${state.set}`);
+    playPhase('work', idx);
+    vibrate([50]);
+    state.phase = 'work'; state.timeLeft = w.workSec; state.totalPhaseTime = w.workSec;
+    applyPhaseStyle('work');
+    renderDisplay(); updateDots();
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   DOTS
+═══════════════════════════════════════════════════ */
+function buildDots(count) {
+  $setDots.innerHTML = '';
+  for (let i = 1; i <= count; i++) {
+    const d = document.createElement('div');
+    d.className = 'set-dot' + (i === 1 ? ' active' : '');
+    d.id = `dot-${i}`;
+    $setDots.appendChild(d);
+  }
+}
+function updateDots() {
+  for (let i = 1; i <= state.workout.sets; i++) {
+    const d = document.getElementById(`dot-${i}`);
+    if (!d) continue;
+    d.className = 'set-dot' + (i < state.set ? ' done' : i === state.set ? ' active' : '');
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   CONTROLS
+═══════════════════════════════════════════════════ */
+function toggleTimer() {
+  if (state.completed) return;
+  unlockAudio(); // ensure alive on manual tap
+  state.running = !state.running;
+  $playIcon.textContent = state.running ? 'pause' : 'play_arrow';
+  if (state.running) {
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    state.interval = setInterval(tick, 1000);
+  } else {
+    clearInterval(state.interval);
+    if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
+  }
+}
+
+function skipPhase() {
+  clearInterval(state.interval);
+  if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
+  state.timeLeft = 0;
+  advancePhase();
+  if (state.running && !state.completed) state.interval = setInterval(tick, 1000);
+}
+
+function resetTimer() {
+  clearInterval(state.interval);
+  if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
+  hideVoicePill();
+  state.phase = 'prep'; state.set = 1;
+  state.timeLeft = PREP_SEC; state.totalPhaseTime = PREP_SEC;
+  state.running = false; state.completed = false;
+  $playIcon.textContent = 'pause';
+  applyPhaseStyle('prep');
+  renderDisplay(); updateDots();
+  setTimeout(autoStartPrep, 50);
+}
+
+function goHome() {
+  clearInterval(state.interval);
+  if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
+  hideVoicePill();
+  state.running = false;
+  showScreen('home');
+}
+
+function vibrate(p) { if (navigator.vibrate) navigator.vibrate(p); }
+
+/* ── Keyboard shortcuts ── */
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('timerScreen').classList.contains('active')) return;
+  if (e.code === 'Space') { e.preventDefault(); toggleTimer(); }
+  if (e.code === 'KeyR')  resetTimer();
+  if (e.code === 'KeyS')  skipPhase();
+});
+
+document.querySelectorAll('.workout-card').forEach((card, i) => {
+  card.addEventListener('keydown', e => {
+    if (e.code === 'Enter' || e.code === 'Space') { e.preventDefault(); selectWorkout(i); }
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   PWA — register real sw.js + manifest
+═══════════════════════════════════════════════════ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => {
+        reg.addEventListener('updatefound', () => {
+          const nw = reg.installing;
+          nw.addEventListener('statechange', () => {
+            if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('[SW] New version available — reload to update.');
+            }
+          });
+        });
+      })
+      .catch(err => console.warn('[SW] Registration failed:', err));
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   iOS AUDIO KEEPALIVE
+   iOS suspends AudioContext silently during long rests.
+   Play an inaudible buffer every 20s to keep it alive.
+═══════════════════════════════════════════════════ */
+setInterval(() => {
+  if (!audioCtx || !soundEnabled) return;
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+    return;
+  }
+  // Play a completely silent 1-sample buffer as a keepalive ping
+  try {
+    const buf = audioCtx.createBuffer(1, 1, audioCtx.sampleRate);
+    const src = audioCtx.createBufferSource();
+    src.buffer = buf;
+    src.connect(audioCtx.destination);
+    src.start(0);
+  } catch(e) {}
+}, 20000);
+
+/* ── INIT ── */
+showScreen('home');
+</script>
+</body>
+</html>
