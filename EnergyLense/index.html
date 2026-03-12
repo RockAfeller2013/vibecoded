@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="description" content="Analyse your Red Energy electricity bills — offline, in the browser.">
+  <title>Energy Bill Analyser</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* ── First-run / permission screen ───────────────────────────────── */
+    #firstRun {
+      position: fixed; inset: 0;
+      background: var(--bg-primary);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200;
+      transition: opacity 0.4s, visibility 0.4s;
+    }
+    #firstRun.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .first-run-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem 3.5rem;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    .first-run-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-amber));
+    }
+
+    .fr-bolt {
+      font-size: 64px; display: block;
+      margin-bottom: 1.5rem;
+      animation: pulse-glow 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%,100% { filter: drop-shadow(0 0 8px rgba(0,212,255,0.4)); }
+      50%      { filter: drop-shadow(0 0 24px rgba(0,212,255,0.9)); }
+    }
+    .fr-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 32px; font-weight: 900;
+      color: var(--text-primary); margin-bottom: 0.5rem;
+    }
+    .fr-title span { color: var(--accent-cyan); }
+    .fr-sub {
+      color: var(--text-muted); font-size: 13px;
+      line-height: 1.7; margin-bottom: 2rem;
+    }
+    .fr-path {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 8px 16px;
+      font-family: 'IBM Plex Mono', monospace; font-size: 13px;
+      color: var(--accent-cyan); margin-bottom: 2rem;
+    }
+    .fr-path .material-icons { font-size: 16px; }
+    .fr-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 16px;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
+      color: #0d1117; border: none; border-radius: 10px;
+      padding: 14px 36px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: opacity 0.2s, transform 0.15s;
+      width: 100%; justify-content: center;
+    }
+    .fr-btn:hover  { opacity: 0.88; transform: translateY(-1px); }
+    .fr-btn:active { transform: translateY(0); }
+    .fr-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .fr-btn .material-icons { font-size: 20px; }
+    .fr-note {
+      margin-top: 1.5rem; font-size: 11px;
+      color: var(--text-dim); line-height: 1.6;
+    }
+
+    /* ── Reconnect banner ────────────────────────────────────────────── */
+    #reconnectBar {
+      background: rgba(255,165,0,0.08);
+      border-bottom: 1px solid rgba(255,165,0,0.25);
+      padding: 10px 2rem;
+      display: none; align-items: center; gap: 12px;
+      font-size: 12px; color: var(--accent-amber);
+    }
+    #reconnectBar.visible { display: flex; }
+    #reconnectBar .material-icons { font-size: 18px; }
+    .reconnect-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 12px;
+      letter-spacing: 1px; text-transform: uppercase;
+      background: rgba(255,165,0,0.15);
+      color: var(--accent-amber);
+      border: 1px solid rgba(255,165,0,0.4);
+      border-radius: 6px; padding: 5px 14px;
+      cursor: pointer; transition: background 0.2s; margin-left: auto;
+    }
+    .reconnect-btn:hover { background: rgba(255,165,0,0.25); }
+
+    /* ── Scan pill in header ─────────────────────────────────────────── */
+    .scan-pill {
+      display: none; align-items: center; gap: 6px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 5px 14px;
+      font-size: 11px; color: var(--text-muted);
+    }
+    .scan-pill.visible { display: flex; }
+    .scan-pill .spin {
+      width: 12px; height: 12px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent-cyan);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── No-API fallback ──────────────────────────────────────────────── */
+    .no-api-msg {
+      background: rgba(255,107,107,0.08);
+      border: 1px solid rgba(255,107,107,0.25);
+      border-radius: 10px; padding: 1.5rem;
+      text-align: center; color: var(--text-muted);
+      font-size: 13px; margin-top: 1rem;
+    }
+    .no-api-msg .material-icons {
+      font-size: 32px; color: var(--accent-red);
+      display:block; margin-bottom:8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Floating tooltip ──────────────────────────────────────────────────── -->
+<div id="tooltip" class="tooltip" role="tooltip"></div>
+
+<!-- ── First-run screen ──────────────────────────────────────────────────── -->
+<div id="firstRun">
+  <div class="first-run-card">
+    <span class="fr-bolt">⚡</span>
+    <div class="fr-title">Energy<span>Lens</span></div>
+    <p class="fr-sub">
+      Select your <strong style="color:var(--text-primary)">bills/</strong> folder directly,
+      or any parent folder containing it.<br>
+      All PDFs are found automatically — subfolders included.
+    </p>
+    <div class="fr-path">
+      <span class="material-icons">folder</span>
+      bills/ &nbsp;→&nbsp; *.pdf &nbsp;(all subfolders scanned)
+    </div>
+    <button class="fr-btn" id="grantBtn">
+      <span class="material-icons">folder_open</span>
+      Select folder containing bills
+    </button>
+    <div id="apiError"></div>
+    <p class="fr-note">
+      Everything is processed locally — nothing leaves your device.<br>
+      Permission is saved so the app auto-loads on every visit after that.
+    </p>
+  </div>
+</div>
+
+<!-- ── Header ────────────────────────────────────────────────────────────── -->
+<header class="app-header">
+  <div class="app-logo">
+    <div class="logo-icon">⚡</div>
+    <div class="logo-text">Energy<span>Lens</span></div>
+  </div>
+  <div class="header-actions">
+    <div class="scan-pill" id="scanPill">
+      <div class="spin"></div>
+      <span id="scanLabel">Scanning…</span>
+    </div>
+    <button class="install-btn" id="installBtn" title="Install app">
+      <span class="material-icons" style="font-size:16px">download</span>Install
+    </button>
+    <button class="btn-icon" id="printBtn" title="Print / Export PDF report" style="color:var(--accent-cyan)">
+      <span class="material-icons">print</span>
+    </button>
+    <button class="btn-icon" id="rescanBtn" title="Re-scan bills/ folder">
+      <span class="material-icons">refresh</span>
+    </button>
+    <button class="btn-icon" id="clearBtn" title="Clear cached data &amp; reset">
+      <span class="material-icons">delete_sweep</span>
+    </button>
+    <button class="btn-icon" id="themeToggle" title="Toggle theme">
+      <span class="material-icons">light_mode</span>
+    </button>
+    <a class="btn-icon" href="https://www.energymadeeasy.gov.au" target="_blank" title="Compare plans">
+      <span class="material-icons">compare_arrows</span>
+    </a>
+  </div>
+</header>
+
+<!-- ── Reconnect bar ─────────────────────────────────────────────────────── -->
+<div id="reconnectBar">
+  <span class="material-icons">folder_off</span>
+  <span>Access to the <strong>bills/</strong> folder needs to be re-confirmed.</span>
+  <button class="reconnect-btn" id="reconnectBtn">Grant Access</button>
+</div>
+
+<!-- ── Main ──────────────────────────────────────────────────────────────── -->
+<main class="main-content">
+
+  <!-- Progress -->
+  <div class="progress-wrap" id="progressWrap" style="margin-bottom:1.5rem">
+    <div class="progress-label">
+      <span id="progressFile">Reading bills…</span>
+      <span id="progressText">0%</span>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+  </div>
+  <div id="errorBox"></div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="d-dashboard">
+
+    <!-- Summary Cards -->
+    <p class="section-label"><span class="material-icons" style="font-size:14px">insights</span>Summary</p>
+    <div class="row g-3 mb-4">
+
+      <div class="col-6 col-md-4 col-xl-2 fade-in">
+        <div class="stat-card" style="--card-accent:var(--accent-cyan)">
+          <div class="stat-icon"><span class="material-icons">bolt</span></div>
+          <div class="stat-body">
+            <div class="stat-label">Total Usage</div>
+            <div class="stat-value"><span id="card-total-kwh">—</span><span class="stat-unit">kWh</span></div>
+            <div class="stat-sub"><span id="card-bills">0</span> bills loaded</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-2 fade-in">
+        <div class="stat-card" style="--card-accent:var(--accent-green)">
+          <div class="stat-icon" style="background:rgba(57,211,83,0.1);color:var(--accent-green)"><span class="material-icons">trending_up</span></div>
+          <div class="stat-body">
+            <div class="stat-label">Avg Daily</div>
+            <div class="stat-value"><span id="card-avg-daily">—</span><span class="stat-unit">kWh</span></div>
+            <div class="stat-sub">Per day average</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-2 fade-in">
+        <div class="stat-card" style="--card-accent:#f9c74f">
+          <div class="stat-icon" style="background:rgba(249,199,79,0.1);color:#f9c74f"><span class="material-icons">wb_sunny</span></div>
+          <div class="stat-body">
+            <div class="stat-label">Solar Rec.</div>
+            <div class="stat-value"><span id="card-solar">—</span><span class="stat-unit">kW</span></div>
+            <div class="stat-sub">Estimated size</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-2 fade-in">
+        <div class="stat-card" style="--card-accent:var(--accent-purple)">
+          <div class="stat-icon" style="background:rgba(163,113,247,0.1);color:var(--accent-purple)"><span class="material-icons">battery_charging_full</span></div>
+          <div class="stat-body">
+            <div class="stat-label">Battery Rec.</div>
+            <div class="stat-value"><span id="card-battery">—</span><span class="stat-unit">kWh</span></div>
+            <div class="stat-sub">Estimated size</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-2 fade-in">
+        <div class="stat-card" style="--card-accent:var(--accent-amber)">
+          <div class="stat-icon" style="background:rgba(255,165,0,0.1);color:var(--accent-amber)"><span class="material-icons">schedule</span></div>
+          <div class="stat-body">
+            <div class="stat-label">Peak / Off-Peak</div>
+            <div class="stat-value" id="card-ratio">—</div>
+            <div class="stat-sub">Ratio</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-xl-2 fade-in">
+        <div class="stat-card" style="--card-accent:var(--accent-red)">
+          <div class="stat-icon" style="background:rgba(255,107,107,0.1);color:var(--accent-red)"><span class="material-icons">attach_money</span></div>
+          <div class="stat-body">
+            <div class="stat-label">Total Spend</div>
+            <div class="stat-value" id="card-total-cost">—</div>
+            <div class="stat-sub">All bills combined</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Analysis Tools -->
+    <p class="section-label"><span class="material-icons" style="font-size:14px">apps</span>Analysis Tools</p>
+    <div class="action-grid mb-4">
+
+      <div class="action-card" onclick="openModal('modalSolar')" style="--card-accent:#f9c74f">
+        <span class="material-icons action-icon" style="color:#f9c74f">wb_sunny</span>
+        <div class="action-title">Solar Sizing</div>
+        <div class="action-desc">Recommended system size for your usage</div>
+      </div>
+
+      <div class="action-card" onclick="openModal('modalBattery')" style="--card-accent:var(--accent-purple)">
+        <span class="material-icons action-icon" style="color:var(--accent-purple)">battery_charging_full</span>
+        <div class="action-title">Battery Sizing</div>
+        <div class="action-desc">How much storage you need overnight</div>
+      </div>
+
+      <div class="action-card" onclick="openModal('modalHistory')" style="--card-accent:var(--accent-green)">
+        <span class="material-icons action-icon" style="color:var(--accent-green)">history</span>
+        <div class="action-title">Usage History</div>
+        <div class="action-desc">Daily average kWh trend over time</div>
+      </div>
+
+      <div class="action-card" onclick="openModal('modalCost')" style="--card-accent:var(--accent-amber)">
+        <span class="material-icons action-icon" style="color:var(--accent-amber)">payments</span>
+        <div class="action-title">Cost Analysis</div>
+        <div class="action-desc">Bill-by-bill cost breakdown</div>
+      </div>
+
+    </div>
+
+    <!-- Charts -->
+    <p class="section-label"><span class="material-icons" style="font-size:14px">bar_chart</span>Charts</p>
+    <div class="row g-3 mb-2">
+      <div class="col-12 col-xl-6">
+        <div class="chart-card">
+          <div class="chart-title"><span class="material-icons">bolt</span>Monthly Energy Usage</div>
+          <div class="chart-container" id="chart-usage"></div>
+        </div>
+      </div>
+      <div class="col-12 col-xl-6">
+        <div class="chart-card">
+          <div class="chart-title"><span class="material-icons" style="color:var(--accent-amber)">schedule</span>Peak vs Off-Peak</div>
+          <div class="chart-container" id="chart-stacked"></div>
+        </div>
+      </div>
+      <div class="col-12 col-xl-6">
+        <div class="chart-card">
+          <div class="chart-title"><span class="material-icons" style="color:var(--accent-purple)">speed</span>Demand Trend</div>
+          <div class="chart-container" id="chart-demand"></div>
+        </div>
+      </div>
+      <div class="col-12 col-xl-6">
+        <div class="chart-card">
+          <div class="chart-title"><span class="material-icons" style="color:var(--accent-green)">trending_up</span>Average Daily Usage</div>
+          <div class="chart-container" id="chart-daily"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Table -->
+    <p class="section-label mt-3"><span class="material-icons" style="font-size:14px">table_chart</span>Bill Details</p>
+    <div class="table-card">
+      <div class="table-responsive">
+        <table class="bills-table" id="billsTable">
+          <thead>
+            <tr>
+              <th>Bill Date</th><th>Peak kWh</th><th>Off-Peak kWh</th>
+              <th>Total kWh</th><th>Demand kW</th><th>Avg Daily kWh</th><th>Cost</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /dashboard -->
+</main>
+
+<!-- ── Modals ─────────────────────────────────────────────────────────────── -->
+<div class="modal fade" id="modalSolar" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title"><span class="material-icons" style="color:#f9c74f">wb_sunny</span> Solar System Sizing</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+    <div class="modal-body">
+      <div id="chart-solar" class="chart-container mb-3"></div>
+      <p id="solar-rec" style="font-size:13px;color:var(--text-muted);line-height:1.7"></p>
+      <div style="font-size:11px;color:var(--text-dim)">⚡ Formula: Solar (kW) = avg daily ÷ 4 peak sun hours (Australian average)</div>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="modalBattery" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title"><span class="material-icons" style="color:var(--accent-purple)">battery_charging_full</span> Battery Storage Sizing</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+    <div class="modal-body">
+      <div id="chart-battery" class="chart-container mb-3"></div>
+      <p id="battery-rec" style="font-size:13px;color:var(--text-muted);line-height:1.7"></p>
+      <div style="font-size:11px;color:var(--text-dim)">🔋 Formula: Battery (kWh) = avg daily × 1.2</div>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="modalHistory" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title"><span class="material-icons" style="color:var(--accent-green)">history</span> Usage History</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+    <div class="modal-body"><div id="chart-history" class="chart-container"></div></div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="modalCost" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title"><span class="material-icons" style="color:var(--accent-amber)">payments</span> Cost Analysis</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+    <div class="modal-body"><div id="chart-cost" class="chart-container"></div></div>
+  </div></div>
+</div>
+
+<!-- ── Scripts ────────────────────────────────────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   EnergyLens — main script
+   Auto-reads all PDFs from a chosen folder via File System Access API.
+   Directory handle persisted in IndexedDB → zero-click on subsequent loads.
+═══════════════════════════════════════════════════════════════════════════ */
+
+// PWA service worker
+if ('serviceWorker' in navigator)
+  window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+
+// Prevent theme flash
+(()=>{ const t=localStorage.getItem('theme'); document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark'); })();
+
+// PDF.js
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+if (pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+/* ── IndexedDB helpers ────────────────────────────────────────────────── */
+const IDB = { name:'energylens', store:'handles', key:'billsDir' };
+
+function idbOpen() {
+  return new Promise((res,rej) => {
+    const r = indexedDB.open(IDB.name, 1);
+    r.onupgradeneeded = e => e.target.result.createObjectStore(IDB.store);
+    r.onsuccess = e => res(e.target.result);
+    r.onerror   = e => rej(e.target.error);
+  });
+}
+async function idbSave(handle) {
+  const db = await idbOpen();
+  return new Promise((res,rej) => {
+    const tx = db.transaction(IDB.store,'readwrite');
+    tx.objectStore(IDB.store).put(handle, IDB.key);
+    tx.oncomplete = res; tx.onerror = e => rej(e.target.error);
+  });
+}
+async function idbLoad() {
+  const db = await idbOpen();
+  return new Promise((res,rej) => {
+    const tx  = db.transaction(IDB.store,'readonly');
+    const req = tx.objectStore(IDB.store).get(IDB.key);
+    req.onsuccess = e => res(e.target.result||null);
+    req.onerror   = e => rej(e.target.error);
+  });
+}
+async function idbClear() {
+  const db = await idbOpen();
+  return new Promise((res,rej) => {
+    const tx = db.transaction(IDB.store,'readwrite');
+    tx.objectStore(IDB.store).delete(IDB.key);
+    tx.oncomplete = res; tx.onerror = e => rej(e.target.error);
+  });
+}
+
+/* ── App state ────────────────────────────────────────────────────────── */
+let bills       = loadBillsCache();
+let dirHandle   = null;
+let installEvt  = null;
+
+/* ── DOM ──────────────────────────────────────────────────────────────── */
+const $  = id => document.getElementById(id);
+const firstRun     = $('firstRun');
+const grantBtn     = $('grantBtn');
+const apiError     = $('apiError');
+const reconnectBar = $('reconnectBar');
+const reconnectBtn = $('reconnectBtn');
+const scanPill     = $('scanPill');
+const scanLabel    = $('scanLabel');
+const progressWrap = $('progressWrap');
+const progressFill = $('progressFill');
+const progressText = $('progressText');
+const progressFile = $('progressFile');
+const dashboard    = $('dashboard');
+const errorBox     = $('errorBox');
+const installBtn   = $('installBtn');
+const rescanBtn    = $('rescanBtn');
+const printBtn     = $('printBtn');
+const clearBtn     = $('clearBtn');
+const themeToggle  = $('themeToggle');
+
+/* ── Theme ────────────────────────────────────────────────────────────── */
+let dark = localStorage.getItem('theme') !== 'light';
+syncTheme();
+themeToggle.addEventListener('click', () => {
+  dark = !dark;
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  syncTheme();
+});
+function syncTheme() {
+  themeToggle.querySelector('.material-icons').textContent = dark ? 'light_mode' : 'dark_mode';
+}
+
+/* ── PWA install ──────────────────────────────────────────────────────── */
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); installEvt = e; installBtn.classList.add('visible');
+});
+installBtn.addEventListener('click', async () => {
+  if (!installEvt) return;
+  installEvt.prompt();
+  const { outcome } = await installEvt.userChoice;
+  if (outcome === 'accepted') installBtn.classList.remove('visible');
+});
+
+/* ── File System Access API check ────────────────────────────────────── */
+const HAS_FSAPI = ('showDirectoryPicker' in window);
+if (!HAS_FSAPI) {
+  apiError.innerHTML = `<div class="no-api-msg">
+    <span class="material-icons">browser_not_supported</span>
+    Your browser does not support the File System Access API.<br>
+    Please use <strong>Chrome 86+</strong> or <strong>Edge 86+</strong>.
+  </div>`;
+  grantBtn.disabled = true;
+}
+
+/* ── Pick folder (requires user gesture) ─────────────────────────────── */
+async function pickFolder() {
+  if (!HAS_FSAPI) return;
+  grantBtn.disabled = true;
+  grantBtn.innerHTML = '<span class="material-icons">hourglass_top</span>Waiting for permission…';
+  try {
+    const handle = await window.showDirectoryPicker({ mode:'read', startIn:'documents' });
+    dirHandle = handle;
+    await idbSave(handle);
+    firstRun.classList.add('hidden');
+    reconnectBar.classList.remove('visible');
+    await scanDirectory(handle);
+  } catch(err) {
+    if (err.name !== 'AbortError') {
+      apiError.innerHTML = `<div class="no-api-msg"><span class="material-icons">error</span>${err.message}</div>`;
+    }
+  } finally {
+    grantBtn.disabled = false;
+    grantBtn.innerHTML = '<span class="material-icons">folder_open</span>Select folder containing bills';
+  }
+}
+
+grantBtn.addEventListener('click',    () => pickFolder());
+rescanBtn.addEventListener('click',   () => dirHandle ? scanDirectory(dirHandle) : pickFolder());
+
+reconnectBtn.addEventListener('click', async () => {
+  if (!dirHandle) { pickFolder(); return; }
+  try {
+    const perm = await dirHandle.requestPermission({ mode:'read' });
+    if (perm === 'granted') {
+      reconnectBar.classList.remove('visible');
+      await idbSave(dirHandle);
+      await scanDirectory(dirHandle);
+    } else {
+      pickFolder();
+    }
+  } catch(e) { pickFolder(); }
+});
+
+clearBtn.addEventListener('click', async () => {
+  if (!confirm('Clear all cached bill data and remove folder access?')) return;
+  bills = [];
+  localStorage.removeItem('energy_bills');
+  await idbClear().catch(()=>{});
+  dirHandle = null;
+  dashboard.classList.remove('visible');
+  firstRun.classList.remove('hidden');
+});
+
+printBtn.addEventListener('click', () => {
+  if (!bills.length) { alert('No bills loaded yet.'); return; }
+  generatePrintReport();
+});
+
+/* ── Auto-boot ────────────────────────────────────────────────────────── */
+async function boot() {
+  // Render immediately from cache so UI isn't blank
+  if (bills.length) {
+    firstRun.classList.add('hidden');
+    render();
+  }
+
+  if (!HAS_FSAPI) return;
+
+  let handle;
+  try { handle = await idbLoad(); } catch(e) { handle = null; }
+
+  if (!handle) {
+    if (!bills.length) firstRun.classList.remove('hidden');
+    return;
+  }
+
+  const perm = await handle.queryPermission({ mode:'read' });
+
+  if (perm === 'granted') {
+    dirHandle = handle;
+    firstRun.classList.add('hidden');
+    await scanDirectory(handle);
+  } else if (perm === 'prompt') {
+    dirHandle = handle;
+    firstRun.classList.add('hidden');
+    reconnectBar.classList.add('visible');
+  } else {
+    // Denied — re-show first run
+    firstRun.classList.remove('hidden');
+  }
+}
+
+/* ── Recursive PDF collector ──────────────────────────────────────────── */
+// Walks a directory tree and returns ALL FileSystemFileHandles for .pdf files.
+// maxDepth prevents infinite loops on symlink-heavy setups (default 6).
+async function collectPdfs(dirHandle, maxDepth = 6, _depth = 0) {
+  const found = [];
+  if (_depth > maxDepth) return found;
+
+  let entries;
+  try {
+    entries = [];
+    for await (const entry of dirHandle.values()) {
+      entries.push(entry);
+    }
+  } catch(err) {
+    console.warn('collectPdfs: could not read dir at depth', _depth, err);
+    return found;
+  }
+
+  for (const entry of entries) {
+    if (entry.kind === 'file' && entry.name.toLowerCase().endsWith('.pdf')) {
+      found.push(entry);
+    } else if (entry.kind === 'directory') {
+      // Recurse into every subdirectory
+      const sub = await collectPdfs(entry, maxDepth, _depth + 1);
+      found.push(...sub);
+    }
+  }
+
+  return found;
+}
+
+// Resolve the actual directory to scan:
+//  • If the selected folder itself contains a 'bills' subfolder → use that
+//  • Otherwise scan the selected folder directly (user picked bills/ themselves)
+async function resolveScanRoot(handle) {
+  try {
+    const sub = await handle.getDirectoryHandle('bills', { create: false });
+    console.log('Found bills/ subfolder — scanning it');
+    return { scanHandle: sub, note: 'bills/' };
+  } catch(_) {
+    // No bills/ subfolder — use what was selected
+    return { scanHandle: handle, note: handle.name };
+  }
+}
+
+/* ── Scan directory ───────────────────────────────────────────────────── */
+async function scanDirectory(handle) {
+  errorBox.innerHTML = '';
+  progressWrap.classList.remove('visible');
+  progressFill.style.width = '0%';
+
+  // ── Phase 1: resolve root ───────────────────────────────────────────
+  setScanPill(true, 'Locating bills/ …');
+  const { scanHandle, note } = await resolveScanRoot(handle);
+
+  // ── Phase 2: discover all PDFs recursively ─────────────────────────
+  setScanPill(true, 'Discovering PDFs…');
+  progressWrap.classList.add('visible');
+  progressFile.textContent = `Searching "${note}" for PDF files…`;
+  progressText.textContent = '';
+  progressFill.style.width = '0%';
+  await sleep(10);
+
+  let pdfs = [];
+  try {
+    pdfs = await collectPdfs(scanHandle);
+  } catch(err) {
+    setScanPill(false);
+    progressWrap.classList.remove('visible');
+    showError('Could not read folder: ' + err.message);
+    return;
+  }
+
+  if (!pdfs.length) {
+    setScanPill(false);
+    progressWrap.classList.remove('visible');
+    showError(
+      `No PDF files found in "${note}" or any of its subfolders.<br>` +
+      `Make sure your Red Energy bill PDFs are saved there and try again.`
+    );
+    if (bills.length) render(); // still show any cached data
+    return;
+  }
+
+  // Sort by filename (chronological when named by date)
+  pdfs.sort((a, b) => a.name.localeCompare(b.name));
+
+  progressFile.textContent = `Found ${pdfs.length} PDF${pdfs.length > 1 ? 's' : ''} — starting…`;
+  progressText.textContent = '0%';
+  setScanPill(true, `Parsing 0 / ${pdfs.length}`);
+  await sleep(80); // let the DOM breathe before heavy PDF work
+
+  // ── Phase 3: parse each PDF ────────────────────────────────────────
+  const errors   = [];
+  const newBills = [];
+
+  for (let i = 0; i < pdfs.length; i++) {
+    const fh  = pdfs[i];
+    const pct = Math.round(((i + 1) / pdfs.length) * 100);
+
+    progressFill.style.width = pct + '%';
+    progressText.textContent = pct + '%';
+    progressFile.textContent = `(${i + 1}/${pdfs.length}) ${fh.name}`;
+    setScanPill(true, `Parsing ${i + 1} / ${pdfs.length}`);
+    await sleep(8); // yield to browser so UI updates
+
+    try {
+      const file = await fh.getFile();
+      const text = await extractPdfText(file);
+      const bill = parseBill(text, fh.name);
+      if (bill) {
+        newBills.push(bill);
+      } else {
+        errors.push(`${fh.name}: parsed but no bill data recognised`);
+      }
+    } catch(err) {
+      errors.push(`${fh.name}: ${err.message}`);
+      console.error('PDF parse error:', fh.name, err);
+    }
+  }
+
+  // ── Phase 4: merge, dedupe, save ───────────────────────────────────
+  const map = new Map(bills.map(b => [b.bill_date, b]));
+  newBills.forEach(b => map.set(b.bill_date, b));
+  bills = [...map.values()].sort((a, b) => a.bill_date.localeCompare(b.bill_date));
+  saveBillsCache(bills);
+
+  const skipped = pdfs.length - newBills.length;
+  progressFile.textContent =
+    `✓ Loaded ${newBills.length} of ${pdfs.length} bills` +
+    (skipped > 0 ? ` · ${skipped} skipped` : '');
+  progressText.textContent = '100%';
+  progressFill.style.width = '100%';
+
+  if (errors.length) {
+    showError(
+      `<strong>${errors.length} file(s) could not be parsed:</strong><br>` +
+      errors.map(e => `⚠ ${e}`).join('<br>')
+    );
+  }
+
+  setTimeout(() => {
+    progressWrap.classList.remove('visible');
+    progressFill.style.width = '0%';
+    setScanPill(false);
+  }, 2500);
+
+  render();
+}
+
+function setScanPill(on, txt) {
+  scanPill.classList.toggle('visible', on);
+  if (txt) scanLabel.textContent = txt;
+}
+
+/* ── PDF extraction ───────────────────────────────────────────────────── */
+async function extractPdfText(file) {
+  if (!pdfjsLib) throw new Error('PDF.js not loaded');
+  const buf = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data:buf }).promise;
+  let out = '';
+  for (let p = 1; p <= pdf.numPages; p++) {
+    const pg    = await pdf.getPage(p);
+    const items = (await pg.getTextContent()).items;
+    out += items.map(i => i.str).join(' ') + '\n';
+  }
+  return out;
+}
+
+/* ── Parser ───────────────────────────────────────────────────────────── */
+function parseBill(raw, filename) {
+  const t = raw.replace(/\s+/g,' ');
+
+  const dateM = t.match(/ISSUE\s+DATE\s+(\d{1,2}\s+\w{3,9}\s+\d{2,4})/i)
+             || t.match(/Issue\s+Date[:\s]+(\d{1,2}\s+\w{3,9}\s+\d{2,4})/i);
+  let bill_date = dateM ? normDate(dateM[1]) : null;
+  if (!bill_date) {
+    const fn = filename.replace(/\.pdf$/i,'');
+    const m  = fn.match(/(\d{1,2})[_\-\s](\w{3,9})[_\-\s](\d{2,4})/);
+    if (m) bill_date = normDate(`${m[1]} ${m[2]} ${m[3]}`);
+  }
+  if (!bill_date) bill_date = new Date().toISOString().slice(0,10);
+
+  const periodM = t.match(/From\s+([\d]+\s+\w+\s+\d{4})\s+to\s+([\d]+\s+\w+\s+\d{4})/i);
+  const daysM   = t.match(/\((\d+)\s+days?\)/i);
+  const peakM   = t.match(/Total\s+Peak\s+([\d,]+(?:\.\d+)?)\s+\$/i);
+  const opM     = t.match(/Total\s+Off\s+Peak\s+([\d,]+(?:\.\d+)?)\s+\$/i);
+  const demandM = t.match(/Demand\s+([\d.]+)\s+KW\s+\$/i);
+  const avgM    = t.match(/Average\s+daily\s+usage\s+for\s+this\s+account[:\s]+([\d.]+)\s+kWh/i);
+  const costM   = t.match(/AMOUNT\s+DUE\s+\(Includ\w*\s+GST\)\s+\$([\d.]+)/i)
+               || t.match(/Total\s+Current\s+Transactions.*?\$\s*([\d.]+)/i);
+  const adcM    = t.match(/Average\s+Daily\s+Cost\s+\$([\d.]+)/i);
+
+  const peak_kwh    = peakM   ? parseFloat(peakM[1].replace(',',''))   : null;
+  const offpeak_kwh = opM     ? parseFloat(opM[1].replace(',',''))     : null;
+  const demand_kw   = demandM ? parseFloat(demandM[1])                 : null;
+  const avg_daily   = avgM    ? parseFloat(avgM[1])                    : null;
+  const total_cost  = costM   ? parseFloat(costM[1])                   : null;
+  const avg_daily_cost = adcM ? parseFloat(adcM[1])                    : null;
+  const total_kwh   = (peak_kwh!=null && offpeak_kwh!=null) ? peak_kwh+offpeak_kwh : null;
+
+  return {
+    bill_date,
+    billing_start : periodM ? normDate(periodM[1]) : null,
+    billing_end   : periodM ? normDate(periodM[2]) : null,
+    billing_days  : daysM   ? parseInt(daysM[1])   : null,
+    peak_kwh, offpeak_kwh, demand_kw,
+    average_daily_kwh : avg_daily,
+    total_cost, avg_daily_cost, total_kwh,
+    _file: filename
+  };
+}
+
+const MONTHS = {
+  jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12,
+  january:1,february:2,march:3,april:4,june:6,july:7,august:8,
+  september:9,october:10,november:11,december:12
+};
+function normDate(s) {
+  const p = s.trim().split(/\s+/);
+  if (p.length < 3) return null;
+  let [d,m,y] = p;
+  const mon = MONTHS[m.toLowerCase().slice(0,3)];
+  if (!mon) return null;
+  if (y.length===2) y='20'+y;
+  return `${y}-${String(mon).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+
+/* ── Stats ────────────────────────────────────────────────────────────── */
+function computeStats(data) {
+  const sum  = fn => data.reduce((s,d) => s+(fn(d)||0), 0);
+  const avgs = data.filter(d=>d.average_daily_kwh).map(d=>d.average_daily_kwh);
+  const avgDaily = avgs.length ? avgs.reduce((a,b)=>a+b,0)/avgs.length : 0;
+  const peak = sum(d=>d.peak_kwh), op = sum(d=>d.offpeak_kwh);
+  return {
+    totalKwh : sum(d=>d.total_kwh),
+    avgDaily,
+    solar    : avgDaily/4,
+    battery  : avgDaily*1.2,
+    ratio    : op ? (peak/op).toFixed(2) : '—',
+    totalCost: sum(d=>d.total_cost)
+  };
+}
+
+/* ── Render ───────────────────────────────────────────────────────────── */
+function render() {
+  if (!bills.length) { dashboard.classList.remove('visible'); return; }
+  dashboard.classList.add('visible');
+  const s = computeStats(bills);
+  set('card-total-kwh',  fmt(s.totalKwh,0));
+  set('card-avg-daily',  fmt(s.avgDaily,1));
+  set('card-solar',      fmt(s.solar,2));
+  set('card-battery',    fmt(s.battery,1));
+  set('card-ratio',      s.ratio);
+  set('card-total-cost', '$'+fmt(s.totalCost,2));
+  set('card-bills',      bills.length);
+  renderUsageChart(); renderStackedChart();
+  renderDemandChart(); renderDailyChart();
+  renderTable();
+}
+function set(id,v){ const e=document.getElementById(id); if(e) e.textContent=v; }
+
+/* ── D3 helpers ───────────────────────────────────────────────────────── */
+const C = { peak:'#ffa500', op:'#00d4ff', demand:'#a371f7', daily:'#39d353' };
+
+function svgOf(id) {
+  const el = document.getElementById(id); if (!el) return null;
+  el.innerHTML='';
+  const W=el.clientWidth||680, H=250, m={t:16,r:20,b:56,l:58};
+  const svg=d3.select(el).append('svg').attr('width',W).attr('height',H).style('overflow','visible');
+  const g=svg.append('g').attr('transform',`translate(${m.l},${m.t})`);
+  return { svg, g, W, H, m, iw:W-m.l-m.r, ih:H-m.t-m.b };
+}
+
+const tip = document.getElementById('tooltip');
+const showTip = (html,e) => { tip.innerHTML=html; tip.classList.add('visible'); moveTip(e); };
+const moveTip = e => {
+  let x=e.clientX+14, y=e.clientY-14;
+  if (x+200>window.innerWidth) x=e.clientX-200;
+  tip.style.left=x+'px'; tip.style.top=y+'px';
+};
+const hideTip = () => tip.classList.remove('visible');
+
+function xBand(domain,iw){ return d3.scaleBand().domain(domain).range([0,iw]).padding(0.25); }
+function yLin(max,ih)    { return d3.scaleLinear().domain([0,max]).range([ih,0]); }
+
+function addGrid(g,y,iw) {
+  g.append('g').attr('class','grid').call(d3.axisLeft(y).ticks(5).tickSize(-iw).tickFormat(''));
+}
+function addX(g,x,ih) {
+  const dom=x.domain(), step=Math.max(1,Math.ceil(dom.length/7));
+  g.append('g').attr('transform',`translate(0,${ih})`)
+    .call(d3.axisBottom(x).tickValues(dom.filter((d,i)=>i%step===0)).tickSize(0))
+    .call(a=>a.select('.domain').attr('stroke','var(--border)'))
+    .call(a=>a.selectAll('text').style('font-size','10px').style('fill','var(--text-muted)')
+      .attr('transform','rotate(-30)').style('text-anchor','end').attr('dy','1.2em'));
+}
+function addY(g,y,lbl) {
+  g.append('g').call(d3.axisLeft(y).ticks(5).tickSize(0))
+    .call(a=>a.select('.domain').remove())
+    .call(a=>a.selectAll('text').style('font-size','10px').style('fill','var(--text-muted)').attr('dx','-6'));
+  g.append('text').attr('transform','rotate(-90)').attr('y',-48).attr('x',0)
+    .attr('text-anchor','middle').style('font-size','10px').style('fill','var(--text-muted)').text(lbl);
+}
+
+/* ── Chart 1: Monthly usage ───────────────────────────────────────────── */
+function renderUsageChart() {
+  const r=svgOf('chart-usage'); if(!r) return;
+  const {g,iw,ih}=r;
+  const x=xBand(bills.map(b=>b.bill_date),iw);
+  const y=yLin(d3.max(bills,b=>b.total_kwh||0)*1.1||10,ih);
+  addGrid(g,y,iw); addX(g,x,ih); addY(g,y,'kWh');
+  g.selectAll('.br').data(bills).join('rect').attr('class','br')
+    .attr('x',b=>x(b.bill_date)).attr('width',x.bandwidth()).attr('rx',3)
+    .attr('fill',C.op).attr('opacity',0.85).attr('y',ih).attr('height',0)
+    .transition().duration(550).delay((_,i)=>i*28)
+    .attr('y',b=>y(b.total_kwh||0)).attr('height',b=>ih-y(b.total_kwh||0));
+  g.selectAll('.bh').data(bills).join('rect').attr('class','bh')
+    .attr('x',b=>x(b.bill_date)).attr('width',x.bandwidth()).attr('y',0).attr('height',ih).attr('fill','transparent')
+    .on('mousemove',(e,b)=>{showTip(`<div class="tooltip-title">${b.bill_date}</div>
+      <div class="tooltip-row"><span>Total</span><span>${fmt(b.total_kwh,0)} kWh</span></div>
+      <div class="tooltip-row"><span>Peak</span><span>${fmt(b.peak_kwh,0)} kWh</span></div>
+      <div class="tooltip-row"><span>Off-Peak</span><span>${fmt(b.offpeak_kwh,0)} kWh</span></div>`,e);moveTip(e);})
+    .on('mouseleave',hideTip);
+}
+
+/* ── Chart 2: Stacked ─────────────────────────────────────────────────── */
+function renderStackedChart() {
+  const r=svgOf('chart-stacked'); if(!r) return;
+  const {svg,g,iw,ih,m}=r;
+  const maxV=d3.max(bills,b=>(b.peak_kwh||0)+(b.offpeak_kwh||0))||10;
+  const x=xBand(bills.map(b=>b.bill_date),iw);
+  const y=yLin(maxV*1.1,ih);
+  addGrid(g,y,iw); addX(g,x,ih); addY(g,y,'kWh');
+  g.selectAll('.bop').data(bills).join('rect').attr('class','bop')
+    .attr('x',b=>x(b.bill_date)).attr('width',x.bandwidth()).attr('rx',3)
+    .attr('fill',C.op).attr('opacity',0.8)
+    .attr('y',b=>y(b.offpeak_kwh||0)).attr('height',b=>ih-y(b.offpeak_kwh||0));
+  g.selectAll('.bpk').data(bills).join('rect').attr('class','bpk')
+    .attr('x',b=>x(b.bill_date)).attr('width',x.bandwidth()).attr('rx',3)
+    .attr('fill',C.peak).attr('opacity',0.85)
+    .attr('y',b=>y((b.offpeak_kwh||0)+(b.peak_kwh||0)))
+    .attr('height',b=>Math.max(0,(ih-y(b.peak_kwh||0))-(ih-y(b.offpeak_kwh||0))));
+  g.selectAll('.bh').data(bills).join('rect').attr('class','bh')
+    .attr('x',b=>x(b.bill_date)).attr('width',x.bandwidth()).attr('y',0).attr('height',ih).attr('fill','transparent')
+    .on('mousemove',(e,b)=>{ const tot=(b.peak_kwh||0)+(b.offpeak_kwh||0);
+      showTip(`<div class="tooltip-title">${b.bill_date}</div>
+        <div class="tooltip-row"><span>Peak</span><span style="color:${C.peak}">${fmt(b.peak_kwh,0)} kWh</span></div>
+        <div class="tooltip-row"><span>Off-Peak</span><span style="color:${C.op}">${fmt(b.offpeak_kwh,0)} kWh</span></div>
+        <div class="tooltip-row"><span>Peak %</span><span>${tot?((b.peak_kwh/tot)*100).toFixed(0):0}%</span></div>`,e);moveTip(e);})
+    .on('mouseleave',hideTip);
+  const leg=svg.append('g').attr('transform',`translate(${m.l},${m.t+ih+46})`);
+  [['Off-Peak',C.op],['Peak (4–9pm)',C.peak]].forEach(([lbl,col],i)=>{
+    const lg=leg.append('g').attr('transform',`translate(${i*130},0)`);
+    lg.append('rect').attr('width',10).attr('height',10).attr('rx',2).attr('fill',col).attr('y',-9);
+    lg.append('text').attr('x',14).style('font-size','10px').style('fill','var(--text-muted)').text(lbl);
+  });
+}
+
+/* ── Chart 3: Demand ──────────────────────────────────────────────────── */
+function renderDemandChart() {
+  const valid=bills.filter(b=>b.demand_kw!=null); if(!valid.length) return;
+  const r=svgOf('chart-demand'); if(!r) return;
+  const {g,iw,ih}=r;
+  const x=xBand(valid.map(b=>b.bill_date),iw);
+  const y=yLin(d3.max(valid,b=>b.demand_kw)*1.25||5,ih);
+  addGrid(g,y,iw); addX(g,x,ih); addY(g,y,'kW');
+  const cx=b=>x(b.bill_date)+x.bandwidth()/2;
+  const line=d3.line().x(cx).y(b=>y(b.demand_kw)).curve(d3.curveCatmullRom);
+  const area=d3.area().x(cx).y0(ih).y1(b=>y(b.demand_kw)).curve(d3.curveCatmullRom);
+  g.append('path').datum(valid).attr('fill',C.demand).attr('opacity',0.08).attr('d',area);
+  const path=g.append('path').datum(valid).attr('fill','none').attr('stroke',C.demand).attr('stroke-width',2.5).attr('d',line);
+  const len=path.node().getTotalLength();
+  path.attr('stroke-dasharray',len).attr('stroke-dashoffset',len).transition().duration(800).attr('stroke-dashoffset',0);
+  g.selectAll('.dot').data(valid).join('circle')
+    .attr('cx',cx).attr('cy',b=>y(b.demand_kw)).attr('r',4)
+    .attr('fill',C.demand).attr('stroke','var(--bg-card)').attr('stroke-width',2)
+    .on('mousemove',(e,b)=>{showTip(`<div class="tooltip-title">${b.bill_date}</div>
+      <div class="tooltip-row"><span>Demand</span><span>${fmt(b.demand_kw,2)} kW</span></div>`,e);moveTip(e);})
+    .on('mouseleave',hideTip);
+}
+
+/* ── Chart 4: Daily avg ───────────────────────────────────────────────── */
+function renderDailyChart() {
+  const valid=bills.filter(b=>b.average_daily_kwh!=null); if(!valid.length) return;
+  const r=svgOf('chart-daily'); if(!r) return;
+  const {g,iw,ih}=r;
+  const x=xBand(valid.map(b=>b.bill_date),iw);
+  const y=yLin(d3.max(valid,b=>b.average_daily_kwh)*1.25||10,ih);
+  addGrid(g,y,iw); addX(g,x,ih); addY(g,y,'kWh/day');
+  const cx=b=>x(b.bill_date)+x.bandwidth()/2;
+  const avg=valid.reduce((s,b)=>s+b.average_daily_kwh,0)/valid.length;
+  g.append('line').attr('x1',0).attr('x2',iw).attr('y1',y(avg)).attr('y2',y(avg))
+    .attr('stroke',C.daily).attr('stroke-dasharray','5,4').attr('opacity',0.4).attr('stroke-width',1.5);
+  g.append('text').attr('x',iw-4).attr('y',y(avg)-5).attr('text-anchor','end')
+    .style('font-size','10px').style('fill',C.daily).text('avg '+fmt(avg,1));
+  const line=d3.line().x(cx).y(b=>y(b.average_daily_kwh)).curve(d3.curveCatmullRom);
+  const area=d3.area().x(cx).y0(ih).y1(b=>y(b.average_daily_kwh)).curve(d3.curveCatmullRom);
+  g.append('path').datum(valid).attr('fill',C.daily).attr('opacity',0.07).attr('d',area);
+  const path=g.append('path').datum(valid).attr('fill','none').attr('stroke',C.daily).attr('stroke-width',2.5).attr('d',line);
+  const len=path.node().getTotalLength();
+  path.attr('stroke-dasharray',len).attr('stroke-dashoffset',len).transition().duration(800).attr('stroke-dashoffset',0);
+  g.selectAll('.dot').data(valid).join('circle')
+    .attr('cx',cx).attr('cy',b=>y(b.average_daily_kwh)).attr('r',4)
+    .attr('fill',C.daily).attr('stroke','var(--bg-card)').attr('stroke-width',2)
+    .on('mousemove',(e,b)=>{showTip(`<div class="tooltip-title">${b.bill_date}</div>
+      <div class="tooltip-row"><span>Avg Daily</span><span>${fmt(b.average_daily_kwh,1)} kWh</span></div>
+      <div class="tooltip-row"><span>Daily Cost</span><span>$${fmt(b.avg_daily_cost,2)}</span></div>`,e);moveTip(e);})
+    .on('mouseleave',hideTip);
+}
+
+/* ── Table ────────────────────────────────────────────────────────────── */
+function renderTable() {
+  const tbody=document.querySelector('#billsTable tbody'); if(!tbody) return;
+  tbody.innerHTML='';
+  [...bills].reverse().forEach(b=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td>${b.bill_date}</td>
+      <td><span class="badge-peak">${fmt(b.peak_kwh,0)} kWh</span></td>
+      <td><span class="badge-offpeak">${fmt(b.offpeak_kwh,0)} kWh</span></td>
+      <td style="font-weight:600">${fmt(b.total_kwh,0)} kWh</td>
+      <td>${fmt(b.demand_kw,2)} kW</td>
+      <td>${fmt(b.average_daily_kwh,1)} kWh</td>
+      <td style="color:var(--accent-amber)">$${fmt(b.total_cost,2)}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* ── Modals ───────────────────────────────────────────────────────────── */
+window.openModal = function(id) {
+  const m = new bootstrap.Modal(document.getElementById(id));
+  m.show();
+  document.getElementById(id).addEventListener('shown.bs.modal', () => {
+    if (!bills.length) return;
+    const s = computeStats(bills);
+    if (id==='modalSolar')   renderSolarModal(s);
+    if (id==='modalBattery') renderBatteryModal(s);
+    if (id==='modalCost')    renderCostModal();
+    if (id==='modalHistory') renderHistoryModal();
+  }, { once:true });
+};
+
+function renderSolarModal(s) {
+  const el=document.getElementById('chart-solar'); if(!el) return;
+  el.innerHTML='';
+  const W=el.clientWidth||500,H=240;
+  const svg=d3.select(el).append('svg').attr('width',W).attr('height',H);
+  const g=svg.append('g').attr('transform','translate(56,16)');
+  const iw=W-76,ih=H-60;
+  const sizes=[3,5,6.6,8,10,13,15];
+  const x=d3.scaleBand().domain(sizes).range([0,iw]).padding(0.3);
+  const y=d3.scaleLinear().domain([0,70]).range([ih,0]);
+  g.append('g').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickFormat(d=>d+'kW').tickSize(0))
+    .call(a=>a.selectAll('text').style('font-size','10px').style('fill','var(--text-muted)').attr('dy','1.2em'));
+  g.append('g').call(d3.axisLeft(y).ticks(5).tickSize(0)).call(a=>a.select('.domain').remove())
+    .call(a=>a.selectAll('text').style('font-size','10px').style('fill','var(--text-muted)'));
+  g.selectAll('.sb').data(sizes).join('rect')
+    .attr('x',d=>x(d)).attr('y',d=>y(d*4)).attr('width',x.bandwidth()).attr('height',d=>ih-y(d*4)).attr('rx',4)
+    .attr('fill',d=>Math.abs(d-s.solar)<0.8?'#ffa500':'#00d4ff')
+    .attr('opacity',d=>Math.abs(d-s.solar)<0.8?1:0.45);
+  const rec=sizes.reduce((a,b)=>Math.abs(b-s.solar)<Math.abs(a-s.solar)?b:a);
+  g.append('text').attr('x',x(rec)+x.bandwidth()/2).attr('y',y(rec*4)-6).attr('text-anchor','middle')
+    .style('font-size','10px').style('fill','#ffa500').text('✓ Recommended');
+  const el2=document.getElementById('solar-rec');
+  if(el2) el2.textContent=`Based on your average daily usage of ${fmt(s.avgDaily,1)} kWh, a ${fmt(s.solar,1)}–${fmt(s.solar+1.5,1)} kW system is recommended. This would offset 70–90% of your consumption.`;
+}
+
+function renderBatteryModal(s) {
+  const el=document.getElementById('chart-battery'); if(!el) return;
+  el.innerHTML='';
+  const W=el.clientWidth||500,H=200;
+  const svg=d3.select(el).append('svg').attr('width',W).attr('height',H);
+  const g=svg.append('g').attr('transform','translate(56,16)');
+  const iw=W-76,ih=H-50;
+  const sizes=[5,10,13.5,16,20];
+  const x=d3.scaleBand().domain(sizes).range([0,iw]).padding(0.35);
+  const y=d3.scaleLinear().domain([0,25]).range([ih,0]);
+  g.append('g').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickFormat(d=>d+'kWh').tickSize(0))
+    .call(a=>a.selectAll('text').style('font-size','10px').style('fill','var(--text-muted)').attr('dy','1.2em'));
+  g.selectAll('.bb').data(sizes).join('rect')
+    .attr('x',d=>x(d)).attr('y',d=>y(d)).attr('width',x.bandwidth()).attr('height',d=>ih-y(d)).attr('rx',4)
+    .attr('fill',d=>d>=s.battery*0.9&&d<=s.battery*1.5?'#39d353':'#a371f7').attr('opacity',0.85);
+  const el2=document.getElementById('battery-rec');
+  if(el2) el2.textContent=`Your average daily usage of ${fmt(s.avgDaily,1)} kWh suggests a battery of ${fmt(s.battery,1)} kWh. Popular options: 10kWh (essential backup) or 13.5kWh (full coverage).`;
+}
+
+function renderCostModal() {
+  const el=document.getElementById('chart-cost'); if(!el) return;
+  el.innerHTML='';
+  const W=el.clientWidth||500,H=240;
+  const svg=d3.select(el).append('svg').attr('width',W).attr('height',H);
+  const g=svg.append('g').attr('transform','translate(64,16)');
+  const iw=W-84,ih=H-60;
+  const x=xBand(bills.map(b=>b.bill_date),iw);
+  const y=yLin(d3.max(bills,b=>b.total_cost||0)*1.15||10,ih);
+  addGrid(g,y,iw);
+  g.append('g').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickSize(0))
+    .call(a=>a.selectAll('text').style('font-size','10px').style('fill','var(--text-muted)').attr('transform','rotate(-30)').style('text-anchor','end').attr('dy','1.2em'));
+  g.append('g').call(d3.axisLeft(y).ticks(5).tickFormat(d=>'$'+d).tickSize(0))
+    .call(a=>a.select('.domain').remove()).call(a=>a.selectAll('text').style('font-size','10px').style('fill','var(--text-muted)').attr('dx','-6'));
+  g.selectAll('.cb').data(bills).join('rect')
+    .attr('x',b=>x(b.bill_date)).attr('y',b=>y(b.total_cost||0)).attr('width',x.bandwidth())
+    .attr('height',b=>ih-y(b.total_cost||0)).attr('rx',3).attr('fill','#ffa500').attr('opacity',0.85)
+    .on('mousemove',(e,b)=>{showTip(`<div class="tooltip-title">${b.bill_date}</div>
+      <div class="tooltip-row"><span>Total</span><span>$${fmt(b.total_cost,2)}</span></div>
+      <div class="tooltip-row"><span>Daily</span><span>$${fmt(b.avg_daily_cost,2)}</span></div>`,e);moveTip(e);})
+    .on('mouseleave',hideTip);
+}
+
+function renderHistoryModal() {
+  const valid=bills.filter(b=>b.average_daily_kwh);
+  const el=document.getElementById('chart-history'); if(!el||!valid.length) return;
+  el.innerHTML='';
+  const W=el.clientWidth||500,H=240;
+  const svg=d3.select(el).append('svg').attr('width',W).attr('height',H);
+  const g=svg.append('g').attr('transform','translate(58,16)');
+  const iw=W-78,ih=H-60;
+  const x=xBand(valid.map(b=>b.bill_date),iw);
+  const y=yLin(d3.max(valid,b=>b.average_daily_kwh)*1.25||10,ih);
+  addGrid(g,y,iw);
+  g.append('g').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickSize(0))
+    .call(a=>a.selectAll('text').style('font-size','10px').style('fill','var(--text-muted)').attr('transform','rotate(-30)').style('text-anchor','end').attr('dy','1.2em'));
+  g.append('g').call(d3.axisLeft(y).ticks(5).tickSize(0)).call(a=>a.select('.domain').remove())
+    .call(a=>a.selectAll('text').style('font-size','10px').style('fill','var(--text-muted)').attr('dx','-6'));
+  const cx=b=>x(b.bill_date)+x.bandwidth()/2;
+  const line=d3.line().x(cx).y(b=>y(b.average_daily_kwh)).curve(d3.curveCatmullRom);
+  const area=d3.area().x(cx).y0(ih).y1(b=>y(b.average_daily_kwh)).curve(d3.curveCatmullRom);
+  g.append('path').datum(valid).attr('fill','#39d353').attr('opacity',0.07).attr('d',area);
+  g.append('path').datum(valid).attr('fill','none').attr('stroke','#39d353').attr('stroke-width',2.5).attr('d',line);
+  g.selectAll('.dot').data(valid).join('circle')
+    .attr('cx',cx).attr('cy',b=>y(b.average_daily_kwh)).attr('r',4)
+    .attr('fill','#39d353').attr('stroke','var(--bg-card)').attr('stroke-width',2)
+    .on('mousemove',(e,b)=>{showTip(`<div class="tooltip-title">${b.bill_date}</div>
+      <div class="tooltip-row"><span>Avg Daily</span><span>${fmt(b.average_daily_kwh,1)} kWh</span></div>`,e);moveTip(e);})
+    .on('mouseleave',hideTip);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PRINT / PDF REPORT
+   Builds a self-contained print window with live chart SVGs, all stats,
+   solar/battery analysis, monthly breakdown, and the full bills table.
+══════════════════════════════════════════════════════════════════════════ */
+function captureSvg(containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return '';
+  const svgEl = el.querySelector('svg');
+  if (!svgEl) return '';
+  // Clone and inline all computed styles that matter for print
+  const clone = svgEl.cloneNode(true);
+  clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  // Replace CSS variable colours with hard values for print context
+  const xmlStr = new XMLSerializer().serializeToString(clone);
+  return xmlStr
+    .replace(/var\(--text-muted\)/g, '#666')
+    .replace(/var\(--border\)/g,     '#ddd')
+    .replace(/var\(--bg-card\)/g,    '#fff')
+    .replace(/var\(--bg-secondary\)/g,'#f5f5f5')
+    .replace(/var\(--text-primary\)/g,'#1a1a2e');
+}
+
+function generatePrintReport() {
+  const s    = computeStats(bills);
+  const now  = new Date().toLocaleDateString('en-AU', { day:'2-digit', month:'long', year:'numeric' });
+  const from = bills[0]?.bill_date  || '—';
+  const to   = bills[bills.length-1]?.bill_date || '—';
+
+  // Capture SVGs before opening window (they exist in the DOM right now)
+  const svgUsage   = captureSvg('chart-usage');
+  const svgStacked = captureSvg('chart-stacked');
+  const svgDemand  = captureSvg('chart-demand');
+  const svgDaily   = captureSvg('chart-daily');
+
+  // Monthly breakdown table rows
+  const tableRows = [...bills].reverse().map(b => `
+    <tr>
+      <td>${b.bill_date}</td>
+      <td>${b.billing_start||'—'}</td>
+      <td>${b.billing_end||'—'}</td>
+      <td class="num">${fmt(b.peak_kwh,0)}</td>
+      <td class="num">${fmt(b.offpeak_kwh,0)}</td>
+      <td class="num bold">${fmt(b.total_kwh,0)}</td>
+      <td class="num">${fmt(b.demand_kw,2)}</td>
+      <td class="num">${fmt(b.average_daily_kwh,1)}</td>
+      <td class="num amber">$${fmt(b.total_cost,2)}</td>
+      <td class="num">${fmt(b.avg_daily_cost,2) === '—' ? '—' : '$'+fmt(b.avg_daily_cost,2)}</td>
+    </tr>`).join('');
+
+  // Peak/OffPeak % breakdown per bill
+  const pkRows = [...bills].map(b => {
+    const tot  = (b.peak_kwh||0) + (b.offpeak_kwh||0);
+    const pkPct  = tot ? ((b.peak_kwh||0)/tot*100).toFixed(1) : '—';
+    const opPct  = tot ? ((b.offpeak_kwh||0)/tot*100).toFixed(1) : '—';
+    const bar    = tot ? Math.round((b.peak_kwh||0)/tot*100) : 0;
+    return `<tr>
+      <td>${b.bill_date}</td>
+      <td class="num">${fmt(b.peak_kwh,0)} kWh</td>
+      <td class="num">${fmt(b.offpeak_kwh,0)} kWh</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;height:8px;background:#eee;border-radius:4px;overflow:hidden">
+            <div style="width:${bar}%;height:100%;background:#f97316;border-radius:4px"></div>
+          </div>
+          <span style="font-size:10px;color:#666;white-space:nowrap">${pkPct}% peak</span>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Solar recommendation text
+  const solarRec   = `${fmt(s.solar,1)} – ${fmt(s.solar+1.5,1)} kW`;
+  const batteryRec = `${fmt(s.battery,1)} kWh`;
+  const annualKwh  = s.totalKwh;
+  const annualCost = s.totalCost;
+  const months     = bills.length;
+  const avgMonthKwh  = months ? (annualKwh/months).toFixed(0) : '—';
+  const avgMonthCost = months ? '$'+(annualCost/months).toFixed(2) : '—';
+
+  // Demand stats
+  const demandVals = bills.filter(b=>b.demand_kw).map(b=>b.demand_kw);
+  const maxDemand  = demandVals.length ? Math.max(...demandVals).toFixed(2) : '—';
+  const avgDemand  = demandVals.length ? (demandVals.reduce((a,b)=>a+b,0)/demandVals.length).toFixed(2) : '—';
+  const minDemand  = demandVals.length ? Math.min(...demandVals).toFixed(2) : '—';
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EnergyLens Report — ${now}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+
+  body {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #1a1a2e;
+    background: #fff;
+    line-height: 1.5;
+  }
+
+  /* ── Cover page ── */
+  .cover {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    padding: 60px 72px;
+    background: #0d1117;
+    color: #fff;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:4px;
+    background: linear-gradient(90deg,#00d4ff,#ffa500);
+  }
+  .cover-grid {
+    position:absolute; inset:0; opacity:0.04;
+    background-image: repeating-linear-gradient(#00d4ff 0 1px, transparent 1px 60px),
+                      repeating-linear-gradient(90deg,#00d4ff 0 1px,transparent 1px 60px);
+  }
+  .cover-bolt { font-size:72px; margin-bottom:32px; }
+  .cover-title {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:64px; font-weight:900;
+    letter-spacing:1px; line-height:1;
+    margin-bottom:8px;
+  }
+  .cover-title span { color:#00d4ff; }
+  .cover-sub {
+    font-size:16px; color:#7d8590;
+    margin-bottom:48px; letter-spacing:0.5px;
+  }
+  .cover-meta {
+    display:grid; grid-template-columns: 1fr 1fr 1fr;
+    gap:24px; width:100%; max-width:700px;
+    margin-top:auto; padding-top:48px;
+    border-top:1px solid rgba(255,255,255,0.1);
+  }
+  .cover-meta-item { }
+  .cover-meta-label { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#4a5568; }
+  .cover-meta-value { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:700; color:#e6edf3; margin-top:4px; }
+
+  /* ── Page layout ── */
+  .page {
+    padding: 48px 56px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .page + .page { page-break-before: always; }
+
+  /* ── Section headings ── */
+  .section-head {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:9px; font-weight:700;
+    letter-spacing:3px; text-transform:uppercase;
+    color:#7d8590;
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:20px; padding-bottom:8px;
+    border-bottom:1px solid #e8ecf0;
+  }
+  .section-head::before {
+    content:''; width:3px; height:16px;
+    background:linear-gradient(#00d4ff,#ffa500);
+    border-radius:2px; flex-shrink:0;
+  }
+
+  .page-title {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:28px; font-weight:900;
+    color:#0d1117; margin-bottom:6px; letter-spacing:0.5px;
+  }
+  .page-subtitle { font-size:11px; color:#7d8590; margin-bottom:32px; }
+
+  /* ── Stat cards ── */
+  .stat-grid {
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:14px; margin-bottom:28px;
+  }
+  .stat-card {
+    border:1px solid #e8ecf0; border-radius:10px;
+    padding:16px; position:relative; overflow:hidden;
+  }
+  .stat-card::before {
+    content:''; position:absolute; top:0; left:0;
+    width:100%; height:3px;
+    background: var(--ac, #00d4ff);
+  }
+  .stat-label {
+    font-size:9px; letter-spacing:1.5px; text-transform:uppercase;
+    color:#7d8590; margin-bottom:6px;
+  }
+  .stat-value {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:30px; font-weight:900; color:#0d1117; line-height:1;
+  }
+  .stat-unit { font-size:13px; font-weight:400; color:#7d8590; margin-left:3px; }
+  .stat-note { font-size:9px; color:#aaa; margin-top:4px; }
+
+  /* ── Charts ── */
+  .chart-wrap {
+    border:1px solid #e8ecf0; border-radius:10px;
+    padding:20px; margin-bottom:20px; background:#fafbfc;
+    page-break-inside: avoid;
+  }
+  .chart-label {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:13px; font-weight:700;
+    color:#0d1117; margin-bottom:14px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .chart-dot {
+    width:8px; height:8px; border-radius:50%;
+    display:inline-block;
+  }
+  .chart-wrap svg { width:100% !important; height:auto !important; }
+  .chart-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+  /* ── Analysis cards ── */
+  .analysis-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+  .analysis-card {
+    border:1px solid #e8ecf0; border-radius:10px; padding:20px;
+    page-break-inside:avoid;
+  }
+  .analysis-title {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:15px; font-weight:700; color:#0d1117;
+    margin-bottom:6px;
+  }
+  .analysis-value {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:28px; font-weight:900; margin-bottom:8px;
+  }
+  .analysis-body { font-size:10px; color:#555; line-height:1.7; }
+  .analysis-formula {
+    margin-top:10px; padding:8px 10px;
+    background:#f5f5f5; border-radius:6px;
+    font-size:9px; color:#7d8590; font-family:'IBM Plex Mono',monospace;
+  }
+
+  /* ── Demand stats row ── */
+  .demand-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+  .demand-box {
+    text-align:center; border:1px solid #e8ecf0;
+    border-radius:8px; padding:14px;
+  }
+  .demand-box .val { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:900; color:#a371f7; }
+  .demand-box .lbl { font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:#aaa; margin-top:4px; }
+
+  /* ── Tables ── */
+  table { width:100%; border-collapse:collapse; font-size:10px; }
+  thead th {
+    background:#f0f4f8; border-bottom:1px solid #dde1e7;
+    padding:8px 10px; text-align:left;
+    font-size:8px; font-weight:700; letter-spacing:1.5px;
+    text-transform:uppercase; color:#7d8590; white-space:nowrap;
+  }
+  tbody tr { border-bottom:1px solid #f0f0f0; }
+  tbody tr:last-child { border-bottom:none; }
+  tbody tr:nth-child(even) { background:#fafbfc; }
+  td { padding:7px 10px; color:#1a1a2e; }
+  .num { text-align:right; font-family:'IBM Plex Mono',monospace; }
+  .bold { font-weight:600; }
+  .amber { color:#d97706; font-weight:600; }
+
+  /* ── Peak/offpeak breakdown ── */
+  .breakdown-table { margin-bottom:24px; }
+
+  /* ── Insights box ── */
+  .insight-box {
+    background:#f0f9ff; border:1px solid #bae6fd;
+    border-radius:10px; padding:18px; margin-bottom:20px;
+    page-break-inside:avoid;
+  }
+  .insight-title {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:13px; font-weight:700; color:#0369a1;
+    margin-bottom:10px;
+  }
+  .insight-list { list-style:none; }
+  .insight-list li {
+    padding:5px 0; border-bottom:1px solid #e0f2fe;
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:10px; color:#0c4a6e;
+  }
+  .insight-list li:last-child { border-bottom:none; }
+  .insight-list .val { font-weight:600; font-family:'Barlow Condensed',sans-serif; font-size:14px; }
+
+  /* ── Footer ── */
+  .report-footer {
+    margin-top:48px; padding-top:16px;
+    border-top:1px solid #e8ecf0;
+    display:flex; justify-content:space-between;
+    font-size:9px; color:#bbb; letter-spacing:0.5px;
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .cover { min-height:100vh; }
+    .no-print { display:none !important; }
+  }
+
+  /* ── Screen only ── */
+  @media screen {
+    body { max-width:1100px; margin:0 auto; padding:20px; background:#f5f5f5; }
+    .cover { min-height:auto; border-radius:16px; margin-bottom:20px; }
+    .page { background:#fff; border-radius:12px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,.07); }
+    .print-bar {
+      position:sticky; top:0; z-index:100;
+      background:#0d1117; color:#e6edf3;
+      padding:12px 24px; border-radius:12px;
+      margin-bottom:16px;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .print-bar-title { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; color:#00d4ff; }
+    .btn-print {
+      font-family:'Barlow Condensed',sans-serif; font-weight:700;
+      font-size:13px; letter-spacing:1.5px; text-transform:uppercase;
+      background:linear-gradient(135deg,#00d4ff,#0099cc);
+      color:#0d1117; border:none; border-radius:8px;
+      padding:9px 22px; cursor:pointer;
+      display:flex; align-items:center; gap:6px;
+    }
+    .btn-print:hover { opacity:.85; }
+    .btn-close-rpt {
+      font-family:'Barlow Condensed',sans-serif; font-weight:700;
+      font-size:13px; letter-spacing:1px; text-transform:uppercase;
+      background:transparent; color:#7d8590;
+      border:1px solid #2a3a52; border-radius:8px;
+      padding:9px 18px; cursor:pointer; margin-left:8px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sticky print bar (screen only) -->
+<div class="print-bar no-print" style="display:flex">
+  <span class="print-bar-title">⚡ EnergyLens — Print Preview</span>
+  <div style="display:flex;gap:8px">
+    <button class="btn-print" onclick="window.print()">🖨 Print / Save as PDF</button>
+    <button class="btn-close-rpt" onclick="window.close()">✕ Close</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 0: COVER
+════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-bolt">⚡</div>
+  <div class="cover-title">Energy<span>Lens</span></div>
+  <div class="cover-sub">Electricity Bill Analysis Report</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:24px;margin-top:48px">
+    <div>
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#4a5568">Generated</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:#e6edf3;margin-top:4px">${now}</div>
+    </div>
+    <div>
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#4a5568">Bills Analysed</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:#e6edf3;margin-top:4px">${bills.length}</div>
+    </div>
+    <div>
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#4a5568">Period From</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:#e6edf3;margin-top:4px">${from}</div>
+    </div>
+    <div>
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#4a5568">Period To</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:#e6edf3;margin-top:4px">${to}</div>
+    </div>
+  </div>
+
+  <div class="cover-meta" style="margin-top:40px">
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Total Usage</div>
+      <div class="cover-meta-value">${fmt(s.totalKwh,0)} <span style="font-size:14px;color:#4a5568">kWh</span></div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Total Spend</div>
+      <div class="cover-meta-value">$${fmt(s.totalCost,2)}</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Avg Daily Usage</div>
+      <div class="cover-meta-value">${fmt(s.avgDaily,1)} <span style="font-size:14px;color:#4a5568">kWh</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 1: EXECUTIVE SUMMARY
+════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-title">Executive Summary</div>
+  <div class="page-subtitle">Key metrics across all ${bills.length} bills · ${from} to ${to}</div>
+
+  <div class="section-head">Consumption Overview</div>
+  <div class="stat-grid">
+    <div class="stat-card" style="--ac:#00d4ff">
+      <div class="stat-label">Total Electricity Used</div>
+      <div class="stat-value">${fmt(s.totalKwh,0)}<span class="stat-unit">kWh</span></div>
+      <div class="stat-note">${avgMonthKwh} kWh per month average</div>
+    </div>
+    <div class="stat-card" style="--ac:#39d353">
+      <div class="stat-label">Average Daily Usage</div>
+      <div class="stat-value">${fmt(s.avgDaily,1)}<span class="stat-unit">kWh/day</span></div>
+      <div class="stat-note">Across all billing periods</div>
+    </div>
+    <div class="stat-card" style="--ac:#ffa500">
+      <div class="stat-label">Peak vs Off-Peak Ratio</div>
+      <div class="stat-value">${s.ratio}<span class="stat-unit">:1</span></div>
+      <div class="stat-note">Peak (4–9pm) to off-peak kWh</div>
+    </div>
+    <div class="stat-card" style="--ac:#ff6b6b">
+      <div class="stat-label">Total Electricity Spend</div>
+      <div class="stat-value">$${fmt(s.totalCost,2)}</div>
+      <div class="stat-note">${avgMonthCost} per month average</div>
+    </div>
+    <div class="stat-card" style="--ac:#a371f7">
+      <div class="stat-label">Peak Demand (avg)</div>
+      <div class="stat-value">${avgDemand}<span class="stat-unit">kW</span></div>
+      <div class="stat-note">Max recorded: ${maxDemand} kW</div>
+    </div>
+    <div class="stat-card" style="--ac:#f9c74f">
+      <div class="stat-label">Bills Analysed</div>
+      <div class="stat-value">${bills.length}</div>
+      <div class="stat-note">${from} → ${to}</div>
+    </div>
+  </div>
+
+  <div class="section-head">Key Insights</div>
+  <div class="insight-box">
+    <div class="insight-title">📊 Summary Findings</div>
+    <ul class="insight-list">
+      <li><span>Monthly average electricity cost</span><span class="val">${avgMonthCost}</span></li>
+      <li><span>Monthly average energy consumption</span><span class="val">${avgMonthKwh} kWh</span></li>
+      <li><span>Average daily spend</span><span class="val">$${fmt(s.totalCost/bills.reduce((s,b)=>s+(b.billing_days||30),0),2)}/day</span></li>
+      <li><span>Peak usage share (4–9pm)</span><span class="val">${(()=>{ const p=bills.reduce((s,b)=>s+(b.peak_kwh||0),0), o=bills.reduce((s,b)=>s+(b.offpeak_kwh||0),0); return p+o ? ((p/(p+o))*100).toFixed(1)+'%':'—'; })()}</span></li>
+      <li><span>Off-peak usage share</span><span class="val">${(()=>{ const p=bills.reduce((s,b)=>s+(b.peak_kwh||0),0), o=bills.reduce((s,b)=>s+(b.offpeak_kwh||0),0); return p+o ? ((o/(p+o))*100).toFixed(1)+'%':'—'; })()}</span></li>
+      <li><span>Highest single bill</span><span class="val">$${fmt(Math.max(...bills.map(b=>b.total_cost||0)),2)}</span></li>
+      <li><span>Lowest single bill</span><span class="val">$${fmt(Math.min(...bills.filter(b=>b.total_cost).map(b=>b.total_cost)),2)}</span></li>
+      <li><span>Highest daily usage period</span><span class="val">${fmt(Math.max(...bills.filter(b=>b.average_daily_kwh).map(b=>b.average_daily_kwh)),1)} kWh/day</span></li>
+    </ul>
+  </div>
+
+  <div class="report-footer">
+    <span>EnergyLens — Energy Bill Analysis Report</span>
+    <span>Generated ${now}</span>
+    <span>Page 1</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 2: USAGE CHARTS
+════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-title">Usage Analysis</div>
+  <div class="page-subtitle">Monthly consumption trends and peak vs off-peak breakdown</div>
+
+  <div class="section-head">Monthly Energy Usage — Total kWh per Bill</div>
+  ${svgUsage ? `<div class="chart-wrap"><div class="chart-label"><span class="chart-dot" style="background:#00d4ff"></span>Total kWh per Billing Period</div>${svgUsage}</div>` : '<p style="color:#aaa;font-size:11px">Chart not available</p>'}
+
+  <div class="section-head">Peak vs Off-Peak Breakdown</div>
+  ${svgStacked ? `<div class="chart-wrap"><div class="chart-label"><span class="chart-dot" style="background:#ffa500"></span>Peak (orange) stacked on Off-Peak (blue)</div>${svgStacked}</div>` : '<p style="color:#aaa;font-size:11px">Chart not available</p>'}
+
+  <div class="section-head">Peak vs Off-Peak by Bill</div>
+  <div class="breakdown-table">
+    <table>
+      <thead><tr>
+        <th>Bill Date</th>
+        <th class="num">Peak kWh</th>
+        <th class="num">Off-Peak kWh</th>
+        <th>Usage Split</th>
+      </tr></thead>
+      <tbody>${pkRows}</tbody>
+    </table>
+  </div>
+
+  <div class="report-footer">
+    <span>EnergyLens — Energy Bill Analysis Report</span>
+    <span>Generated ${now}</span>
+    <span>Page 2</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 3: DEMAND & DAILY TRENDS
+════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-title">Demand &amp; Daily Trends</div>
+  <div class="page-subtitle">Peak demand (kW) and average daily consumption over time</div>
+
+  <div class="section-head">Peak Demand Statistics</div>
+  <div class="demand-row">
+    <div class="demand-box">
+      <div class="val">${maxDemand} <span style="font-size:14px;font-weight:400">kW</span></div>
+      <div class="lbl">Maximum Demand</div>
+    </div>
+    <div class="demand-box">
+      <div class="val">${avgDemand} <span style="font-size:14px;font-weight:400">kW</span></div>
+      <div class="lbl">Average Demand</div>
+    </div>
+    <div class="demand-box">
+      <div class="val">${minDemand} <span style="font-size:14px;font-weight:400">kW</span></div>
+      <div class="lbl">Minimum Demand</div>
+    </div>
+  </div>
+
+  <div class="section-head">Demand Trend Chart</div>
+  ${svgDemand ? `<div class="chart-wrap"><div class="chart-label"><span class="chart-dot" style="background:#a371f7"></span>Peak Demand (kW) per billing period — Monday–Sunday 4pm–9pm</div>${svgDemand}</div>` : '<p style="color:#aaa;font-size:11px">Chart not available (no demand data in bills)</p>'}
+
+  <div class="section-head">Average Daily Usage Trend</div>
+  ${svgDaily ? `<div class="chart-wrap"><div class="chart-label"><span class="chart-dot" style="background:#39d353"></span>Average daily kWh — dashed line shows overall mean (${fmt(s.avgDaily,1)} kWh)</div>${svgDaily}</div>` : '<p style="color:#aaa;font-size:11px">Chart not available</p>'}
+
+  <div class="report-footer">
+    <span>EnergyLens — Energy Bill Analysis Report</span>
+    <span>Generated ${now}</span>
+    <span>Page 3</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 4: SOLAR & BATTERY ANALYSIS
+════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-title">Solar &amp; Battery Recommendations</div>
+  <div class="page-subtitle">Estimates based on your actual usage data — Australian averages applied</div>
+
+  <div class="section-head">Recommended System Sizing</div>
+  <div class="analysis-grid">
+    <div class="analysis-card" style="border-top:3px solid #f9c74f">
+      <div class="analysis-title">☀️ Solar System</div>
+      <div class="analysis-value" style="color:#d97706">${solarRec}</div>
+      <div class="analysis-body">
+        Based on your average daily usage of <strong>${fmt(s.avgDaily,1)} kWh</strong>, 
+        a solar system in this range would offset approximately <strong>70–90%</strong> 
+        of your consumption depending on roof orientation, shading, and seasonal variation.
+        <br><br>
+        Queensland typically receives <strong>4–5 peak sun hours</strong> per day, 
+        making it one of Australia's best solar locations.
+      </div>
+      <div class="analysis-formula">Solar size (kW) = Avg daily usage ÷ 4 peak sun hours<br>${fmt(s.avgDaily,1)} ÷ 4 = ${fmt(s.solar,2)} kW recommended</div>
+    </div>
+
+    <div class="analysis-card" style="border-top:3px solid #a371f7">
+      <div class="analysis-title">🔋 Battery Storage</div>
+      <div class="analysis-value" style="color:#7c3aed">${batteryRec}</div>
+      <div class="analysis-body">
+        To cover overnight electricity needs (typically 6pm–7am), 
+        a battery of this capacity would store enough energy to 
+        avoid drawing from the grid during off-solar hours.
+        <br><br>
+        <strong>Popular options:</strong> Tesla Powerwall 2 (13.5 kWh), 
+        Alpha-ESS (10 kWh), Enphase IQ Battery (10.1 kWh).
+      </div>
+      <div class="analysis-formula">Battery size (kWh) = Avg daily usage × 1.2 buffer<br>${fmt(s.avgDaily,1)} × 1.2 = ${fmt(s.battery,2)} kWh recommended</div>
+    </div>
+  </div>
+
+  <div class="section-head">Potential Savings Estimate</div>
+  <div class="insight-box" style="background:#f0fdf4;border-color:#86efac">
+    <div class="insight-title" style="color:#166534">💰 Indicative Savings with Solar + Battery</div>
+    <ul class="insight-list" style="color:#14532d">
+      <li>
+        <span>Est. annual solar generation (${fmt(s.solar,1)} kW system)</span>
+        <span class="val" style="color:#15803d">${fmt(s.solar * 4 * 365, 0)} kWh/year</span>
+      </li>
+      <li>
+        <span>Your annual consumption</span>
+        <span class="val" style="color:#15803d">${fmt(s.totalKwh / bills.length * 12, 0)} kWh/year (est.)</span>
+      </li>
+      <li>
+        <span>Current annual spend (extrapolated)</span>
+        <span class="val" style="color:#15803d">$${fmt(s.totalCost / bills.length * 12, 2)}/year</span>
+      </li>
+      <li>
+        <span>Estimated savings with solar (70% offset)</span>
+        <span class="val" style="color:#15803d">$${fmt(s.totalCost / bills.length * 12 * 0.70, 2)}/year</span>
+      </li>
+      <li>
+        <span>Estimated feed-in tariff income (~$0.10/kWh exported)</span>
+        <span class="val" style="color:#15803d">$${fmt(s.solar * 4 * 365 * 0.3 * 0.10, 2)}/year</span>
+      </li>
+    </ul>
+    <div style="margin-top:12px;font-size:9px;color:#166534;font-style:italic">
+      ⚠ Estimates only. Actual savings depend on tariff rates, self-consumption ratio, system efficiency, and 
+      installer quotes. Consult a Clean Energy Council accredited installer for a detailed assessment.
+    </div>
+  </div>
+
+  <div class="section-head">Time-of-Use Opportunities</div>
+  <div class="analysis-card" style="border-top:3px solid #00d4ff">
+    <div class="analysis-title">⏰ Peak Shifting Opportunity</div>
+    <div class="analysis-body" style="line-height:1.8">
+      Your <strong>peak/off-peak ratio of ${s.ratio}:1</strong> means 
+      ${s.ratio !== '—' && parseFloat(s.ratio) > 0.25 ? 
+        `a significant portion of your usage falls in the expensive 4–9pm window. 
+        Shifting high-consumption activities (dishwasher, washing machine, EV charging, pool pump) 
+        to off-peak hours could meaningfully reduce your bills.` :
+        `you already have good off-peak usage habits. Continue scheduling high-consumption 
+        appliances outside the 4–9pm peak window to maintain savings.`}
+      <br><br>
+      <strong>Quick wins:</strong> Schedule dishwasher and washing machine to run after 9pm or before 4pm. 
+      Use timer plugs for pool pumps. Charge EVs overnight. Pre-cool/pre-heat the home before 4pm.
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <span>EnergyLens — Energy Bill Analysis Report</span>
+    <span>Generated ${now}</span>
+    <span>Page 4</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 5: FULL BILLS TABLE
+════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-title">Complete Bill History</div>
+  <div class="page-subtitle">All ${bills.length} bills · most recent first</div>
+
+  <div class="section-head">Bill-by-Bill Detail</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Bill Date</th>
+        <th>Period Start</th>
+        <th>Period End</th>
+        <th class="num">Peak kWh</th>
+        <th class="num">Off-Peak kWh</th>
+        <th class="num">Total kWh</th>
+        <th class="num">Demand kW</th>
+        <th class="num">Avg Daily kWh</th>
+        <th class="num">Total Cost</th>
+        <th class="num">Daily Cost</th>
+      </tr>
+    </thead>
+    <tbody>${tableRows}</tbody>
+    <tfoot>
+      <tr style="background:#f0f4f8;font-weight:700;border-top:2px solid #dde1e7">
+        <td colspan="3" style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700">TOTALS / AVERAGES</td>
+        <td class="num">${fmt(bills.reduce((s,b)=>s+(b.peak_kwh||0),0),0)}</td>
+        <td class="num">${fmt(bills.reduce((s,b)=>s+(b.offpeak_kwh||0),0),0)}</td>
+        <td class="num bold">${fmt(s.totalKwh,0)}</td>
+        <td class="num">${avgDemand}</td>
+        <td class="num">${fmt(s.avgDaily,1)}</td>
+        <td class="num amber">$${fmt(s.totalCost,2)}</td>
+        <td class="num">$${fmt(s.totalCost/bills.reduce((s,b)=>s+(b.billing_days||30),0),2)}</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="report-footer">
+    <span>EnergyLens — Energy Bill Analysis Report</span>
+    <span>Generated ${now} · Data processed locally in browser</span>
+    <span>Page 5</span>
+  </div>
+</div>
+
+</body></html>`;
+
+  const win = window.open('', '_blank', 'width=1100,height=850');
+  if (!win) { alert('Pop-up blocked. Please allow pop-ups for this page and try again.'); return; }
+  win.document.write(html);
+  win.document.close();
+}
+
+/* ── Utils ────────────────────────────────────────────────────────────── */
+function fmt(v,dec) { return (v==null||isNaN(v))?'—':Number(v).toFixed(dec); }
+function sleep(ms)  { return new Promise(r=>setTimeout(r,ms)); }
+function showError(msg) {
+  errorBox.innerHTML=`<div class="parse-error"><span class="material-icons" style="font-size:14px;vertical-align:middle">warning</span> ${msg}</div>`;
+}
+function saveBillsCache(d){ try{ localStorage.setItem('energy_bills',JSON.stringify(d)); }catch(e){} }
+function loadBillsCache() { try{ return JSON.parse(localStorage.getItem('energy_bills')||'[]'); }catch(e){ return []; } }
+
+let resizeT;
+window.addEventListener('resize', ()=>{
+  clearTimeout(resizeT);
+  resizeT=setTimeout(()=>{ if(bills.length) render(); },200);
+});
+
+// Go!
+boot();
+</script>
+</body>
+</html>

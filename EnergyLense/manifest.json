@@ -1,0 +1,26 @@
+{
+  "name": "Energy Bill Analyser",
+  "short_name": "EnergyAI",
+  "description": "Analyse your electricity bills — offline, in the browser.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#00d4ff",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%230d1117'/><text y='360' font-size='380' font-family='sans-serif'>⚡</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Load Bills",
+      "url": "./index.html#upload",
+      "description": "Upload new electricity bills"
+    }
+  ]
+}
