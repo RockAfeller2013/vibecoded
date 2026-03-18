@@ -31,6 +31,7 @@ Example - https://gamma.app/
 - Import to Blender to Animate
 - Export using gltjx
 - Create a Onepage scroll website template.
+- Diagram as Code - https://www.youtube.com/watch?v=jCd6XfWLZsg
 
 # Using Three.js for Slide Presentations
 
