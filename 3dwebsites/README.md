@@ -22,7 +22,14 @@ Example - https://gamma.app/
 - https://github.com/Smithsonian/dpo-meshsmith
 
 - npx gltfjsx <model.gltf or .glb> --transform --keepmeshes
+- https://github.com/pmndrs/triplex
 
+## Architecture 
+- https://chatgpt.com/c/69c70340-1348-8324-bbb7-06cdd1b92868
+- R3F - https://r3f.docs.pmnd.rs/getting-started/introduction
+- Next.JS
+- Superbase
+- Superbase + Next + React Boiler Template
 
 ## Procedure
 
@@ -32,6 +39,7 @@ Example - https://gamma.app/
 - Export using gltjx
 - Create a Onepage scroll website template.
 - Diagram as Code - https://www.youtube.com/watch?v=jCd6XfWLZsg
+- 
 
 # Using Three.js for Slide Presentations
 
