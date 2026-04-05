@@ -1,6 +1,6 @@
 - https://chatgpt.com/c/69cb94fd-a02c-8324-9a47-a3693d461350
 
-# Dog Poop Pickup Robot — Full Build Guide
+# Pickup Robot — Full Build Guide
 
 This is feasible, but standard LEGO kits alone will not be sufficient. You need a **hybrid build** (LEGO mechanics + external compute + vision).
 
