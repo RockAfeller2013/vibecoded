@@ -307,6 +307,8 @@ From community builds:
 - Works exactly like the concept: detect → move → pick
 - Biggest limitation: AI performance on Raspberry Pi
 
+- ***[Link](https://www.reddit.com/r/raspberry_pi/comments/cogm6f/my_personal_assistant_robot_it_uses_machine/?utm_source=chatgpt.com)***
+
 ### 5. Dataset Specifically for This Problem
 
 - **[ScatSpotter](https://github.com/topics/dog-waste)** — thousands of labeled dog poop images; ready for training detection models
