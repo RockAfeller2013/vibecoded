@@ -15,6 +15,9 @@ This is feasible, but standard LEGO kits alone will not be sufficient. You need 
 - **Sensors:**
   - Ultrasonic (obstacle avoidance)
   - IMU (optional for navigation stability)
+- https://education.lego.com/en-us/lessons/ev3-dep/make-a-system-that-communicates/
+- https://www.youtube.com/watch?v=02Tj2JzHRng
+- https://education.lego.com/en-au/lessons/ev3-cim/make-a-pick-and-place-robot/
 
 ---
 
