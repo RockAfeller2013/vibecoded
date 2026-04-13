@@ -125,6 +125,19 @@ Run `say -v ?` to list installed voices, then pass a valid name with `--voice`.
 **Empty or very short audiobook**
 The ePUB structure may use non-standard class names for page numbers. Open the `.epub` as a zip and inspect the HTML to identify the classes, then add them to `PAGE_CLASS_RE` in the script.
 
+```
+cd ~/Desktop/Audio
+python3 -m venv venv
+source venv/bin/activate
+pip install ebooklib beautifulsoup4
+python3 epub_to_m4b.py
+```
+
+```
+source ~/Desktop/Audio/venv/bin/activate
+python3 epub_to_m4b.py
+
+```
 ---
 
 ## License
