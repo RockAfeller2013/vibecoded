@@ -44,7 +44,7 @@ python epub_to_m4b.py --epub /path/to/local.epub --out mybook.m4b
 ### List all available voices on your Mac
 
 ```bash
-say -v ?
+say -v "?"
 ```
 
 ### All flags
