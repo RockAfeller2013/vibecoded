@@ -36,6 +36,9 @@ python epub_to_m4b.py
 ### With options
 
 ```bash
+
+python3 txt.py --voice Karen --rate 175 --epub book.epub --out book.m4b
+
 python epub_to_m4b.py --voice Daniel --rate 160       # British voice, slower pace
 python epub_to_m4b.py --voice Alex   --rate 190       # Alex voice, slightly faster
 python epub_to_m4b.py --epub /path/to/local.epub --out mybook.m4b
