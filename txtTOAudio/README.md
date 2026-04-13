@@ -1,5 +1,6 @@
 My research to convert EPUB to a Reader app
 
+- https://claude.ai/chat/bbc7ef39-089e-4ce9-af3a-ee8eda58b99c
 - Convert EPUB to MP3
 - PWA App to read Epub
 - Read a EPUB and convert to M4B using built in Apple Voice and create a MP3
