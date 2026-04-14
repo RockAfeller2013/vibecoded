@@ -19,7 +19,7 @@ Convert any ePUB to a chapter-marked M4B audiobook using **Apple's built-in text
 Run these in Terminal before using the script for the first time:
 
 ```bash
-pip install ebooklib beautifulsoup4
+pip install ebooklib beautifulsoup4 tqdm logging
 brew install ffmpeg
 ```
 
