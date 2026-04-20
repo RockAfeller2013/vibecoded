@@ -10,6 +10,11 @@ No backend, no install, no build tools — just open `index.html` in a browser.
 - Snology Wraper - https://github.com/N4S4/synology-api
 - Synaudit - https://github.com/gaetangr/synaudit?tab=readme-ov-file#disclaimer
 - WebAPI - https://kb.synology.com/fr-fr/DG/DSM_Login_Web_API_Guide/2
+- 
+- Pick by Date, 
+- dont dislay if the date doesnt has got any files, it sees to show the last avaiable month
+- File explorer 
+- Then click search 
 ---
 
 ## CORS errors BYPASS
