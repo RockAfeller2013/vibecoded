@@ -23,6 +23,8 @@ This is feasible, but standard LEGO kits alone will not be sufficient. You need 
 - https://www.youtube.com/watch?v=02Tj2JzHRng
 - https://www.youtube.com/watch?v=XgTR_HYJAKM
 - https://education.lego.com/en-au/lessons/ev3-cim/make-a-pick-and-place-robot/
+- https://www.vexrobotics.com/
+- https://www.hiwonder.com/products/landerpi?variant=41948378988631
 
 ---
 
