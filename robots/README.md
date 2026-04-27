@@ -6,6 +6,10 @@ This is feasible, but standard LEGO kits alone will not be sufficient. You need 
 
 ---
 
+## Requiments
+
+- Robot that activates on a schedule and searches a flat artificial grass area for small dog waste, scoops it up, and dumps it into an outdoor bin. The robot then charges itself using solar power and moves to a patio or sheltered area when rain is detected. It can optionally spray the artificial grass with a cleaning liquid. The robot operates autonomously without continuous connectivity, but supports remote control and can connect over Wi-Fi to a local server for monitoring and management.
+
 ## Hardware Architecture
 
 - **Base:** LEGO Technic chassis (tracked or 4-wheel for grass stability)
