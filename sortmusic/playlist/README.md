@@ -1,4 +1,5 @@
 # 🎵 sort_mp3_to_playlist
+- https://claude.ai/chat/4f6718a7-410e-4de5-9546-fec0ec1c57d0
 
 Create an M3U or M3U8 playlist of your MP3 files sorted by Spotify popularity — without renaming or moving a single file.
 
