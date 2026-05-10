@@ -7,6 +7,7 @@
 - Use AWS Bedrock for Large Local Models if required
 - Use Proxmox and NUC to build the infrastructure
 - Get the same system to self improve the project.
+- Goal is to use Operating Systems, rather than do everything within a SaaS platform like https://app.all-hands.dev/
 
 ## Research 
 - https://github.com/cancerit/CaVEMan
