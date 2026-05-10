@@ -22,7 +22,8 @@
 | [OpenCode GitHub](https://github.com/opencode-ai/opencode?utm_source=chatgpt.com)    | Terminal-native coding agents       |
 | [SWE-agent GitHub](https://github.com/SWE-agent/SWE-agent?utm_source=chatgpt.com)    | Benchmark-focused autonomous fixing |
 | [OpenClaw GitHub](https://github.com/openclaw/openclaw?utm_source=chatgpt.com)       | General autonomous agent platform   |
+| [Terax-AI](https://github.com/crynta/terax-ai)                                       | General autonomous agent platform   |
 
 ## Research 
 - https://github.com/cancerit/CaVEMan
-- Terminal https://github.com/crynta/terax-ai
+- Terminal 
