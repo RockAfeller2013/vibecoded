@@ -12,6 +12,8 @@ Local AI execution can run across on-premise Mac Pro clusters using EXO, or scal
 
 The result is an intelligent development harness that continuously generates, validates, fixes, deploys, and improves code with minimal human intervention
 
+This reduces token usage and gaming by Frontiner models, while keeping your IP (the code) private within your walled garden.)
+
 ## MVP Constraints
 
 - Use MacPro for Local
