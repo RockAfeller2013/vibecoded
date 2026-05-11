@@ -1,5 +1,16 @@
 # Stratified AI Harnes (Hierarchical orchestration system)
+
 - ChatGPT - https://chatgpt.com/c/6a005b43-cf3c-83ec-9d43-b5bee220d945
+
+## Autonomous AI Coding Harness
+
+Build software faster using hierarchical AI orchestration.
+
+Our platform combines frontier AI models with local coding agents to create a scalable, cost-efficient autonomous software engineering system. High-reasoning models handle planning, architecture, and validation, while distributed local AI agents execute coding, testing, debugging, and automation tasks inside secure isolated environments.
+
+Local AI execution can run across on-premise Mac Pro clusters using EXO, or scalable cloud-based AI infrastructure inside AWS using Bedrock, with fully automated Infrastructure-as-Code (IaC) provisioning and orchestration.
+
+The result is an intelligent development harness that continuously generates, validates, fixes, deploys, and improves code with minimal human intervention
 
 ## MVP Constraints
 
