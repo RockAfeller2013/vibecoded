@@ -37,6 +37,7 @@ This reduces token usage and gaming by Frontiner models, while keeping your IP (
 | [OpenClaw GitHub](https://github.com/openclaw/openclaw?utm_source=chatgpt.com)       | General autonomous agent platform   |
 | [Terax-AI](https://github.com/crynta/terax-ai)                                       | General autonomous agent platform   |
 | [DeepSeek UI](https://github.com/Hmbown/DeepSeek-TUI)                                | DeepSeek                            |
+| [Hermes Agent(https://hermes-agent.nousresearch.com/)                                | Hermes                              |
 
 
 # Autonomous AI Coding Harness
