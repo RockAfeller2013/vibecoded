@@ -22,3 +22,7 @@
 | Portability           | No                                                     | No                                                   | Small desktop                      | Yes                                            |
 | Future Proofing       | Highest                                                | High                                                 | Medium                             | High                                           |
 | Recommended           | Yes                                                    | Yes                                                  | Only if budget constrained         | Only if portability matters                    |
+
+
+## Proxmox Requirements 
+- https://docs.ludus.cloud/docs/deployment-options/bare-metal
