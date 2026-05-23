@@ -1,3 +1,4 @@
+# Snapper AI
 # Stratified AI Harnes (Hierarchical AI orchestration system)
 Use Frontiner Models control local Dev LLMs
 
