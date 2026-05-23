@@ -1,6 +1,7 @@
 # Stratified AI Harnes (Hierarchical orchestration system)
 
 - ChatGPT - https://chatgpt.com/c/6a005b43-cf3c-83ec-9d43-b5bee220d945
+- LocalStack - https://chatgpt.com/c/6a0a91ec-03b4-83ec-ad9d-c1c2f25ec546
 
 ## Autonomous AI Coding Harness
 
@@ -37,7 +38,40 @@ This reduces token usage and gaming by Frontiner models, while keeping your IP (
 | [OpenClaw GitHub](https://github.com/openclaw/openclaw?utm_source=chatgpt.com)       | General autonomous agent platform   |
 | [Terax-AI](https://github.com/crynta/terax-ai)                                       | General autonomous agent platform   |
 | [DeepSeek UI](https://github.com/Hmbown/DeepSeek-TUI)                                | DeepSeek                            |
-| [Hermes Agent(https://hermes-agent.nousresearch.com/)                                | Hermes                              |
+| [Hermes Agent](https://hermes-agent.nousresearch.com/)                                | Hermes                              |
+| [PA AI](https://github.com/danielmiessler/Personal_AI_Infrastructure)                 | PA AI                               |
+
+# Stack
+
+- Compute
+-     Omrach/W11 SOE
+-     Guacamole / NX Server / TailScale
+- Memmory
+-     Wiki
+-     Read the Docs
+
+- Automation
+-     Worklenz
+-     Obsidian
+-     JupiterNotebook
+-     N8n
+-     OpenRouter, Open Chat, SG Lang and vLLM
+- Code Repo
+-     GitLabh ttps://forgejo.org/
+- Platform
+-     S3
+-     https://www.openproject.org/
+-     Proxmox
+-     LocalStack - https://chatgpt.com/c/6a0a91ec-03b4-83ec-ad9d-c1c2f25ec546
+-     https://www.opendevstack.org/
+- Code Quality
+-     SonarCube
+- Testing
+-     Playwright
+- Hosting
+-     CPANEL
+-     LAMP/NGNIX/Joomla
+
 
 
 # Autonomous AI Coding Harness
