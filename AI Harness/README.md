@@ -43,7 +43,8 @@ This reduces token usage and gaming by Frontiner models, while keeping your IP (
 | [Hermes Agent](https://hermes-agent.nousresearch.com/)                                | Hermes                              |
 | [PA AI](https://github.com/danielmiessler/Personal_AI_Infrastructure)                 | PA AI                               |
 
-| MODEL               | HARNESS | Data |
+# ARCHITECTURE
+| MODEL               | HARNESS | DATA    |
 |---------------------|----------|------|
 | Frontier            |          |      |
 | Local Mac Cluster   |          |      |
