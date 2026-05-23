@@ -269,4 +269,8 @@ The future of software engineering is a coordinated system of intelligent AI age
 ## BoM
 
 | Item | Cost | Link |
-| Rack |       |  https://deskpi.com/products/deskpi-rackmate-t2-rackmount-12u-server-cabinet-for-network-servers-audio-and-video-equipment |
+|------|------|------|
+| Rack |  | https://deskpi.com/products/deskpi-rackmate-t2-rackmount-12u-server-cabinet-for-network-servers-audio-and-video-equipment |
+| Switch |  |  |
+| Mac  |  |  |
+| NUC  |  |  |
