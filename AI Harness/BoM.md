@@ -25,6 +25,7 @@ Support for up to eight external displays
 Accessory Kit
 
 # Mac
+- https://chatgpt.com/c/6a113d67-58dc-83ec-9ed0-e03b218225a8
 
 | Attribute             | [Apple Mac Studio M3 Ultra 256GB unified memory 4TB]() | [Apple Mac Studio M4 Max 128GB unified memory 4TB]() | [Apple Mac mini M4 Pro 64GB 2TB]() | [Apple MacBook Pro 16-inch M4 Max 128GB 4TB]() |
 | --------------------- | ------------------------------------------------------ | ---------------------------------------------------- | ---------------------------------- | ---------------------------------------------- |
