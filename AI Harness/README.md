@@ -55,7 +55,8 @@ This reduces token usage and gaming by Frontiner models, while keeping your IP (
 
 - Project MiniRack - https://mini-rack.jeffgeerling.com/
 - Single Board Cluster - https://sbcc.sdsc.edu/main-page.html
-- Top500 Benchmark - HPL Linpack - 
+- Top500 Benchmark - HPL Linpack -
+- MINISFORUM MS-S1 Max
 
 # Stack
 
