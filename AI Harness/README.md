@@ -51,6 +51,12 @@ This reduces token usage and gaming by Frontiner models, while keeping your IP (
 | Local GPU Cluster   |          |      |
 | Local AWS Cluster   |          |      |
 
+# AI MiniRack
+
+- Project MiniRack - https://mini-rack.jeffgeerling.com/
+- Single Board Cluster - https://sbcc.sdsc.edu/main-page.html
+- Top500 Benchmark - HPL Linpack - 
+
 # Stack
 
 - Compute
