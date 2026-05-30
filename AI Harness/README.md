@@ -4,6 +4,7 @@ Use Frontiner Models control local Dev LLMs
 
 - ChatGPT - https://chatgpt.com/c/6a005b43-cf3c-83ec-9d43-b5bee220d945
 - LocalStack - https://chatgpt.com/c/6a0a91ec-03b4-83ec-ad9d-c1c2f25ec546
+- BoM - https://docs.google.com/spreadsheets/d/1OPLUdApXABMNY3MzmxDUKfaY38fHsqDruKJtHmcvKog/edit?gid=662722876#gid=662722876
 
 ## Autonomous AI Coding Harness
 
