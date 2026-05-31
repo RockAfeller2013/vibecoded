@@ -59,7 +59,14 @@ This reduces token usage and gaming by Frontiner models, while keeping your IP (
 - Top500 Benchmark - HPL Linpack -
 - MINISFORUM MS-S1 Max
 
+# Loal AI Benchmark
+
+- https://artificialanalysis.ai/agents/coding-agents
+  
+# Test Prompts
+
 # Stack
+
 
 - Compute
 -     Omrach/W11 SOE
