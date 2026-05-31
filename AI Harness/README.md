@@ -65,6 +65,19 @@ This reduces token usage and gaming by Frontiner models, while keeping your IP (
   
 # Test Prompts
 
+```md
+enerate a single, self-contained HTML file that renders an animated lava lamp. Requirements:
+
+All HTML, CSS, and JavaScript inline in one file — no external assets, no CDNs.
+A lamp silhouette (base, neck, glass bulb, cap) with smooth, glowing colors.
+6–10 metaball-style blobs inside the glass that slowly rise, fall, merge, and split, with realistic squishy deformation when they touch (use SVG filters with feGaussianBlur + feColorMatrix to threshold alpha, or a Canvas/WebGL metaball shader — your choice).
+Warm gradient lighting from the bulb at the base; subtle glow around the glass; dark background.
+60fps target, no jank, looks good full-screen.
+No controls, no text — just the lamp.
+
+Output only the HTML file contents, nothing else.
+```
+
 # Stack
 
 
