@@ -43,6 +43,10 @@ This reduces token usage and gaming by Frontiner models, while keeping your IP (
 | [DeepSeek UI](https://github.com/Hmbown/DeepSeek-TUI)                                | DeepSeek                            |
 | [Hermes Agent](https://hermes-agent.nousresearch.com/)                                | Hermes                              |
 | [PA AI](https://github.com/danielmiessler/Personal_AI_Infrastructure)                 | PA AI                               |
+| https://www.bridgemind.ai/             |                            |
+| https://pi.dev/            |                            |
+| https://www.bridgemind.ai/             |                            |
+
 
 # ARCHITECTURE
 | MODEL               | HARNESS | DATA    |
