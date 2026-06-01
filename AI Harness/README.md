@@ -46,7 +46,7 @@ This reduces token usage and gaming by Frontiner models, while keeping your IP (
 | https://www.bridgemind.ai/             |                            |
 | https://pi.dev/            |                            |
 | https://www.bridgemind.ai/             |                            |
-
+| Odysseus(https://github.com/pewdiepie-archdaemon/odysseus
 
 # ARCHITECTURE
 | MODEL               | HARNESS | DATA    |
