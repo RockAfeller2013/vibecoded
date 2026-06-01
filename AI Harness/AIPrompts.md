@@ -1,0 +1,1 @@
+- Use HTML with Diagrams and UI - Prompts - https://claude.com/blog/using-claude-code-the-unreasonable-effectiveness-of-html
