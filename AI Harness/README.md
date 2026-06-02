@@ -297,3 +297,14 @@ The future of software engineering is a coordinated system of intelligent AI age
 ## Research 
 - https://github.com/cancerit/CaVEMan
 - Terminal
+
+# AI-DLC (AI-Driven Development Life Cycle)
+
+- AI-DLC (AI-Driven Development Life Cycle) - https://github.com/awslabs/aidlc-workflows
+- AI-DLC Governance Orchestrator - https://github.com/kdeath83/ai-dlc-governance-orchestrator
+- AI-DLC Governance Orchestrator - https://kdeath83.github.io/ai-dlc-governance-orchestrator/dashboard/
+- AI-Driven Development Lifecycle for Financial Services - https://aws.amazon.com/blogs/industries/ai-driven-development-lifecycle-for-financial-services/
+
+
+
+- https://www.linkedin.com/posts/krish-de-97b9751a_six-aws-engineers-rebuilt-the-amazon-bedrock-share-7467010049576542210-Sp0z/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAADYqlEBFhWq_nhEp3BtPb1m0UqSgw4MxKI
