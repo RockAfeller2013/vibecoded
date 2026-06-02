@@ -9,7 +9,11 @@ Use Frontiner Models control local Dev LLMs
 - Use all Frontiner models, we don't care or have any alliance to anyone, the only alliances is to outcome.
 - Local is best, we understand that Giant copporatiuon are inheenly corrupt and do not serve hummanity, and will lose or exploire our data, what evern they EULA says or not. We do not trust someone else with iur thoughts data and IP.
 - Comuter will contuine to follow mores law
-- Algorthimgs will be faster and more efficnety due to human ingentoty 
+- Algorthimgs will be faster and more efficnety due to human ingentoty, this will exponatilly increase and local LLM at the moment of writing is 1 year behind Frontiner models. 
+- Building OnPrem is just as easy as Cloud, we are not a silly non-techncail CIO
+- Frontiner models should be use to provide world view and review and prompt engoering only to local models that should do all the coding and IP of architecture.
+- Frontiner models will steal your code and give it others.
+- Future of AI is not monlicthc datacentres, its locally desicperted community derive compuete and process. 
 
 - ChatGPT - https://chatgpt.com/c/6a005b43-cf3c-83ec-9d43-b5bee220d945
 - LocalStack - https://chatgpt.com/c/6a0a91ec-03b4-83ec-ad9d-c1c2f25ec546
