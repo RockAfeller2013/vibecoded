@@ -2,6 +2,15 @@
 # Stratified AI Harnes (Hierarchical AI orchestration system)
 Use Frontiner Models control local Dev LLMs
 
+# Trade Offs and Constratings
+
+- Cost is a issues.
+- Time isn't a issue, within reason, there is no unlimited amoumt.
+- Use all Frontiner models, we don't care or have any alliance to anyone, the only alliances is to outcome.
+- Local is best, we understand that Giant copporatiuon are inheenly corrupt and do not serve hummanity, and will lose or exploire our data, what evern they EULA says or not. We do not trust someone else with iur thoughts data and IP.
+- Comuter will contuine to follow mores law
+- Algorthimgs will be faster and more efficnety due to human ingentoty 
+
 - ChatGPT - https://chatgpt.com/c/6a005b43-cf3c-83ec-9d43-b5bee220d945
 - LocalStack - https://chatgpt.com/c/6a0a91ec-03b4-83ec-ad9d-c1c2f25ec546
 - BoM - https://docs.google.com/spreadsheets/d/1OPLUdApXABMNY3MzmxDUKfaY38fHsqDruKJtHmcvKog/edit?gid=662722876#gid=662722876
@@ -304,6 +313,7 @@ The future of software engineering is a coordinated system of intelligent AI age
 - AI-DLC Governance Orchestrator - https://github.com/kdeath83/ai-dlc-governance-orchestrator
 - AI-DLC Governance Orchestrator - https://kdeath83.github.io/ai-dlc-governance-orchestrator/dashboard/
 - AI-Driven Development Lifecycle for Financial Services - https://aws.amazon.com/blogs/industries/ai-driven-development-lifecycle-for-financial-services/
+- https://github.com/awslabs/aidlc-workflows
 
 
 
