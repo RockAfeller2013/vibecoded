@@ -1,1 +1,2 @@
 - SHUMP - https://youtu.be/zUeLesdL7lE?si=lPG8d3bpOuf4g_n-
+- Chat - https://chatgpt.com/c/6a1e3f8b-fdec-83ec-bc0f-1819fecfe9ea
