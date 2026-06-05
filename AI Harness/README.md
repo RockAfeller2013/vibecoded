@@ -60,6 +60,8 @@ This reduces token usage and gaming by Frontiner models, while keeping your IP (
 | https://pi.dev/            |                            |
 | https://www.bridgemind.ai/             |                            |
 | Odysseus(https://github.com/pewdiepie-archdaemon/odysseus
+https://msty.ai/claw
+https://diffusionbee.com/
 
 # ARCHITECTURE
 | MODEL               | HARNESS | DATA    |
