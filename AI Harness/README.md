@@ -163,6 +163,8 @@ Output only the HTML file contents, nothing else.
 -     OpenRouter, Open Chat, SG Lang and vLLM
 - Code Repo
 -     GitLabh ttps://forgejo.org/
+-     https://github.com/makeplane/plane
+-     Huly
 - Platform
 -     S3
 -     https://www.openproject.org/
