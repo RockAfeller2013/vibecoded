@@ -39,6 +39,52 @@ This reduces token usage and gaming by Frontiner models, while keeping your IP (
 - Get the same system to self improve the project.
 - Goal is to use Operating Systems, rather than do everything within a SaaS platform like https://app.all-hands.dev/
 
+# Features
+
+flowchart LR
+
+subgraph IL["IN-LOOP TERMINALS (FLEET)"]
+    PLAN["Plan (Claude)"]
+    BUILD["Build (GPT)"]
+    TEST["Test (Kimi)"]
+    REVIEW["Review (Gemini)"]
+    DOC["Document (DeepSeek)"]
+end
+
+subgraph OL["OUT-LOOP PRODUCTS (FLEET)"]
+    SDK1["SDK-1 (Support Agent)"]
+    SDK2["SDK-2 (Investment Agent)"]
+    SDK3["SDK-3 (E2B Sandbox)"]
+    SDK4["SDK-4 (Email Agent)"]
+    SDK5["SDK-5 (Scheduler)"]
+end
+
+OBS["PI OBSERVABILITY SERVER<br/>High-Throughput Ingest"]
+
+UI["PI METRICS UI<br/>Web Dashboard"]
+
+DEV["DEVELOPER<br/>Optimizing Live Fleet"]
+
+PLAN --> OBS
+BUILD --> OBS
+TEST --> OBS
+REVIEW --> OBS
+DOC --> OBS
+
+SDK1 --> OBS
+SDK2 --> OBS
+SDK3 --> OBS
+SDK4 --> OBS
+SDK5 --> OBS
+
+OBS --> UI
+UI --> DEV
+
+DEV -. Feedback Loop .-> SDK1
+DEV -. Feedback Loop .-> SDK2
+DEV -. Feedback Loop .-> SDK3
+DEV -. Feedback Loop .-> SDK4
+DEV -. Feedback Loop .-> SDK5
 
 | Project                                                                              | Best For                            |
 | ------------------------------------------------------------------------------------ | ----------------------------------- |
