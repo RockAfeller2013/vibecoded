@@ -41,6 +41,7 @@ This reduces token usage and gaming by Frontiner models, while keeping your IP (
 
 # Features
 
+```mermaid
 flowchart LR
 
 subgraph IL["IN-LOOP TERMINALS (FLEET)"]
@@ -85,6 +86,7 @@ DEV -. Feedback Loop .-> SDK2
 DEV -. Feedback Loop .-> SDK3
 DEV -. Feedback Loop .-> SDK4
 DEV -. Feedback Loop .-> SDK5
+```
 
 | Project                                                                              | Best For                            |
 | ------------------------------------------------------------------------------------ | ----------------------------------- |
