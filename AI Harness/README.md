@@ -88,6 +88,24 @@ DEV -. Feedback Loop .-> SDK4
 DEV -. Feedback Loop .-> SDK5
 ```
 
+```mermaid
+architecture-beta
+    group harness["Harness"]
+
+    service llm(server)[LLM]
+
+    service tools(database)["3rd-Party Tools"] in harness
+    service prompts(document)["System Prompts"] in harness
+    service sandbox(server)["Code Sandbox"] in harness
+    service rag(database)["RAG"] in harness
+    service skills(tool)["Skills"] in harness
+    service agents(server)["Sub-agents"] in harness
+    service loop(control)["Loop Control"] in harness
+    service context(database)["Context Loading"] in harness
+
+    llm:R --> L:prompts
+```
+
 | Project                                                                              | Best For                            |
 | ------------------------------------------------------------------------------------ | ----------------------------------- |
 | [OpenHands GitHub](https://github.com/All-Hands-AI/OpenHands?utm_source=chatgpt.com) | Full autonomous coding harness      |
