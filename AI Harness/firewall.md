@@ -2,25 +2,30 @@
 
 
 
-
 ```mermaid
-architecture-beta
-    group datacenter(cloud)[Proxmox]
-    group node(server)[Node] in datacenter
-    group isolated(server)[Isolated_VM] in node
-    group normal(server)[Other_VMs] in node
-    group blocked(cloud)[Blocked_Nets]
+graph TD
+    subgraph Proxmox
+        subgraph Node
+            subgraph Isolated_VM
+                fw[🛡 Firewall]
+            end
+            subgraph Other_VMs
+            end
+        end
+    end
 
-    service fw(shield)[Firewall] in isolated
-    service internet(internet)[Internet]
-    service nfs(database)[NFS_192-168-1-146]
-    service net10(server)[10-0-0-0_8] in blocked
-    service net172(server)[172-16-0-0_12] in blocked
-    service net192(server)[192-168-0-0_16] in blocked
+    subgraph Blocked_Nets
+        net10[10.0.0.0/8]
+        net172[172.16.0.0/12]
+        net192[192.168.0.0/16]
+    end
 
-    fw:R -- L:internet
-    fw:B -- T:nfs
-    fw:L -- R:net10
-    fw:L -- R:net172
-    fw:L -- R:net192
+    internet([Internet])
+    nfs[(NFS 192.168.1.146)]
+
+    fw --- internet
+    fw --- nfs
+    fw --- net10
+    fw --- net172
+    fw --- net192
 ```
