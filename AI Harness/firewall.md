@@ -1,6 +1,8 @@
 # Proxmox Internet-Only VM/LXC Firewall Guide
 
 
+
+
 ```mermaid
 architecture-beta
     group datacenter(cloud)[Proxmox]
