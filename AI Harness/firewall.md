@@ -1,6 +1,8 @@
 # Proxmox Internet-Only VM/LXC Firewall Guide
 
-```architecture-beta
+```mermaid
+architecture-beta
+
 group datacenter(cloud)[Proxmox Datacenter]
 
 group node(server)[Proxmox Node] in datacenter
