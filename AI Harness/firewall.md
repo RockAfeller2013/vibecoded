@@ -1,5 +1,57 @@
 # Proxmox Internet-Only VM/LXC Firewall Guide
 
+```architecture-beta
+group datacenter(cloud)[Proxmox Datacenter]
+
+group node(server)[Proxmox Node] in datacenter
+
+group isolated_vm(server)[Protected VM/LXC] in node
+group normal_vm(server)[Other VM/LXC] in node
+
+service firewall(shield)[VM Firewall] in isolated_vm
+
+service internet(internet)[Internet]
+service nfs(database)[NFS Server\n192.168.1.146]
+
+group blocked(cloud)[Blocked Local Networks]
+
+service lan192(server)[192.168.0.0/16] in blocked
+service lan10(server)[10.0.0.0/8] in blocked
+service lan172(server)[172.16.0.0/12] in blocked
+
+junction fw
+
+firewall:R -- L:fw
+fw:R -- L:internet
+fw:B -- T:nfs
+
+firewall:L -- R:lan192
+firewall:L -- R:lan10
+firewall:L -- R:lan172
+
+%% Allowed Paths
+internet:R --> L:firewall
+nfs:T --> B:firewall
+
+%% Notes
+%% Protected VM/LXC:
+%% - Policy In = DROP
+%% - Policy Out = DROP
+%% - Allow DNS (53)
+%% - Allow HTTP (80)
+%% - Allow HTTPS (443)
+%% - Allow NTP (123)
+%% - Allow NFS TCP 2049 to 192.168.1.146
+%%
+%% Other VMs/LXCs:
+%% - No special firewall rules
+%%
+%% Blocked Networks:
+%% - 10.0.0.0/8
+%% - 172.16.0.0/12
+%% - 192.168.0.0/16
+```
+
 ## Objective
 
 Create a firewall policy for selected VMs/LXCs that:
