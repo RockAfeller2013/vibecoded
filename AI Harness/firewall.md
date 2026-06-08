@@ -1,58 +1,30 @@
 # Proxmox Internet-Only VM/LXC Firewall Guide
 
-```mermaid
-architecture-beta
+```architecture-beta
 
-group datacenter(cloud)[Proxmox Datacenter]
+group datacenter(cloud)[Proxmox]
+group node(server)[Node] in datacenter
 
-group node(server)[Proxmox Node] in datacenter
+group isolated(server)[Isolated_VM] in node
+group normal(server)[Other_VMs] in node
 
-group isolated_vm(server)[Protected VM/LXC] in node
-group normal_vm(server)[Other VM/LXC] in node
-
-service firewall(shield)[VM Firewall] in isolated_vm
+service fw(shield)[Firewall] in isolated
 
 service internet(internet)[Internet]
-service nfs(database)[NFS Server\n192.168.1.146]
+service nfs(database)[NFS_192.168.1.146]
 
-group blocked(cloud)[Blocked Local Networks]
+group blocked(cloud)[Blocked_Nets]
 
-service lan192(server)[192.168.0.0/16] in blocked
-service lan10(server)[10.0.0.0/8] in blocked
-service lan172(server)[172.16.0.0/12] in blocked
+service net10(server)[10.0.0.0_8] in blocked
+service net172(server)[172.16.0.0_12] in blocked
+service net192(server)[192.168.0.0_16] in blocked
 
-junction fw
+fw -- internet
+fw -- nfs
 
-firewall:R -- L:fw
-fw:R -- L:internet
-fw:B -- T:nfs
-
-firewall:L -- R:lan192
-firewall:L -- R:lan10
-firewall:L -- R:lan172
-
-%% Allowed Paths
-internet:R --> L:firewall
-nfs:T --> B:firewall
-
-%% Notes
-%% Protected VM/LXC:
-%% - Policy In = DROP
-%% - Policy Out = DROP
-%% - Allow DNS (53)
-%% - Allow HTTP (80)
-%% - Allow HTTPS (443)
-%% - Allow NTP (123)
-%% - Allow NFS TCP 2049 to 192.168.1.146
-%%
-%% Other VMs/LXCs:
-%% - No special firewall rules
-%%
-%% Blocked Networks:
-%% - 10.0.0.0/8
-%% - 172.16.0.0/12
-%% - 192.168.0.0/16
-```
+fw -- net10
+fw -- net172
+fw -- net192
 
 ## Objective
 
