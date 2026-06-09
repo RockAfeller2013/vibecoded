@@ -379,6 +379,7 @@ The future of software engineering is a coordinated system of intelligent AI age
 
 
 ## Research 
+
 - https://github.com/cancerit/CaVEMan
 - Terminal
 
@@ -390,8 +391,10 @@ The future of software engineering is a coordinated system of intelligent AI age
 - AI-Driven Development Lifecycle for Financial Services - https://aws.amazon.com/blogs/industries/ai-driven-development-lifecycle-for-financial-services/
 - https://github.com/awslabs/aidlc-workflows
 
-$ Research
+# Luong NGUYEN Research
 
+- Pi Delegator - https://github.com/luongnv89/pi-extensions/tree/main/skills/pi-delegator
+- OpenCode Runner https://github.com/luongnv89/skills/tree/main/skills/opencode-runner
 - Run Claude Code with Local & Cloud Models in 5 Minutes (Ollama, LM Studio, llama.cpp, OpenRouter) - https://medium.com/@luongnv89/run-claude-code-on-local-cloud-models-in-5-minutes-ollama-openrouter-llama-cpp-6dfeaee03cda
 - How to Use OpenRouter with Claude Code: Run Cheaper Models as a Backend - https://www.mindstudio.ai/blog/how-to-use-openrouter-with-claude-code-cheaper-models
 
