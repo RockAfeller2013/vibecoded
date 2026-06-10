@@ -129,6 +129,7 @@ architecture-beta
 | Odysseus(https://github.com/pewdiepie-archdaemon/odysseus
 https://msty.ai/claw
 https://diffusionbee.com/
+| https://cmux.com/ |
 
 # ARCHITECTURE
 | MODEL               | HARNESS | DATA    |
