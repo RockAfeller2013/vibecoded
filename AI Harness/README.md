@@ -380,8 +380,11 @@ The future of software engineering is a coordinated system of intelligent AI age
 
 ## Research 
 
+- Gas Town - https://github.com/gastownhall/gastown
+- The Eight Levels of AI Adoption - https://every.to/guides/the-eight-levels-of-ai-adoption
 - https://github.com/cancerit/CaVEMan
 - Terminal
+- 
 
 # AI-DLC (AI-Driven Development Life Cycle)
 
