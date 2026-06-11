@@ -11,3 +11,4 @@
 - CMUX
 - UnSloth
 - Cursor
+- https://github.com/safishamsi/graphify
