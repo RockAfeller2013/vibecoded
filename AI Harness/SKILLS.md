@@ -1,0 +1,4 @@
+- https://www.skills.sh/anthropics/skills/frontend-design
+- https://github.com/NVIDIA/SkillSpector
+- https://cisco-ai-defense.github.io/docs/skill-scanner
+- https://sandyclaw.permiso.io/
