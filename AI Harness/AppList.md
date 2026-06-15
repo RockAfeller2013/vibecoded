@@ -5,6 +5,7 @@
 - Joomla CMS
 - LMS / Cloudlab - self build curiculum with mentor
 - Chat - https://github.com/kiraa-ai/project-onyx
+- Billing - https://github.com/getlago/lago
 
 # Install these apps
 
