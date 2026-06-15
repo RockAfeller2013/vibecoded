@@ -17,6 +17,7 @@ Coolify https://github.com/coollabsio/coolify
 Dokku https://github.com/dokku/dokku
 Instant https://github.com/instantdb/instant
 - https://github.com/medusajs/medusa
+- Shopping cart - https://github.com/medusajs/medusa
 
 # Install these apps
 
