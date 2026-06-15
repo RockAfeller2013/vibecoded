@@ -4,6 +4,7 @@
 - ETL - KNIME Analytics Platform - https://chatgpt.com/c/6a1cd2a6-b64c-83ec-b8b7-efd059c7aeb7
 - Joomla CMS
 - LMS / Cloudlab - self build curiculum with mentor
+- Chat - https://github.com/kiraa-ai/project-onyx
 
 # Install these apps
 
