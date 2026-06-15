@@ -12,6 +12,7 @@
 - https://r3f-animated-book-slider-final.vercel.app/
 - PaceUI - https://next.jqueryscript.net/next-js/animated-components-gsap-paceui/
 - https://docling-project.github.io/docling/
+- https://www.youtube.com/watch?v=edUOvt6Y5ts
 
 ## JavaScript Libaraies 
 
