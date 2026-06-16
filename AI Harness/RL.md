@@ -1,0 +1,2 @@
+- rLLM https://github.com/rllm-org/rllm
+- OpenEnv - https://snorkel.ai/blog/building-finqa-an-open-rl-environment-for-financial-reasoning-agents/
