@@ -1,4 +1,5 @@
-# Snapper AI
+# FOR GOTO SUB
+
 # Stratified AI Harnes (Hierarchical AI orchestration system)
 Use Frontiner Models control local Dev LLMs
 
@@ -130,6 +131,7 @@ architecture-beta
 https://msty.ai/claw
 https://diffusionbee.com/
 | https://cmux.com/ |
+https://github.com/pydantic/pydantic-ai
 
 # ARCHITECTURE
 | MODEL               | HARNESS | DATA    |
