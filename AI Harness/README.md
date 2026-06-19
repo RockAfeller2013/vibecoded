@@ -401,9 +401,9 @@ The future of software engineering is a coordinated system of intelligent AI age
 
 - Pi Delegator - https://github.com/luongnv89/pi-extensions/tree/main/skills/pi-delegator
 - OpenCode Runner https://github.com/luongnv89/skills/tree/main/skills/opencode-runner
+- PI Extensions - https://chatgpt.com/c/6a35cb30-a750-83ec-bade-6ed895a0c000
 - Run Claude Code with Local & Cloud Models in 5 Minutes (Ollama, LM Studio, llama.cpp, OpenRouter) - https://medium.com/@luongnv89/run-claude-code-on-local-cloud-models-in-5-minutes-ollama-openrouter-llama-cpp-6dfeaee03cda
 - How to Use OpenRouter with Claude Code: Run Cheaper Models as a Backend - https://www.mindstudio.ai/blog/how-to-use-openrouter-with-claude-code-cheaper-models
-
 - https://www.freecodecamp.org/news/mastra-vs-langchain-building-an-ai-agent-pipeline-and-analyzing-the-data/
 
 
