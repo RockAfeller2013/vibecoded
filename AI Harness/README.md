@@ -387,7 +387,7 @@ The future of software engineering is a coordinated system of intelligent AI age
 - The Eight Levels of AI Adoption - https://every.to/guides/the-eight-levels-of-ai-adoption
 - https://github.com/cancerit/CaVEMan
 - Terminal
-- 
+- How to Build Your Own Local AI: Create Free RAG and AI Agents with Qwen 3 and Ollama - https://www.freecodecamp.org/news/build-a-local-ai/
 
 # AI-DLC (AI-Driven Development Life Cycle)
 
