@@ -71,3 +71,10 @@ environment by performing actions and seeing the results.
 means the input comes with the correct output.
 21. Unsupervised Learning: A type of ML where the model is trained on unlabeled data
 and must find structure in its input.
+Open-weight model (AI terminology)
+
+A machine learning model whose trained parameters (“weights”) are publicly released for download and use. The architecture and inference code may also be available, but the defining feature is access to the trained weights, enabling local deployment, fine-tuning, and self-hosted inference without requiring a hosted API.
+
+Context window (AI terminology)
+
+The maximum amount of text (measured in tokens) that a model can process and “remember” at one time during a single request. It includes both the input you provide and the output the model generates within that same session.
