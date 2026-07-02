@@ -41,6 +41,22 @@ This reduces token usage and gaming by Frontiner models, while keeping your IP (
 - Get the same system to self improve the project.
 - Goal is to use Operating Systems, rather than do everything within a SaaS platform like https://app.all-hands.dev/
 
+# STARTUP
+
+- Claude = coding. ($20/mo)
+- GitHub = version control. (Free
+- Supabase = backend. (Free)
+- Clerk = auth. (Free)
+- Resend = emails. (Free)
+- Vercel = deploying. (Free)
+- Cloudflare = DNS. (Free)
+- Upstash = Redis. (Free)
+- Pinecone = vector DB. (Free)
+- PostHog = analytics. (Free)
+- Sentry = error tracking. (Free)
+- Stripe = payments. (2.9%/transaction)
+- Namecheap = domain. ($12/yr)
+
 # Features
 
 ```mermaid
