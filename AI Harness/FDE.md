@@ -13,6 +13,7 @@
 - LLM AGI is another Sales Pitch for a IPO
 - LLM Open wight and Opensource is 6 months behind Frontier Labs
 - You dont need to use LLM for everything and consume and pay for Token usage for every query, Do you need Real Time interaction, do you need a smart report or a Dashboard, which can be developed for a point in time and no futhuer token usage. 
+- if you us a LLM you teach and give away your IP to solve a problem for all ChatGPT users making them more vaualuble and you replacemable 
 
 - https://www.linkedin.com/posts/mgonullu_satya-nadella-stated-that-llms-are-now-a-activity-7304366671438266368-9m1M/
 - https://www.joelonsoftware.com/2002/06/12/strategy-letter-v/
