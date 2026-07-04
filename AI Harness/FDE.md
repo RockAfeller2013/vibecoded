@@ -1,4 +1,6 @@
-# Future of AI is to build your own Loops
+# Fordward Deployed Engineer
+
+## Future of AI is to build your own Loops
 
 - LLM are a commododity
 - LLM have a mathamatical quardratic limit
