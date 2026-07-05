@@ -13,6 +13,7 @@
 - PaceUI - https://next.jqueryscript.net/next-js/animated-components-gsap-paceui/
 - https://docling-project.github.io/docling/
 - https://www.youtube.com/watch?v=edUOvt6Y5ts
+- https://tldraw.dev/starter-kits/shader
 
 ## JavaScript Libaraies 
 
@@ -24,6 +25,7 @@
 ### Features
 
 - Audience Particpatation and engagment -
+- Vertical Scroll, Horizontal call, information for powerpoint replacement , copy a powerpoint and convert to HTML, etc
 - show.io
 - https://prezi.com/
 - Import from Import your slides from Github Markup format
