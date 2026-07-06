@@ -148,6 +148,8 @@ https://msty.ai/claw
 https://diffusionbee.com/
 | https://cmux.com/ |
 https://github.com/pydantic/pydantic-ai
+https://omnigent.ai/quickstart/install
+https://github.com/diegosouzapw/OmniRoute
 
 # ARCHITECTURE
 | MODEL               | HARNESS | DATA    |
