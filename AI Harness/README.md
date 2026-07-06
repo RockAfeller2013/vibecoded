@@ -394,9 +394,20 @@ Git Commit & Deployment
 
 ---
 
+
+
 # Vision
 
 The future of software engineering is a coordinated system of intelligent AI agents that plan, execute, validate, repair, deploy, and continuously improve software autonomously across local and cloud infrastructure.
+
+
+# LLM Inference Hardware Calculator
+
+- quantizationand Correctness
+
+- https://github.com/alexziskind1/llm-inference-calculator
+
+
 
 
 ## Research 
