@@ -150,6 +150,8 @@ https://diffusionbee.com/
 https://github.com/pydantic/pydantic-ai
 https://omnigent.ai/quickstart/install
 https://github.com/diegosouzapw/OmniRoute
+https://omniroute.online/ https://github.com/diegosouzapw/OmniRoute
+Open Router
 
 # ARCHITECTURE
 | MODEL               | HARNESS | DATA    |
