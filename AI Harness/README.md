@@ -465,7 +465,35 @@ Internet    Local KB
 | Stagehand       | Yes         | Yes       | AI browser testing         |
 | OpenHands       | Yes         | Yes       | General AI agent workflows |
 
+# Internet Research
 
+Mac Studio M3 Ultra
+        |
+        |
+   Ollama
+        |
+        |
+ Open WebUI
+        |
+        |
+ LangChain Agent
+        |
+ +------+------+
+ |             |
+SearXNG      Qdrant
+ |             |
+Internet    Local KB
+              |
+     -----------------
+     |
+     Security Docs
+     |
+     - NIST
+     - CIS
+     - MITRE ATT&CK
+     - Vendor PDFs
+     - RFCs
+     - Internal docs
 
 ## Research 
 
