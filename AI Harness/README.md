@@ -2,6 +2,10 @@
 
 # Stratified AI Harnes (Hierarchical AI orchestration system)
 
+[![Watch the video](https://www.youtube.com/watch?v=1UZeHJyiMG8)](https://www.youtube.com/watch?v=1UZeHJyiMG8)
+
+
+
 ## Autonomous Software Factory / Dark Software Factory
 
 𝟭. 𝗚𝗶𝘃𝗲 Frontiner Model 𝗮 𝗱𝗲𝘁𝗮𝗶𝗹𝗲𝗱 𝗽𝗹𝗮𝗻 𝗮𝗻𝗱 𝗳𝘂𝗹𝗹 𝗰𝗼𝗻𝘁𝗲𝘅𝘁
