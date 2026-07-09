@@ -2,7 +2,11 @@
 
 # Stratified AI Harnes (Hierarchical AI orchestration system)
 
-## Autonomous Software Factory
+## Autonomous Software Factory / Dark Software Factory
+
+𝟭. 𝗚𝗶𝘃𝗲 Frontiner Model 𝗮 𝗱𝗲𝘁𝗮𝗶𝗹𝗲𝗱 𝗽𝗹𝗮𝗻 𝗮𝗻𝗱 𝗳𝘂𝗹𝗹 𝗰𝗼𝗻𝘁𝗲𝘅𝘁
+𝟮. 𝗖𝗵𝗲𝗮𝗽𝗲𝗿 Local 𝗮𝗴𝗲𝗻𝘁𝘀 (via Router) 𝗱𝗼 𝘁𝗵𝗲 𝗺𝗲𝗰𝗵𝗮𝗻𝗶𝗰𝗮𝗹 𝘄𝗼𝗿𝗸
+𝟯. Frontiner Model 𝗿𝗲𝘃𝗶𝗲𝘄𝘀 𝘁𝗵𝗲𝗶𝗿 𝗼𝘂𝘁𝗽𝘂𝘁 𝗯𝗲𝗳𝗼𝗿𝗲 𝗶𝘁 𝗿𝗲𝗮𝗰𝗵𝗲𝘀 𝘆𝗼𝘂 and uses SAST, DST, Tests, suchs as UI Frontend Browser errors and Playwrite automation.
 
 ### Use Frontiner Models to control local Dev LLMs
 
@@ -412,6 +416,15 @@ The future of software engineering is a coordinated system of intelligent AI age
 
 - https://github.com/alexziskind1/llm-inference-calculator
 
+# AI "robotic" testing
+
+| Tool            | Open Source | AI Driven | Best For                   |
+| --------------- | ----------- | --------- | -------------------------- |
+| Robot Framework | Yes         | No        | Traditional automation     |
+| Playwright      | Yes         | No        | Modern UI testing          |
+| Browser Use     | Yes         | Yes       | AI browser agent           |
+| Stagehand       | Yes         | Yes       | AI browser testing         |
+| OpenHands       | Yes         | Yes       | General AI agent workflows |
 
 
 
