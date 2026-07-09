@@ -415,6 +415,40 @@ Git Commit & Deployment
 The future of software engineering is a coordinated system of intelligent AI agents that plan, execute, validate, repair, deploy, and continuously improve software autonomously across local and cloud infrastructure.
 
 
+# AI Research
+
+
+A practical security-engineering setup
+
+Mac Studio M3 Ultra
+        |
+        |
+   Ollama
+        |
+        |
+ Open WebUI
+        |
+        |
+ LangChain Agent
+        |
+ +------+------+
+ |             |
+SearXNG      Qdrant
+ |             |
+Internet    Local KB
+              |
+     -----------------
+     |
+     Security Docs
+     |
+     - NIST
+     - CIS
+     - MITRE ATT&CK
+     - Vendor PDFs
+     - RFCs
+     - Internal docs
+
+     
 # LLM Inference Hardware Calculator
 
 - quantizationand Correctness
