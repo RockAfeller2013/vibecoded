@@ -5,6 +5,7 @@
 ## 📺 Demo Video
 
 ▶️ **Watch on YouTube:** https://www.youtube.com/watch?v=1UZeHJyiMG8
+[![Watch the video](https://img.youtube.com/vi/1UZeHJyiMG8/hqdefault.jpg)](https://www.youtube.com/watch?v=1UZeHJyiMG8)
 
 ## Autonomous Software Factory / Dark Software Factory
 
