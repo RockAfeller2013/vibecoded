@@ -2,9 +2,9 @@
 
 # Stratified AI Harnes (Hierarchical AI orchestration system)
 
-[![Watch the video](https://www.youtube.com/watch?v=1UZeHJyiMG8)](https://www.youtube.com/watch?v=1UZeHJyiMG8)
+## 📺 Demo Video
 
-
+▶️ **Watch on YouTube:** https://www.youtube.com/watch?v=1UZeHJyiMG8
 
 ## Autonomous Software Factory / Dark Software Factory
 
