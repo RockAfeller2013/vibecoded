@@ -234,6 +234,18 @@ Output only the HTML file contents, nothing else.
 -     LAMP/NGNIX/Joomla
 
 
+- n8n: https://n8n.io
+- Open WebUI: https://openwebui.com
+- Ollama: https://ollama.com
+- Flowise: https://flowiseai.com
+- Dify: https://dify.ai
+- Chatwoot: https://www.chatwoot.com
+- AppFlowy: https://appflowy.io
+- Khoj: https://khoj.dev
+- Twenty CRM: https://twenty.com
+- Plane: https://plane.so
+- OpenObserve: https://openobserve.ai
+- Qdrant: https://qdrant.tech
 
 # Autonomous AI Coding Harness
 
