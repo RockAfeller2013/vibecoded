@@ -1,0 +1,3 @@
+- https://www.youtube.com/watch?v=nxaVvvrezbY
+- https://github.com/avbiswas/fast-rlm
+- Recursive Language Models https://arxiv.org/abs/2512.24601
