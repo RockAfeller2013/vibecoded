@@ -168,6 +168,8 @@ emporal, DBOS, and Inngest — durable execution runtimes (temporal.io,
   dbos.dev, inngest.com)
   PydanticAI (ai.pydantic.dev) and LangGraph (langchain-ai.github.io/langgraph)
 https://github.com/Mesh-LLM/mesh-llm
+https://machinelearning.apple.com/research/introducing-third-generation-of-apple-foundation-models
+
 
 ## Turnstone
 
