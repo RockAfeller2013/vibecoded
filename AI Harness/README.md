@@ -164,6 +164,9 @@ https://omnigent.ai/quickstart/install
 https://github.com/diegosouzapw/OmniRoute
 https://omniroute.online/ https://github.com/diegosouzapw/OmniRoute
 Open Router
+emporal, DBOS, and Inngest — durable execution runtimes (temporal.io,
+  dbos.dev, inngest.com)
+  PydanticAI (ai.pydantic.dev) and LangGraph (langchain-ai.github.io/langgraph)
 
 # ARCHITECTURE
 | MODEL               | HARNESS | DATA    |
