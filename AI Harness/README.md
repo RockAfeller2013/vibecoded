@@ -27,7 +27,7 @@
 - Frontiner models should be use to provide world view and review and prompt engoering only to local models that should do all the coding and IP of architecture.
 - Frontiner models will steal your code and give it others, or compete with you like OpenAI and Figma
 - Future of AI is not monlicthc datacentres, its locally desicperted community driven compuete and process. 
-
+- DGX | AMD | APPLE
 - ChatGPT - https://chatgpt.com/c/6a005b43-cf3c-83ec-9d43-b5bee220d945
 - LocalStack - https://chatgpt.com/c/6a0a91ec-03b4-83ec-ad9d-c1c2f25ec546
 - BoM - https://docs.google.com/spreadsheets/d/1OPLUdApXABMNY3MzmxDUKfaY38fHsqDruKJtHmcvKog/edit?gid=662722876#gid=662722876
