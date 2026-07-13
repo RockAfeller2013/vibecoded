@@ -11,6 +11,7 @@
 - Build intelligent experiences - https://developer.apple.com/machine-learning/
 - Apple Intelligence and machine learning - https://developer.apple.com/documentation/TechnologyOverviews/ai-machine-learning
 - Meet Core AI WWDC26 - https://developer.apple.com/videos/play/wwdc2026/324/
+- Running Local LLMs as Your AI Coding Assistant on Apple Silicon - https://dev.to/brunocerberus/running-local-llms-on-apple-silicon-2ecm
 
 
 # Apple Foundation Models (AFM) Cloud - https://machinelearning.apple.com/research/introducing-third-generation-of-apple-foundation-models
