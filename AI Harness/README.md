@@ -167,7 +167,7 @@ Open Router
 emporal, DBOS, and Inngest — durable execution runtimes (temporal.io,
   dbos.dev, inngest.com)
   PydanticAI (ai.pydantic.dev) and LangGraph (langchain-ai.github.io/langgraph)
-
+https://github.com/Mesh-LLM/mesh-llm
 
 ## Turnstone
 
