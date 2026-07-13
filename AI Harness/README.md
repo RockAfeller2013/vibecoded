@@ -168,6 +168,11 @@ emporal, DBOS, and Inngest — durable execution runtimes (temporal.io,
   dbos.dev, inngest.com)
   PydanticAI (ai.pydantic.dev) and LangGraph (langchain-ai.github.io/langgraph)
 
+
+## Turnstone
+
+- Turnstone Self-hosted, local-first orchestration for tool-using AI agents. Give LLMs real tools — shell, files, search, web — and run them across your own cluster with direct HTTP routing and interactive interfaces. Your code, your models, your data stay on hardware you control: no telemetry, no phone-home. - https://github.com/turnstonelabs/turnstone
+
 # ARCHITECTURE
 | MODEL               | HARNESS | DATA    |
 |---------------------|----------|------|
