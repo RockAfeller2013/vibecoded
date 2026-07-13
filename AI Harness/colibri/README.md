@@ -1,0 +1,7 @@
+- https://github.com/JustVugg/colibri
+- https://www.youtube.com/watch?v=19xCOJxWU0A
+- https://news.ycombinator.com/item?id=48842459
+- https://github.com/antirez/ds4
+- https://github.com/ggml-org/llama.cpp/issues/20757
+- https://ggml.ai/
+- https://devsplainers.com/takeouts/
