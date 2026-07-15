@@ -221,6 +221,9 @@ Output only the HTML file contents, nothing else.
 -     https://www.getzep.com/
 -     https://mem0.ai/
 -     https://github.com/getzep/graphiti
+- Prompt Optimization
+-     Headroom
+-     Caveman
 
 - Automation
 -     Worklenz
@@ -245,6 +248,9 @@ Output only the HTML file contents, nothing else.
 - Hosting
 -     CPANEL
 -     LAMP/NGNIX/Joomla
+- Quantisation and Compresion
+-     Unsolth
+-     https://prismml.com/
 
 
 - n8n: https://n8n.io
