@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Z is for Zebra — A Little Book</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;800&display=swap');
+
+  :root{
+    --sun:#FFD34E;
+    --coral:#FF6F59;
+    --teal:#2EC4B6;
+    --plum:#6A4C93;
+    --ink:#1B1B3A;
+    --paper:#FFFFFF;
+    --cream:#FFF8ED;
+  }
+
+  *{box-sizing:border-box;}
+
+  html,body{
+    margin:0;
+    height:100%;
+    background:var(--cream);
+    font-family:'Nunito',sans-serif;
+    overflow:hidden;
+  }
+
+  .stage{
+    position:relative;
+    width:100%;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .book{
+    position:relative;
+    width:min(94vw,560px);
+    height:min(88vh,720px);
+    background:var(--paper);
+    border-radius:28px;
+    box-shadow:0 20px 50px rgba(27,27,58,0.18);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .badge{
+    position:absolute;
+    top:18px;
+    left:18px;
+    width:52px;
+    height:52px;
+    border-radius:16px;
+    background:var(--plum);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Fredoka',sans-serif;
+    font-weight:700;
+    font-size:26px;
+    z-index:5;
+    box-shadow:0 6px 14px rgba(106,76,147,0.35);
+  }
+
+  .pagecount{
+    position:absolute;
+    top:18px;
+    right:18px;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    color:var(--ink);
+    background:var(--sun);
+    padding:8px 14px;
+    border-radius:20px;
+    z-index:5;
+  }
+
+  .art-wrap{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--paper);
+    padding:60px 30px 10px 30px;
+  }
+
+  .art-wrap svg{
+    width:100%;
+    height:100%;
+    max-width:420px;
+    max-height:420px;
+  }
+
+  .caption{
+    padding:8px 28px 28px 28px;
+    text-align:center;
+  }
+
+  .caption h1{
+    font-family:'Fredoka',sans-serif;
+    font-size:clamp(22px,6vw,30px);
+    font-weight:700;
+    color:var(--ink);
+    margin:0 0 6px 0;
+    letter-spacing:0.2px;
+  }
+
+  .caption .zword{
+    color:var(--coral);
+  }
+
+  .caption p{
+    margin:0;
+    font-size:14px;
+    color:#8A8AA3;
+    font-weight:600;
+  }
+
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px 20px 20px;
+  }
+
+  .navbtn{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    border:none;
+    background:var(--teal);
+    color:#fff;
+    font-family:'Fredoka',sans-serif;
+    font-size:22px;
+    font-weight:700;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:transform 0.15s ease, background 0.15s ease;
+    box-shadow:0 6px 14px rgba(46,196,182,0.35);
+  }
+  .navbtn:hover{transform:translateY(-2px) scale(1.05);}
+  .navbtn:disabled{
+    background:#D8D8E4;
+    box-shadow:none;
+    cursor:default;
+    transform:none;
+  }
+
+  .dots{
+    display:flex;
+    gap:8px;
+  }
+  .dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#E3E3EE;
+    transition:background 0.2s ease, transform 0.2s ease;
+    cursor:pointer;
+  }
+  .dot.active{
+    background:var(--coral);
+    transform:scale(1.3);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .navbtn, .dot{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="book">
+    <div class="badge">Zz</div>
+    <div class="pagecount" id="pagecount">1 / 6</div>
+    <div class="art-wrap" id="art"></div>
+    <div class="caption">
+      <h1 id="sentence"></h1>
+      <p id="sub">tap → to turn the page</p>
+    </div>
+    <div class="nav">
+      <button class="navbtn" id="prev" aria-label="Previous page">&#8592;</button>
+      <div class="dots" id="dots"></div>
+      <button class="navbtn" id="next" aria-label="Next page">&#8594;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const pages = [
+  {
+    sentence: 'Zebra has <span class="zword">zigzag</span> stripes.',
+    svg: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="200" cy="330" rx="120" ry="18" fill="#FFF3D6"/>
+      <g>
+        <ellipse cx="190" cy="230" rx="95" ry="70" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="6"/>
+        <path d="M120 200 L260 200 M115 220 L265 220 M120 245 L260 245 M130 265 L250 265" stroke="#1B1B3A" stroke-width="10" stroke-linecap="round"/>
+        <ellipse cx="300" cy="190" rx="55" ry="48" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="6"/>
+        <path d="M270 165 L330 165 M265 185 L335 185 M270 205 L330 205" stroke="#1B1B3A" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="322" cy="180" r="6" fill="#1B1B3A"/>
+        <path d="M280 150 L270 110 L300 145 Z" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="6" stroke-linejoin="round"/>
+        <path d="M320 150 L335 108 L340 148 Z" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="6" stroke-linejoin="round"/>
+        <rect x="140" y="290" width="18" height="45" rx="8" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="6"/>
+        <rect x="185" y="292" width="18" height="43" rx="8" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="6"/>
+        <rect x="230" y="288" width="18" height="47" rx="8" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="6"/>
+        <path d="M120 230 Q90 245 95 275" fill="none" stroke="#1B1B3A" stroke-width="6" stroke-linecap="round"/>
+        <path d="M2 260 Q-10 280 4 296" fill="none" stroke="#FF6F59" stroke-width="6" stroke-linecap="round" transform="translate(95,0)"/>
+      </g>
+    </svg>`
+  },
+  {
+    sentence: 'Zoe <span class="zword">zips</span> her zipper.',
+    svg: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="200" cy="345" rx="100" ry="15" fill="#FFF3D6"/>
+      <circle cx="200" cy="140" r="62" fill="#FFDCC2"/>
+      <path d="M140 110 Q200 60 260 110 Q262 90 200 82 Q138 90 140 110Z" fill="#6A4C93"/>
+      <circle cx="180" cy="145" r="7" fill="#1B1B3A"/>
+      <circle cx="222" cy="145" r="7" fill="#1B1B3A"/>
+      <path d="M182 170 Q200 182 218 170" stroke="#1B1B3A" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="160" cy="160" rx="10" ry="7" fill="#FFB6A3" opacity="0.7"/>
+      <ellipse cx="240" cy="160" rx="10" ry="7" fill="#FFB6A3" opacity="0.7"/>
+      <path d="M130 210 Q200 190 270 210 L280 340 Q200 365 120 340 Z" fill="#FFD34E"/>
+      <path d="M200 205 L200 355" stroke="#1B1B3A" stroke-width="5" stroke-dasharray="2 8" stroke-linecap="round"/>
+      <rect x="188" y="255" width="24" height="30" rx="5" fill="#1B1B3A"/>
+      <circle cx="200" cy="270" r="5" fill="#FFD34E"/>
+      <path d="M130 210 Q100 250 108 300" stroke="#FFD34E" stroke-width="26" fill="none" stroke-linecap="round"/>
+      <path d="M270 210 Q300 250 296 300" stroke="#FFD34E" stroke-width="26" fill="none" stroke-linecap="round"/>
+      <circle cx="106" cy="304" r="14" fill="#FFDCC2"/>
+      <circle cx="298" cy="304" r="14" fill="#FFDCC2"/>
+    </svg>`
+  },
+  {
+    sentence: '<span class="zword">Zippy</span> zebra zooms fast.',
+    svg: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 220 L90 220 M10 250 L80 250 M25 280 L95 280" stroke="#2EC4B6" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+      <ellipse cx="230" cy="330" rx="110" ry="16" fill="#FFF3D6"/>
+      <g transform="translate(20,0) rotate(-6 230 230)">
+        <ellipse cx="230" cy="230" rx="100" ry="65" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="6"/>
+        <path d="M165 205 L295 205 M160 225 L300 225 M168 248 L292 248" stroke="#1B1B3A" stroke-width="9" stroke-linecap="round"/>
+        <ellipse cx="335" cy="200" rx="48" ry="42" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="6"/>
+        <circle cx="355" cy="192" r="6" fill="#1B1B3A"/>
+        <path d="M305 175 L296 138 L325 170Z" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="5"/>
+        <path d="M175 235 Q125 245 90 235" fill="none" stroke="#1B1B3A" stroke-width="6" stroke-linecap="round"/>
+        <rect x="180" y="285" width="16" height="42" rx="7" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="5" transform="rotate(20 188 300)"/>
+        <rect x="215" y="288" width="16" height="40" rx="7" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="5" transform="rotate(-15 223 305)"/>
+        <rect x="255" y="285" width="16" height="42" rx="7" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="5" transform="rotate(20 263 300)"/>
+        <rect x="290" y="288" width="16" height="40" rx="7" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="5" transform="rotate(-18 298 305)"/>
+      </g>
+      <path d="M70 190 L110 195 M60 240 L100 240 M75 285 L112 280" stroke="#FF6F59" stroke-width="6" stroke-linecap="round"/>
+    </svg>`
+  },
+  {
+    sentence: 'Zach eats a <span class="zword">zucchini</span>.',
+    svg: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="200" cy="345" rx="100" ry="15" fill="#FFF3D6"/>
+      <circle cx="195" cy="150" r="60" fill="#F4C89A"/>
+      <path d="M138 122 Q195 70 252 122 Q255 100 195 92 Q135 100 138 122Z" fill="#1B1B3A"/>
+      <circle cx="175" cy="155" r="7" fill="#1B1B3A"/>
+      <circle cx="217" cy="155" r="7" fill="#1B1B3A"/>
+      <path d="M178 182 Q195 195 213 182" stroke="#1B1B3A" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="155" cy="170" rx="10" ry="7" fill="#FFB6A3" opacity="0.7"/>
+      <ellipse cx="238" cy="170" rx="10" ry="7" fill="#FFB6A3" opacity="0.7"/>
+      <path d="M125 220 Q195 200 270 220 L280 340 Q195 365 115 340 Z" fill="#2EC4B6"/>
+      <path d="M155 260 Q195 240 235 260" stroke="#1B1B3A" stroke-width="4" fill="none" opacity="0.3"/>
+      <g transform="translate(160,235) rotate(-25)">
+        <rect x="0" y="0" width="105" height="34" rx="17" fill="#3FA34D"/>
+        <rect x="6" y="6" width="93" height="10" rx="5" fill="#7ED17E" opacity="0.7"/>
+        <path d="M-6 17 L10 5 L10 29 Z" fill="#2E7D32"/>
+      </g>
+      <path d="M120 220 Q95 260 100 310" stroke="#2EC4B6" stroke-width="24" fill="none" stroke-linecap="round"/>
+      <path d="M270 220 Q300 250 305 300" stroke="#2EC4B6" stroke-width="24" fill="none" stroke-linecap="round"/>
+      <circle cx="98" cy="313" r="13" fill="#F4C89A"/>
+    </svg>`
+  },
+  {
+    sentence: 'Zara visits the <span class="zword">zoo</span>.',
+    svg: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="200" cy="350" rx="150" ry="14" fill="#FFF3D6"/>
+      <path d="M40 250 L360 250" stroke="#C9A876" stroke-width="10"/>
+      <g stroke="#C9A876" stroke-width="8">
+        <line x1="60" y1="250" x2="60" y2="210"/>
+        <line x1="110" y1="250" x2="110" y2="210"/>
+        <line x1="160" y1="250" x2="160" y2="210"/>
+      </g>
+      <ellipse cx="270" cy="245" rx="55" ry="45" fill="#F2A65A"/>
+      <ellipse cx="315" cy="220" rx="26" ry="24" fill="#F2A65A"/>
+      <ellipse cx="235" cy="255" rx="8" ry="7" fill="#F2A65A"/>
+      <path d="M300 200 L295 175 L312 195Z" fill="#F2A65A"/>
+      <path d="M325 200 L338 178 L332 200Z" fill="#F2A65A"/>
+      <circle cx="323" cy="214" r="5" fill="#1B1B3A"/>
+      <path d="M270 200 Q276 150 300 130" stroke="#F4D06F" stroke-width="20" fill="none" stroke-linecap="round"/>
+      <ellipse cx="303" cy="126" rx="20" ry="18" fill="#F4D06F"/>
+      <path d="M292 112 L288 96 L300 108Z" fill="#F4D06F"/>
+      <path d="M312 112 L320 96 L315 110Z" fill="#F4D06F"/>
+      <circle cx="311" cy="122" r="4" fill="#1B1B3A"/>
+      <path d="M285 145 L280 165 M295 160 L292 180 M305 150 L302 170" stroke="#B8862E" stroke-width="4"/>
+      <circle cx="90" cy="150" r="55" fill="#FFDCC2"/>
+      <path d="M40 130 Q90 90 140 130 Q142 105 90 100 Q38 105 40 130Z" fill="#6A4C93"/>
+      <circle cx="72" cy="155" r="6" fill="#1B1B3A"/>
+      <circle cx="108" cy="155" r="6" fill="#1B1B3A"/>
+      <path d="M75 178 Q90 190 105 178" stroke="#1B1B3A" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M40 200 Q90 180 140 200 L148 300 Q90 320 32 300 Z" fill="#FF6F59"/>
+      <path d="M148 205 Q175 175 160 145" stroke="#FFDCC2" stroke-width="18" fill="none" stroke-linecap="round"/>
+      <path d="M40 220 Q15 250 22 285" stroke="#FF6F59" stroke-width="20" fill="none" stroke-linecap="round"/>
+    </svg>`
+  },
+  {
+    sentence: '<span class="zword">Zero</span> zebras left. Goodnight, zoo!',
+    svg: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="90" cy="70" r="6" fill="#FFD34E"/>
+      <circle cx="330" cy="60" r="4" fill="#FFD34E"/>
+      <circle cx="270" cy="40" r="5" fill="#FFD34E"/>
+      <circle cx="60" cy="120" r="4" fill="#FFD34E"/>
+      <circle cx="200" cy="55" r="4" fill="#FFD34E"/>
+      <path d="M300 60 Q320 40 345 45 Q328 55 330 75 Q315 65 300 60Z" fill="#FFD34E"/>
+      <ellipse cx="200" cy="340" rx="130" ry="16" fill="#F0EDFB"/>
+      <g transform="translate(0,20)">
+        <ellipse cx="200" cy="255" rx="105" ry="70" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="6"/>
+        <path d="M130 230 L270 230 M125 252 L275 252 M135 275 L265 275" stroke="#1B1B3A" stroke-width="9" stroke-linecap="round"/>
+        <ellipse cx="105" cy="220" rx="42" ry="36" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="6"/>
+        <path d="M85 208 Q95 200 105 208" stroke="#1B1B3A" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M132 195 L142 165 L150 195Z" fill="#FFFFFF" stroke="#1B1B3A" stroke-width="5"/>
+        <path d="M95 300 Q95 320 95 335" stroke="#1B1B3A" stroke-width="14" stroke-linecap="round"/>
+        <path d="M150 305 Q150 322 150 335" stroke="#1B1B3A" stroke-width="14" stroke-linecap="round"/>
+        <path d="M250 305 Q250 322 250 335" stroke="#1B1B3A" stroke-width="14" stroke-linecap="round"/>
+        <path d="M295 235 Q270 245 250 235" fill="none" stroke="#1B1B3A" stroke-width="5" stroke-linecap="round"/>
+      </g>
+      <path d="M235 60 Q260 40 285 60 Q262 55 250 75 Q240 60 235 60Z" fill="#FFF9E8"/>
+    </svg>`
+  }
+];
+
+let idx = 0;
+const artEl = document.getElementById('art');
+const sentEl = document.getElementById('sentence');
+const countEl = document.getElementById('pagecount');
+const dotsEl = document.getElementById('dots');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+
+function buildDots(){
+  dotsEl.innerHTML = '';
+  pages.forEach((p,i)=>{
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===idx ? ' active' : '');
+    d.addEventListener('click', ()=>{ idx = i; render(); });
+    dotsEl.appendChild(d);
+  });
+}
+
+function render(){
+  artEl.innerHTML = pages[idx].svg;
+  sentEl.innerHTML = pages[idx].sentence;
+  countEl.textContent = (idx+1) + ' / ' + pages.length;
+  prevBtn.disabled = idx === 0;
+  nextBtn.disabled = idx === pages.length - 1;
+  buildDots();
+}
+
+prevBtn.addEventListener('click', ()=>{ if(idx>0){ idx--; render(); } });
+nextBtn.addEventListener('click', ()=>{ if(idx<pages.length-1){ idx++; render(); } });
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'ArrowRight' && idx < pages.length-1){ idx++; render(); }
+  if(e.key === 'ArrowLeft' && idx > 0){ idx--; render(); }
+});
+
+render();
+</script>
+</body>
+</html>
