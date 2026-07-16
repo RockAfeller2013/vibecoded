@@ -251,7 +251,8 @@ Output only the HTML file contents, nothing else.
 - Quantisation and Compresion
 -     Unsolth
 -     https://prismml.com/
-
+- Agent
+-     https://docs.zoocode.dev/
 
 - n8n: https://n8n.io
 - Open WebUI: https://openwebui.com
