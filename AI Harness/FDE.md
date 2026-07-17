@@ -30,3 +30,7 @@ Steps of AI Adoption
 https://claude.ai/code/artifact/bfdfaef9-bc62-4dfe-ba9e-c58a26c9accf
 
 Method - https://chatgpt.com/c/6a49ce3f-aa48-83ec-a6bb-46cc9f12b8c3
+
+CMM Maturity Model - 
+
+AU Use Risk Asssesment 
