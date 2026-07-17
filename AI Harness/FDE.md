@@ -24,3 +24,7 @@
 - https://www.linkedin.com/posts/mgonullu_satya-nadella-stated-that-llms-are-now-a-activity-7304366671438266368-9m1M/
 - https://www.joelonsoftware.com/2002/06/12/strategy-letter-v/
 - https://www.linkedin.com/posts/mgonullu_satya-nadella-stated-that-llms-are-now-a-activity-7304366671438266368-9m1M/
+
+Steps of AI Adoption
+
+https://claude.ai/code/artifact/bfdfaef9-bc62-4dfe-ba9e-c58a26c9accf
