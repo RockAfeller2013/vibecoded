@@ -14,7 +14,10 @@
 - Running Local LLMs as Your AI Coding Assistant on Apple Silicon - https://dev.to/brunocerberus/running-local-llms-on-apple-silicon-2ecm
 
 
-# Apple Foundation Models (AFM) Cloud - https://machinelearning.apple.com/research/introducing-third-generation-of-apple-foundation-models
+# Apple Foundation Models (AFM) Cloud
+
+- https://machinelearning.apple.com/research/introducing-third-generation-of-apple-foundation-models
+- https://developer.apple.com/documentation/foundationmodels
 
 # Apple Hardware and NPU Comparision
 
