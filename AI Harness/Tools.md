@@ -2,6 +2,7 @@
 
 | Category | Project | Description | URL |
 |----------|----------|-------------|-----|
+
 | **Autonomous Coding** | OpenHands | Full autonomous coding harness | https://github.com/All-Hands-AI/OpenHands |
 | | Aider | Git-native AI coding assistant | https://github.com/Aider-AI/aider |
 | | Continue | IDE-integrated local AI coding assistant | https://continue.dev |
@@ -14,6 +15,7 @@
 | | PA AI | AI coding platform | |
 | | Hermes Agent | Autonomous AI agent | |
 | | DeepSeek UI | DeepSeek interface | |
+
 | **Agent Frameworks** | Microsoft AutoGen | Multi-agent orchestration | https://github.com/microsoft/autogen |
 | | Microsoft Agent Framework | Enterprise agent platform | https://github.com/microsoft/agent-framework |
 | | PydanticAI | Structured AI agents | https://ai.pydantic.dev |
@@ -23,18 +25,22 @@
 | | OmniGent | General AI agent framework | https://omnigent.ai/quickstart/install |
 | | Terax-AI | Autonomous agent platform | |
 | | Odysseus | Autonomous agent framework | https://github.com/pewdiepie-archdaemon/odysseus |
+| | Push | Autonomous agent framework | https://github.com/owainlewis/push |
+
 | **AI Routing & Gateways** | OmniRoute | Multi-provider routing | https://github.com/diegosouzapw/OmniRoute |
 | | OmniRoute Online | Hosted routing platform | https://omniroute.online |
 | | OpenRouter | Multi-model gateway | https://openrouter.ai |
 | | SG Lang | LLM serving framework | https://github.com/sgl-project/sglang |
 | | vLLM | High-performance LLM serving | https://github.com/vllm-project/vllm |
 | | Open Chat | Open chat platform | |
+
 | **Workflow Automation** | n8n | Workflow automation | https://n8n.io |
 | | Flowise | Visual AI workflows | https://flowiseai.com |
 | | Dify | LLM application platform | https://dify.ai |
 | | Worklenz | Project management | https://worklenz.com |
 | | Multica | Multi-agent orchestration | https://multica.ai |
 | | Herdr | AI workflow platform | https://herdr.dev |
+
 | **Durable Execution** | Temporal | Durable workflows | https://temporal.io |
 | | DBOS | Durable backend execution | https://dbos.dev |
 | | Inngest | Event-driven durable functions | https://inngest.com |
