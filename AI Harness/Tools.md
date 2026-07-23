@@ -24,12 +24,14 @@
 | | Terax-AI | Autonomous agent platform | |
 | | Odysseus | Autonomous agent framework | https://github.com/pewdiepie-archdaemon/odysseus |
 | | Push | Autonomous agent framework | https://github.com/owainlewis/push |
+| | Open Chat | Open chat platform | 
+| OpenWorker |https://github.com/andrewyng/openworker|
 | **AI Routing & Gateways** | OmniRoute | Multi-provider routing | https://github.com/diegosouzapw/OmniRoute |
 | | OmniRoute Online | Hosted routing platform | https://omniroute.online |
 | | OpenRouter | Multi-model gateway | https://openrouter.ai |
 | | SG Lang | LLM serving framework | https://github.com/sgl-project/sglang |
 | | vLLM | High-performance LLM serving | https://github.com/vllm-project/vllm |
-| | Open Chat | Open chat platform | |
+||https://github.com/andrewyng/openworker|
 | **Workflow Automation** | n8n | Workflow automation | https://n8n.io |
 | | Flowise | Visual AI workflows | https://flowiseai.com |
 | | Dify | LLM application platform | https://dify.ai |
