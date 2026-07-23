@@ -11,6 +11,14 @@
 
 Build an open-source Deep Research platform comparable to ChatGPT Deep Research, Gemini Deep Research, or Perplexity Labs using self-hosted components and your own LLMs.
 
+he end result is your own self-hosted Deep Research platform that works similarly to ChatGPT Deep Research or Gemini Deep Research, but with complete control over your data, models, and infrastructure. Instead of only searching the web, it can understand and reason across your internal documents, PDFs, Git repositories, websites, SharePoint, emails, notes, and other knowledge sources.
+
+When you ask a question, the platform automatically gathers information from all connected sources, retrieves the most relevant content, performs multi-step reasoning with one or more LLMs, verifies and cites its sources, and produces a structured report. It can also compare documents, identify conflicting information, summarize findings, generate diagrams, and create deliverables such as Markdown, Word, PDF, or PowerPoint reports.
+
+Over time, it becomes a central knowledge and research assistant for your organisation. Rather than searching individual systems manually, you ask questions in natural language and receive comprehensive, evidence-backed answers drawn from both your private knowledge and public information, while keeping everything under your control and running on open-source software.
+
+
+Create a Jupiternote book 0r Wiki.js https://docs.requarks.io/comments
 ---
 
 # 1. Open Source Deep Research Comparison
@@ -228,7 +236,7 @@ Report Generation
 | Semantic Kernel | Enterprise orchestration |
 | PydanticAI | Python agents |
 | SmolAgents | Lightweight agents |
-
+| LLAMA | https://github.com/run-llama/llama_index | 
 ---
 
 # 11. Browser & Search Integration
