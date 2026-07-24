@@ -1,5 +1,24 @@
 # Fordward Deployed Engineer
 
+Generative AI has emerged as a quintessential double edged sword for the modern enterprise, offering transformative advantages that are inextricably linked to significant institutional risks.
+
+On the side of progress, the technology delivers substantial automation efficiencies and optimisation benefits that allow organisations to streamline complex workflows and accelerate output.
+
+Furthermore, the personalisation benefits and expanded innovation opportunities enable teams to create highly tailored user experiences and explore creative frontiers that were previously cost prohibitive.
+
+These green tier benefits represent a powerful incentive for rapid adoption, promising a competitive edge in an increasingly automated economy.
+
+However, these gains are countered by a parallel set of risks that can jeopardise an organization's foundational integrity.
+
+The introduction of sensitive data into AI models triggers acute security and privacy concerns, as proprietary information may be ingested into public models or exposed through prompt injection attacks.
+
+Furthermore, the use of these tools introduces complex legal concerns regarding data ownership and intellectual property, alongside integration concerns regarding how these autonomous systems interface with existing legacy infrastructure.
+
+For IT professionals, the primary challenge lies in the tension between productivity and protection.
+
+The goal is to harness the green efficiencies without succumbing to the red vulnerabilities.
+
+
 ## Future of AI is to build your own Loops
 
 - LLM are a commododity
