@@ -1,5 +1,8 @@
 # Fordward Deployed Engineer
 
+
+|  Harness the green efficiencies without succumbing to the red vulnerabilities.
+
 Generative AI has emerged as a quintessential double edged sword for the modern enterprise, offering transformative advantages that are inextricably linked to significant institutional risks.
 
 On the side of progress, the technology delivers substantial automation efficiencies and optimisation benefits that allow organisations to streamline complex workflows and accelerate output.
@@ -17,6 +20,15 @@ Furthermore, the use of these tools introduces complex legal concerns regarding 
 For IT professionals, the primary challenge lies in the tension between productivity and protection.
 
 The goal is to harness the green efficiencies without succumbing to the red vulnerabilities.
+
+| Enterprise Benefits         | Enterprise Risks                   |
+| --------------------------- | ---------------------------------- |
+| 🟢 Workflow Automation      | 🔴 Sensitive Data Exposure         |
+| 🟢 Operational Optimisation | 🔴 Prompt Injection                |
+| 🟢 Personalised Experiences | 🔴 Intellectual Property Leakage   |
+| 🟢 Accelerated Innovation   | 🔴 Privacy & Compliance Risks      |
+| 🟢 Faster Decision Making   | 🔴 Hallucinations & Misinformation |
+| 🟢 Reduced Costs            | 🔴 Legacy Integration Challenges   |
 
 
 ## Future of AI is to build your own Loops
