@@ -1,7 +1,7 @@
 # Fordward Deployed Engineer
 
 
-|  Harness the green efficiencies without succumbing to the red vulnerabilities.
+> Harness the green efficiencies without succumbing to the red vulnerabilities.
 
 Generative AI has emerged as a quintessential double edged sword for the modern enterprise, offering transformative advantages that are inextricably linked to significant institutional risks.
 
