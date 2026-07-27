@@ -89,5 +89,8 @@
 | **CRM & Support** | Twenty CRM | Open-source CRM | https://twenty.com |
 | | Chatwoot | Customer support platform | https://www.chatwoot.com |
 | **Evulation and Correctness** | DeepEval |  Eval | https://deepeval.com/ |
+| **Can Run IT ** |  Can Run It|  Eval | https://deepeval.com/ |
+| | Canirun | Can Run It| https://www.canirun.ai/device/m5-pro?use=code |
+| | LimFIT | Can Run It| https://www.llmfit.org/ |
 
-
+- colibri - https://github.com/JustVugg/colibri
