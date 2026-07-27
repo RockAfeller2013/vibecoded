@@ -70,6 +70,8 @@
 | **Operating Systems** | Omarchy / Windows 11 SOE | Desktop operating systems | |
 | **Observability** | OpenObserve | Logs & observability | https://openobserve.ai |
 | **Vector Database** | Qdrant | Vector database | https://qdrant.tech |
+| Weaviate | Vector database | https://weaviate.io/ |
+| Pinecone | Vector database | https://www.pinecone.io/ |
 | **Testing** | Playwright | Browser automation testing | https://playwright.dev |
 | **Code Quality** | SonarQube | Static analysis | https://www.sonarsource.com/products/sonarqube |
 | **Hosting** | cPanel | Hosting control panel | https://cpanel.net |
@@ -86,3 +88,6 @@
 | | CMUX | AI platform | https://cmux.com |
 | **CRM & Support** | Twenty CRM | Open-source CRM | https://twenty.com |
 | | Chatwoot | Customer support platform | https://www.chatwoot.com |
+| **Evulation and Correctness** | DeepEval |  Eval | https://deepeval.com/ |
+
+
