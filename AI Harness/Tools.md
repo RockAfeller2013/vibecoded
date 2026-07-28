@@ -24,7 +24,8 @@
 | | Terax-AI | Autonomous agent platform | |
 | | Odysseus | Autonomous agent framework | https://github.com/pewdiepie-archdaemon/odysseus |
 | | Push | Autonomous agent framework | https://github.com/owainlewis/push |
-| | Open Chat | Open chat platform | 
+| | Open Chat | Autonomous agent framework| Open chat platform | 
+| | Nemo | Autonomous agent framework | https://github.com/NVIDIA-NeMo/labs-OO-Agents| 
 | OpenWorker |https://github.com/andrewyng/openworker|
 | **AI Routing & Gateways** | OmniRoute | Multi-provider routing | https://github.com/diegosouzapw/OmniRoute |
 | | OmniRoute Online | Hosted routing platform | https://omniroute.online |
