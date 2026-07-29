@@ -19,6 +19,7 @@ Instant https://github.com/instantdb/instant
 - https://github.com/medusajs/medusa
 - Shopping cart - https://github.com/medusajs/medusa
 
+- CMS / Web. https://github.com/CoreBunch/Instatic/tree/main#quick-start
 # Install these apps
 
 - Pi
