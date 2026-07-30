@@ -94,5 +94,6 @@
 | **Can Run IT ** |  Can Run It|  Eval | https://deepeval.com/ |
 | | Canirun | Can Run It| https://www.canirun.ai/device/m5-pro?use=code |
 | | LimFIT | Can Run It| https://www.llmfit.org/ |
+| **AgentProxyn** | AgentGateway| Proxy | https://agentgateway.dev/ |
 
 - colibri - https://github.com/JustVugg/colibri
