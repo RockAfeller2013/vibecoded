@@ -33,6 +33,7 @@
 | | SG Lang | LLM serving framework | https://github.com/sgl-project/sglang |
 | | vLLM | High-performance LLM serving | https://github.com/vllm-project/vllm |
 ||https://github.com/andrewyng/openworker|
+| Lemonade ||https://lemonade-server.ai/|
 | **Workflow Automation** | n8n | Workflow automation | https://n8n.io |
 | | Flowise | Visual AI workflows | https://flowiseai.com |
 | | Dify | LLM application platform | https://dify.ai |
