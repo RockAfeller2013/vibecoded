@@ -57,7 +57,8 @@ const timer = setInterval(() => {
 
 Click All | Click Remove | Click Remove popup
 
-```
+```javascript
+
 const INTERVAL = 8000;
 
 function clickElement(el) {
