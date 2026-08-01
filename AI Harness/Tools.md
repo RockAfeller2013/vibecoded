@@ -97,3 +97,40 @@
 | **AgentProxyn** | AgentGateway| Proxy | https://agentgateway.dev/ |
 
 - colibri - https://github.com/JustVugg/colibri
+
+
+
+| Project                                                                              | Best For                            |
+| ------------------------------------------------------------------------------------ | ----------------------------------- |
+| [OpenHands GitHub](https://github.com/All-Hands-AI/OpenHands?utm_source=chatgpt.com) | Full autonomous coding harness      |
+| [Aider](https://aider.chat?utm_source=chatgpt.com)                                   | Git-native coding assistant         |
+| [Microsoft AutoGen](https://github.com/microsoft/autogen?utm_source=chatgpt.com)     | Multi-agent orchestration           |
+| [Microsoft Agent Framework](https://github.com/microsoft/agent-framework)            | General autonomous agent platform   |
+| [OpenDevin GitHub](https://github.com/OpenDevin/OpenDevin?utm_source=chatgpt.com)    | Earlier OpenHands codebase          |
+| [Continue.dev](https://continue.dev?utm_source=chatgpt.com)                          | IDE-integrated local AI coding      |
+| [Cline GitHub](https://github.com/cline/cline?utm_source=chatgpt.com)                | VSCode autonomous agent             |
+| [OpenCode GitHub](https://github.com/opencode-ai/opencode?utm_source=chatgpt.com)    | Terminal-native coding agents       |
+| [SWE-agent GitHub](https://github.com/SWE-agent/SWE-agent?utm_source=chatgpt.com)    | Benchmark-focused autonomous fixing |
+| [OpenClaw GitHub](https://github.com/openclaw/openclaw?utm_source=chatgpt.com)       | General autonomous agent platform   |
+| [Terax-AI](https://github.com/crynta/terax-ai)                                       | General autonomous agent platform   |
+| [DeepSeek UI](https://github.com/Hmbown/DeepSeek-TUI)                                | DeepSeek                            |
+| [Hermes Agent](https://hermes-agent.nousresearch.com/)                                | Hermes                              |
+| [PA AI](https://github.com/danielmiessler/Personal_AI_Infrastructure)                 | PA AI                               |
+| https://www.bridgemind.ai/             |                            |
+| https://pi.dev/            |                            |
+| https://www.bridgemind.ai/             |                            |
+| Odysseus(https://github.com/pewdiepie-archdaemon/odysseus
+https://msty.ai/claw
+https://diffusionbee.com/
+| https://cmux.com/ |
+https://github.com/pydantic/pydantic-ai
+https://omnigent.ai/quickstart/install
+https://github.com/diegosouzapw/OmniRoute
+https://omniroute.online/ https://github.com/diegosouzapw/OmniRoute
+Open Router
+emporal, DBOS, and Inngest — durable execution runtimes (temporal.io,
+  dbos.dev, inngest.com)
+  PydanticAI (ai.pydantic.dev) and LangGraph (langchain-ai.github.io/langgraph)
+https://github.com/Mesh-LLM/mesh-llm
+https://machinelearning.apple.com/research/introducing-third-generation-of-apple-foundation-models
+
