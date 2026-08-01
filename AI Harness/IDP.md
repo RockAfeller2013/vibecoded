@@ -3,9 +3,9 @@
 1. Windows Desktop Machine with all developer tools - Done
 2. Linux Desktop Machine with all developer tools with (Agent Harness.) - Done
 4. Docker Container Server - Done
-5. Local GITHUB repo
+5. Local GITHUB repo - done
 6. Key Management
-7. 3. Ubuntu AI Server
+7. Ubuntu AI Server with AI Tools for Nvidia
 
 # AI Development & Self-Hosted Platform Stack
 
