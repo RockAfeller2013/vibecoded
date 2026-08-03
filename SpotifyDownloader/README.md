@@ -1,3 +1,4 @@
 - https://github.com/Rafiuth/Soggfy
 - https://github.com/spotDL/spotify-downloader
 - https://chatgpt.com/c/68732da6-a668-800e-ade9-74002ef5cd5b
+- https://noiseandgraphics.wordpress.com/2024/10/03/make-your-own-spotify/
