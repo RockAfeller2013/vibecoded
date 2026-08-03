@@ -4,9 +4,12 @@
 
 - Open Facebook | Settings & Privacy | Activity Log | Comments | Posts
 - Open Chrome | View | Developer Tools | JavaScript Console
-- Tyoe allow pasting or allow posting
-- then paste the script
+- Tyoe allow pasting or allow posting inside the console
+- then paste the second below script and enter
 - If Facebook starts skipping items, increase: const INTERVAL = 1500;
+- The first time you will need to enter your password and maybe a few more times if it stops, I've deleted all comments history since 2008 . Why doest facebook make this so hard. I wonder why
+
+
 
 ```javascript
 
@@ -55,7 +58,7 @@ const timer = setInterval(() => {
 
 ```
 
-Click All | Click Remove | Click Remove popup
+This one works
 
 ```javascript
 
@@ -115,5 +118,5 @@ const timer = setInterval(() => {
 
 }, INTERVAL);
 ```
-
 # Capture events - https://chatgpt.com/c/6a69dc7b-8d9c-83ec-bed9-3541c83154ad
+
