@@ -6,6 +6,12 @@
 5. Local GITHUB repo - done
 6. Key Management
 7. Ubuntu AI Server with AI Tools for Nvidia
+8. https://github.com/uber/ADR
+Hermes Agent OS
+https://github.com/block/buzz
+https://engineering.block.xyz/blog/run-your-own-buzz-relay
+Obsidian
+
 
 # AI Development & Self-Hosted Platform Stack
 
