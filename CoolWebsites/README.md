@@ -1,0 +1,4 @@
+- https://www.zapsplat.com/sound-effect-category/aerosol/?_gl=1*1rmtkz*_up*MQ..*_gs*MQ..&gclid=CjwKCAjw1bvTBhBbEiwAzbP8LzGB9xRxnxHWyIdJSKEsH6MyJW-tIOgpuqkFzJLUA-lAoX7U9dZ4aBoCQg8QAvD_BwE&gbraid=0AAAAA_bFAo9wJ1DPE2EIOtduV1NEe0c45
+- https://eyecannndy.com/technique/double-exposure
+- https://mixkit.co/free-stock-video/top-view-of-a-woman-slicing-vegetables-40524/
+- https://freemocap.org/
