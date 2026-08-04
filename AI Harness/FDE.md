@@ -66,3 +66,7 @@ Method - https://chatgpt.com/c/6a49ce3f-aa48-83ec-a6bb-46cc9f12b8c3
 CMM Maturity Model - 
 
 AU Use Risk Asssesment 
+
+- If your provider is calling a commercial AI service, that map is being processed by a third party, usually offshore. For anyone with APRA or SOCI obligations, that should be a procurement question, and until now it has been a difficult one to get answered
+- CREST AI Principles
+
