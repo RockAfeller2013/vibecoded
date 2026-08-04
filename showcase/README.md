@@ -19,6 +19,7 @@
 ## JavaScript Libaraies 
 
 - https://gsap.com/showcase/
+- https://canvasui.dev/
 
 ## Process
 - Review this presetnation and extract the key components, Background foreground, animation bits, transitions. etc - https://www.youtube.com/watch?v=3Y1G9najGiI
