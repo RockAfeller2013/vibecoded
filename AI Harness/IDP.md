@@ -209,3 +209,100 @@ emporal, DBOS, and Inngest — durable execution runtimes (temporal.io,
 https://github.com/Mesh-LLM/mesh-llm
 https://machinelearning.apple.com/research/introducing-third-generation-of-apple-foundation-models
 
+| Capability | DIY Stack |
+|------------|-----------|
+| Model Routing | LiteLLM / OpenRouter (Self-managed) |
+| State | Redis / PostgreSQL (DIY schema) |
+| Memory | Mem0 / Zep / Custom (Complex setup) |
+| RAG | Pinecone + LlamaIndex (Manual tuning) |
+| Embeddings | OpenAI / Cohere Embeddings (Separate billing) |
+| Tool Calling | LangChain tool wrappers (Glue code) |
+| Multi-Agent | Custom agent orchestration (Build yourself) |
+| Context | Manual context windowing (Roll your own) |
+
+```mermaid
+flowchart TD
+    A[DIY Stack]
+
+    A --> B[Model Routing]
+    B --> B1[LiteLLM / OpenRouter]
+    B1 --> B2[Self-managed]
+
+    A --> C[State]
+    C --> C1[Redis / PostgreSQL]
+    C1 --> C2[DIY Schema]
+
+    A --> D[Memory]
+    D --> D1[Mem0 / Zep / Custom]
+    D1 --> D2[Complex Setup]
+
+    A --> E[RAG]
+    E --> E1[Pinecone + LlamaIndex]
+    E1 --> E2[Manual Tuning]
+
+    A --> F[Embeddings]
+    F --> F1[OpenAI / Cohere Embeddings]
+    F1 --> F2[Separate Billing]
+
+    A --> G[Tool Calling]
+    G --> G1[LangChain Tool Wrappers]
+    G1 --> G2[Glue Code]
+
+    A --> H[Multi-Agent]
+    H --> H1[Custom Agent Orchestration]
+    H1 --> H2[Build Yourself]
+
+    A --> I[Context]
+    I --> I1[Manual Context Windowing]
+    I1 --> I2[Roll Your Own]
+```
+
+```mermaid
+mindmap
+  root((DIY Stack))
+    Model Routing
+      LiteLLM / OpenRouter
+      Self-managed
+    State
+      Redis / PostgreSQL
+      DIY Schema
+    Memory
+      Mem0 / Zep / Custom
+      Complex Setup
+    RAG
+      Pinecone + LlamaIndex
+      Manual Tuning
+    Embeddings
+      OpenAI / Cohere Embeddings
+      Separate Billing
+    Tool Calling
+      LangChain Tool Wrappers
+      Glue Code
+    Multi-Agent
+      Custom Agent Orchestration
+      Build Yourself
+    Context
+      Manual Context Windowing
+      Roll Your Own
+```
+
+
+```mermaid
+graph LR
+    MR["Model Routing<br/>LiteLLM / OpenRouter"]
+    ST["State<br/>Redis / PostgreSQL"]
+    MEM["Memory<br/>Mem0 / Zep / Custom"]
+    RAG["RAG<br/>Pinecone + LlamaIndex"]
+    EMB["Embeddings<br/>OpenAI / Cohere"]
+    TOOL["Tool Calling<br/>LangChain Wrappers"]
+    MA["Multi-Agent<br/>Custom Orchestration"]
+    CTX["Context<br/>Manual Windowing"]
+
+    MR --> ST
+    ST --> MEM
+    MEM --> RAG
+    RAG --> EMB
+    EMB --> TOOL
+    TOOL --> MA
+    MA --> CTX
+```
