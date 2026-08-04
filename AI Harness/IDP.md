@@ -1,4 +1,6 @@
-# IDP Stack (Independent Development Platform Stack)
+# IDP Stack (Independent Development Platform Stack) | Agentic Software Factory
+
+- Data sovereignty vs data residency vs data localisation - https://www.macquariedatacentres.com/blog/a-guide-to-australian-data-centre-sovereignty/
 
 1. Windows Desktop Machine with all developer tools - Done
 2. Linux Desktop Machine with all developer tools with (Agent Harness.) - Done
