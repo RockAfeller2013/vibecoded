@@ -306,3 +306,85 @@ graph LR
     TOOL --> MA
     MA --> CTX
 ```
+
+
+
+| Capability                    | DIY Stack                             | Open-Source Options                                                  | Notes                                                                                                                                          |
+| ----------------------------- | ------------------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Model Routing**             | LiteLLM / OpenRouter (Self-managed)   | LiteLLM, KServe, BentoML, vLLM                                       | LiteLLM provides OpenAI-compatible APIs, routing, fallbacks, budgets, and model policies. vLLM is better for high-performance local inference. |
+| **State Management**          | Redis / PostgreSQL (DIY schema)       | PostgreSQL + JSONB, Redis, SurrealDB, ArangoDB                       | PostgreSQL JSONB works well for agent state, workflows, and audit history.                                                                     |
+| **Memory**                    | Mem0 / Zep / Custom                   | Mem0, Zep, Letta, LangMem                                            | Letta is designed specifically for persistent autonomous agents. Mem0 is simpler for adding memory to applications.                            |
+| **RAG Framework**             | Pinecone + LlamaIndex (Manual tuning) | LlamaIndex, Haystack, LangChain, RAGFlow                             | RAGFlow provides an almost complete enterprise RAG platform with document ingestion, parsing, retrieval, and citations.                        |
+| **Vector Database**           | Pinecone                              | Qdrant, Milvus, Weaviate, Chroma, PostgreSQL + pgvector              | Qdrant is lightweight and production friendly. Milvus scales for large enterprise deployments.                                                 |
+| **Embeddings**                | OpenAI / Cohere Embeddings            | Sentence Transformers, Hugging Face models, BGE Embeddings, Nomic AI | Allows fully local embeddings without API costs. Popular models: BGE, E5, GTE, Nomic Embed.                                                    |
+| **Tool Calling**              | LangChain tool wrappers               | LangChain, Semantic Kernel, LlamaIndex, Model Context Protocol       | MCP is becoming the standard approach for connecting agents to tools, APIs, and data sources.                                                  |
+| **Multi-Agent Orchestration** | Custom agent orchestration            | AutoGen, CrewAI, LangGraph, CAMEL-AI, MetaGPT                        | LangGraph provides durable workflows. CrewAI is easier for role-based agents. AutoGen is strong for research and experimentation.              |
+| **Context Management**        | Manual context windowing              | LangGraph, Letta, Mem0, Haystack                                     | Handles summarisation, memory retrieval, conversation compression, and long-running tasks.                                                     |
+| **Workflow Automation**       | Custom logic                          | n8n, Temporal, Apache Airflow                                        | Useful for reliable long-running agent tasks.                                                                                                  |
+| **Agent UI / Chat Interface** | Build yourself                        | Open WebUI, LibreChat, AnythingLLM                                   | Provides ChatGPT-style interfaces with local models and RAG.                                                                                   |
+| **Local Model Runtime**       | API hosted models                     | Ollama, llama.cpp, vLLM, LocalAI                                     | Enables fully private AI infrastructure.                                                                                                       |
+| **Secrets Management**        | Environment variables                 | OpenBao, HashiCorp Vault, SOPS                                       | OpenBao is a community-driven Vault-compatible option.                                                                                         |
+| **Observability / Tracing**   | Custom logging                        | Langfuse, Arize Phoenix, OpenTelemetry                               | Essential for debugging agent decisions and RAG quality.                                                                                       |
+
+
+```test
+
+                    User Interface
+                         |
+        Open WebUI / LibreChat / AnythingLLM
+                         |
+                    API Gateway
+                         |
+                    LiteLLM
+                         |
+          +--------------+--------------+
+          |                             |
+     Local Models                  Cloud Models
+     Ollama/vLLM                   OpenAI/etc.
+          |
+          |
+    Agent Framework
+          |
+ +--------+---------+
+ |                  |
+LangGraph        CrewAI
+ |                  |
+ +--------+---------+
+          |
+       Memory
+          |
+ Mem0 / Letta / Zep
+          |
+       RAG Layer
+          |
+ LlamaIndex / Haystack / RAGFlow
+          |
+ +--------+---------+
+ |                  |
+Qdrant          PostgreSQL
+Vector DB       State/Data
+          |
+     Infrastructure
+          |
+Docker / Kubernetes / Proxmox
+          |
+ OpenBao + Keycloak + MinIO + NATS
+
+```
+
+ | Function             | Recommended           |
+| -------------------- | --------------------- |
+| Local LLM Runtime    | vLLM + Ollama         |
+| API Gateway          | LiteLLM               |
+| Agent Framework      | LangGraph             |
+| Multi-Agent          | CrewAI                |
+| Memory               | Letta + Mem0          |
+| RAG                  | RAGFlow + LlamaIndex  |
+| Vector DB            | Qdrant                |
+| Database             | PostgreSQL + pgvector |
+| Files/Object Storage | MinIO                 |
+| Authentication       | Keycloak              |
+| Secrets              | OpenBao               |
+| Messaging            | NATS                  |
+| Observability        | Langfuse              |
+| Frontend             | Open WebUI            |
