@@ -35,6 +35,7 @@ The goal is to harness the green efficiencies without succumbing to the red vuln
 
 - LLM are a commododity
 - LLM have a mathamatical quardratic limit
+- LLM will have access to AI Chips that is faster than anything avaiable as a whole Rack within 5 years. such as Taalas
 - LLM have a context window which is based on Physical limitations and ecomoicical constraints. 
 - LLM have Scaling Law limitations based on real wolrd physical constraints, there is no infiti about of Energy, nor resources in the world. 
 - LLM have a Hallication 
