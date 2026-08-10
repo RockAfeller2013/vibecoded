@@ -1,0 +1,3 @@
+- https://chatgpt.com/c/6a72eb01-f434-83ec-8604-ee0252e6f33f
+- https://connectzero.app/connectwise-xero/
+- https://marketplace.connectwise.com/cloudbanking
