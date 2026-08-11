@@ -73,6 +73,7 @@ Obsidian
 | | Obsidian | Knowledge management | https://obsidian.md |
 | | Read the Docs | Documentation platform | https://readthedocs.org |
 | | Wiki | Internal documentation | |
+| | Plane | Internal documentation | |
 | **Prompt Engineering** | Headroom | Prompt optimisation | |
 | | Caveman | Prompt engineering | |
 | **Development** | Jupyter Notebook | Interactive development | https://jupyter.org |
@@ -114,6 +115,9 @@ Obsidian
 | | Canirun | Can Run It| https://www.canirun.ai/device/m5-pro?use=code |
 | | LimFIT | Can Run It| https://www.llmfit.org/ |
 | **AgentProxyn** | AgentGateway| Proxy | https://agentgateway.dev/ |
+| | Super Simple Software Factory | Can Run It| https://github.com/disler/super-simple-software-factory |
+| | Super Simple Software Factory | Can Run It| https://github.com/Loxstomper/software-factory https://lochieashcroft.com/talks/autonomous-factory/#/5 |
+
 
 - colibri - https://github.com/JustVugg/colibri
 
