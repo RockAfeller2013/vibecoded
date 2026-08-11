@@ -117,7 +117,7 @@ Obsidian
 | **AgentProxyn** | AgentGateway| Proxy | https://agentgateway.dev/ |
 | | Super Simple Software Factory | Can Run It| https://github.com/disler/super-simple-software-factory |
 | | Super Simple Software Factory | Can Run It| https://github.com/Loxstomper/software-factory https://lochieashcroft.com/talks/autonomous-factory/#/5 |
-
+| | NEO | Can Run It| https://github.com/owainlewis/neo |
 
 - colibri - https://github.com/JustVugg/colibri
 
