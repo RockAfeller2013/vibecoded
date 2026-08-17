@@ -2,3 +2,6 @@
 - https://eyecannndy.com/technique/double-exposure
 - https://mixkit.co/free-stock-video/top-view-of-a-woman-slicing-vegetables-40524/
 - https://freemocap.org/
+- https://www.facebook.com/reel/1104329755500231
+- classcentral.com
+- https://github.com/JCodesMore/ai-website-cloner-template
