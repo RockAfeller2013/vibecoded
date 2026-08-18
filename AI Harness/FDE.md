@@ -71,3 +71,28 @@ AU Use Risk Asssesment
 - If your provider is calling a commercial AI service, that map is being processed by a third party, usually offshore. For anyone with APRA or SOCI obligations, that should be a procurement question, and until now it has been a difficult one to get answered
 - CREST AI Principles
 
+
+# Frontier Model Uptime/Avaibility/Correctness/Haluciantions
+
+<img width="800" height="521" alt="image" src="https://github.com/user-attachments/assets/77caad44-e67b-45e6-ab00-7042ab3084ff" />
+
+https://status.claude.com/
+
+I wrote this post without AI, not because I wanted to rage against the machine, but because Claude is having a coffee break (unplanned downtime). This uptime data was scraped directly from Claude’s public status page during a real outage.
+
+It highlights several important lessons covering a range of surfaces. Here, I'll focus on how AI is causing enterprises to question if SaaS is still the right form factor for mission critical workloads. There are several reasons for this. To understand them, you first need to understand what powers your decision could cause you to gain or lose.
+
+There are 5 dimensions to why an enterprise would choose to run workloads in a private cloud vs in SaaS. I call these "on-prem powers" (a nod to Hamilton Helmer). They represent attributes that enterprises value that most SaaS products can't structurally deliver.
+
+Power 1: Data Control - your own cloud offers more control of where and how data is stored
+
+Power 2: Fixed-Cost Economics - user based pricing doesn't work in an agentic world, so fixed cost SaaS contracts are going to become increasingly rare
+
+Power 3: Version Stability - the vendor deploys when they want. You're just along for the ride. Opus 5... 
+
+Power 4: Choice / Diversity - want to change the underlying technology in a SaaS component? Only if they let you.
+ 
+Power 5: Latency & availability - needs no introduction. Today is exhibit A. 
+
+I'm not anti-SaaS. I ran SaaS products most of my career. What I am against is following the herd off a cliff. Understanding the power delta of on-prem vs SaaS helps you understand if following the herd will send you over the cliff.  So I use the power delta to help teams better position the products they sell, understand product limits, help customers identify and articulate their core needs, and to help product teams align to strategy. Regardless of the audience, speaking a common language will always help bridge knowledge gaps and ultimately improve outcomes.
+
