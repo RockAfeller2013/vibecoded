@@ -1,5 +1,8 @@
 \[customer\]
 
+Can you convert this into a Case Study, Technical Blog, with all the specific design details, this will be used on my Consulting website to sell and win more business similar this, insert mermiad architecture diagrams where appropriate, based on the figures.  
+
+
 ArcSight AWS Logging and Monitoring.
 
 **Author**
