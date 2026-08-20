@@ -14,6 +14,14 @@ https://github.com/block/buzz
 https://engineering.block.xyz/blog/run-your-own-buzz-relay
 Obsidian
 
+# Python
+
+- https://docs.astral.sh/ruff/
+- https://mypy-lang.org/
+- https://docs.pytest.org/en/stable/
+- https://pre-commit.com/
+- https://github.com/sqlalchemy/alembic
+- https://www.sqlalchemy.org/
 
 # AI Development & Self-Hosted Platform Stack
 
