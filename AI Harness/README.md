@@ -465,7 +465,16 @@ Internet    Local KB
 - Building a Reliable Local Coding Agent with Qwen 3.6, OpenCode, Hermes, and Codex - https://augmentedmind.substack.com/p/building-a-reliable-local-coding-agent
 
 # Loops
-![Uploading image.png…]()
+```text
+A trigger is the event or condition that starts an AI agent's workflow. It tells the agent when it should begin doing something.
+
+Example:
+A company wants an AI agent to monitor security alerts. A new high-severity security alert is generated in the SIEM. That event becomes the trigger, causing the AI agent to investigate the alert, take an action, and then verify whether the issue has been resolved.
+
+Simple flow:
+Security Alert → Trigger → AI Agent → Investigate → Action → Verify
+```
+
 ```mermaid
 flowchart TB
 
