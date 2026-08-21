@@ -466,6 +466,130 @@ Internet    Local KB
 
 # Loops
 ![Uploading image.png…]()
+```mermaid
+flowchart TB
 
+    %% =========================
+    %% TURN-BASED LOOP
+    %% =========================
+    subgraph TURN["Turn-Based Loop"]
+        direction LR
+
+        U["User Prompt"]
+        GC["Gather Context"]
+        CLAUDE1["Claude"]
+        ACT["Take Action"]
+        CHECK["Check Work"]
+        RESP["Response"]
+
+        U --> GC
+        GC --> ACT
+        GC -.-> CLAUDE1
+        CLAUDE1 -.-> ACT
+        ACT --> RESP
+        ACT --> CHECK
+        CHECK -->|Repeat if needed| GC
+        RESP -.->|User reviews and writes next prompt| U
+    end
+
+    %% =========================
+    %% GOAL-BASED LOOP
+    %% =========================
+    subgraph GOAL["Goal-Based Loop"]
+        direction LR
+
+        CMD["/goal command"]
+        WORK["Claude Works"]
+        EVAL["Evaluator Model"]
+        ENDGOAL["Loop Ends"]
+
+        CMD --> WORK
+        WORK -->|Tries to stop| EVAL
+        EVAL -->|Yes: goal met or turn limit reached| ENDGOAL
+        EVAL -->|No: send back to work| WORK
+    end
+
+    %% =========================
+    %% TIME-BASED LOOP
+    %% =========================
+    subgraph TIME["Time-Based Loop"]
+        direction LR
+
+        INTERVAL["Interval Fires"]
+        RUN["Claude runs prompt"]
+
+        INTERVAL -->|Triggers| RUN
+        RUN -.->|Waits for next interval| INTERVAL
+
+        LOCAL["/loop<br/>Runs on your machine"]
+        CLOUD["/schedule<br/>Moves to the cloud"]
+
+        RUN -.-> LOCAL
+        RUN -.-> CLOUD
+    end
+
+    %% =========================
+    %% PROACTIVE LOOP
+    %% =========================
+    subgraph PROACTIVE["Proactive Loop"]
+        direction LR
+
+        CLOSED["Task Closed"]
+        SCHEDULE["/schedule"]
+        DYNAMIC["Dynamic Workflow"]
+
+        TRIAGE["Triage"]
+        FIX["Fix"]
+        REVIEW["Review"]
+        GOALMET["Goal Met"]
+
+        CLOSED -->|Routine runs until turned off| SCHEDULE
+        SCHEDULE -->|Checks project-feedback channel| DYNAMIC
+
+        DYNAMIC -->|Auto mode: no permission stops| TRIAGE
+        TRIAGE --> FIX
+        FIX --> REVIEW
+        REVIEW -->|Goal met| GOALMET
+        GOALMET --> CLOSED
+
+        REVIEW -.->|Judge adversarially reviews| TRIAGE
+    end
+
+    %% =========================
+    %% STYLING
+    %% =========================
+    classDef user fill:#e8f5f3,stroke:#4b9b8d,color:#111;
+    classDef agent fill:#e8f0ff,stroke:#5685c5,color:#111;
+    classDef evaluator fill:#f3ecff,stroke:#8564a8,color:#111;
+    classDef action fill:#fff4df,stroke:#c28a35,color:#111;
+    classDef endpoint fill:#e8f5e9,stroke:#57935b,color:#111;
+
+    class U,CMD,INTERVAL,CLOSED user;
+    class GC,CLAUDE1,WORK,RUN,DYNAMIC,TRIAGE,FIX agent;
+    class EVAL,REVIEW evaluator;
+    class ACT,CHECK,SCHEDULE action;
+    class RESP,ENDGOAL,GOALMET endpoint;
+```
+
+```mermaid
+flowchart LR
+    TRIGGER["Trigger"] --> AGENT["AI Agent"]
+    AGENT --> ACTION["Action"]
+    ACTION --> VERIFY["Verify / Evaluate"]
+    VERIFY -->|Goal not met| AGENT
+    VERIFY -->|Goal met| DONE["Complete"]
+
+    subgraph TRIGGERS["Four Trigger Models"]
+        USER["User Prompt"]
+        GOAL["Goal"]
+        TIME["Time Interval"]
+        EVENT["Event / Schedule"]
+    end
+
+    USER --> TRIGGER
+    GOAL --> TRIGGER
+    TIME --> TRIGGER
+    EVENT --> TRIGGER
+```
 
 - Mastra vs LangChain: Building an AI Agent Pipeline and Analyzing the Data https://www.linkedin.com/posts/krish-de-97b9751a_six-aws-engineers-rebuilt-the-amazon-bedrock-share-7467010049576542210-Sp0z/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAADYqlEBFhWq_nhEp3BtPb1m0UqSgw4MxKI
