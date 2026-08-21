@@ -464,6 +464,8 @@ Internet    Local KB
 - https://www.freecodecamp.org/news/mastra-vs-langchain-building-an-ai-agent-pipeline-and-analyzing-the-data/
 - Building a Reliable Local Coding Agent with Qwen 3.6, OpenCode, Hermes, and Codex - https://augmentedmind.substack.com/p/building-a-reliable-local-coding-agent
 
+# Loops
+![Uploading image.png…]()
 
 
 - Mastra vs LangChain: Building an AI Agent Pipeline and Analyzing the Data https://www.linkedin.com/posts/krish-de-97b9751a_six-aws-engineers-rebuilt-the-amazon-bedrock-share-7467010049576542210-Sp0z/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAADYqlEBFhWq_nhEp3BtPb1m0UqSgw4MxKI
