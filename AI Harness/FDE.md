@@ -96,3 +96,23 @@ Power 5: Latency & availability - needs no introduction. Today is exhibit A.
 
 I'm not anti-SaaS. I ran SaaS products most of my career. What I am against is following the herd off a cliff. Understanding the power delta of on-prem vs SaaS helps you understand if following the herd will send you over the cliff.  So I use the power delta to help teams better position the products they sell, understand product limits, help customers identify and articulate their core needs, and to help product teams align to strategy. Regardless of the audience, speaking a common language will always help bridge knowledge gaps and ultimately improve outcomes.
 
+# Capabilities Unlocked
+
+- https://warmwind.com/get-started?usrId=69f47ebf-c586-4ad5-a20b-52fcdf30f7ef&audId=735882af-3f92-4bb2-8152-8ba5cd7b7364&campId=134c3349-48c9-424b-8f4b-b86d35385db5
+- Customer Support
+warmwind handles inquiries via email, chat, WhatsApp, and social media - finds orders, answers FAQs, resolves issues, and escalates only complex cases.
+- Accounting & Invoice Management
+warmwind recognizes invoices, extracts data, matches purchase orders, logs transactions, and sends payment reminders - monthly statements ready for management, no manual work.
+Recruiting Assistant
+warmwind screens applications, checks CVs and social profiles, runs first video interviews, and evaluates candidates - HR receives only the top qualified applicants.
+- ocial Media Growth Manager
+warmwind scans trends, creates and schedules posts with graphics and videos, and tracks performance 24/7 - so your marketing team can focus on strategy.
+- roactive Competition Monitoring
+warmwind monitors competitors' social media and auto-generates activity reports - so you stay one step ahead.
+- Website and Product Monitoring
+warmwind monitors site health and visitor flows, detects errors and downtime, and auto-reports issues to developers for optimal UX.
+
+- Innovation Scout
+Every day, warmwind finds new technologies, startups, market trends, and best practices - a fresh innovation report each morning for strategic decisions.
+
+
