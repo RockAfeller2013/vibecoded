@@ -384,6 +384,14 @@ Docker / Kubernetes / Proxmox
 
 ```
 
+IAM (Keycloak)
+Secrets (Vault)
+Object storage that speaks S3 (MinIO)
+Postgres that actually survives a reboot (CloudNativePG + Longhorn)
+Observability (Prometheus, Grafana, Loki)
+Cost metering (OpenCost)
+
+
  | Function             | Recommended           |
 | -------------------- | --------------------- |
 | Local LLM Runtime    | vLLM + Ollama         |
