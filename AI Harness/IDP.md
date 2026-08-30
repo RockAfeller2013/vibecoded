@@ -94,6 +94,7 @@ Obsidian
 | | LocalStack | Local AWS cloud emulation | https://localstack.cloud |
 | | OpenDevStack | Kubernetes DevOps platform | https://www.opendevstack.org |
 | | S3 Storage | Object storage | |
+| Mini Stack |  Local AWS cloud emulation | https://ministack.org/ | |
 | **Remote Access** | Apache Guacamole | Remote desktop gateway | https://guacamole.apache.org |
 | | NoMachine NX | Remote desktop | https://www.nomachine.com |
 | | Tailscale | Secure mesh VPN | https://tailscale.com |
