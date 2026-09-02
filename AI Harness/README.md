@@ -1,4 +1,4 @@
-# FOR GOTO SUB
+# Local AI manifold FOR GOTO SUB
 
 # Stratified AI Harnes (Hierarchical AI orchestration system)
 
