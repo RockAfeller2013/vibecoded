@@ -15,6 +15,7 @@
 - https://docling-project.github.io/docling/
 - https://www.youtube.com/watch?v=edUOvt6Y5ts
 - https://tldraw.dev/starter-kits/shader
+- https://github.com/heygen-com/hyperframes
 
 ## JavaScript Libaraies 
 
