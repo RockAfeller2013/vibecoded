@@ -4,6 +4,13 @@
 
 # Apple Clustering and MLX
 
+## WWDC26
+
+- Run local agentic AI on the Mac using MLX - https://developer.apple.com/videos/play/wwdc2026/232/
+- https://developer.apple.com/videos/wwdc2026/?topic=ai%20%26%20machine%20learning
+- Explore distributed inference and training with MLX - https://developer.apple.com/videos/play/wwdc2026/233/
+
+
 # Apple Core AI
 
 - https://developer.apple.com/documentation/coreai
