@@ -1,0 +1,5 @@
+- https://chatgpt.com/c/6a9ba30c-bba8-83ec-b8d6-0a30a6232003
+- https://gitdiagram.com/
+- https://www.reddit.com/r/git/comments/1c6i5w5/are_there_any_tools_for_visualizing_a_git/
+- https://githubnext.com/projects/repo-visualization/
+- https://github.com/githubocto/repo-visualizer
