@@ -1,6 +1,9 @@
 #  Manifold 
 
-- This is my research to build my own Local AI Harness called 'Manifold' its not just a interface, its a complete SLDC DevSecOp environment with prebuilt frameworks, that you can customise via LLM for your own purpose. FOR GOTO SUB
+- This is my research to build my own Local AI Harness called 'Manifold' its not just a interface, its a complete SLDC DevSecOp environment with prebuilt frameworks, that you can customise via LLM for your own purpose.
+-     PreConfigured LaravelPHP for SaaS
+-     PreConfigured QT for Multi-OS low level Kernel drivers/hardware
+-     .... more ideas loading
 
 ## Stratified AI Harnes (Hierarchical AI orchestration system)
 
