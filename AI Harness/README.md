@@ -1,6 +1,8 @@
-# Local AI manifold FOR GOTO SUB
+#  Manifold 
 
-# Stratified AI Harnes (Hierarchical AI orchestration system)
+- This is my research to build my own Local AI Harness called 'Manifold' its not just a interface, its a complete SLDC DevSecOp environment with prebuilt frameworks, that you can customise via LLM for your own purpose. FOR GOTO SUB
+
+## Stratified AI Harnes (Hierarchical AI orchestration system)
 
 ## 📺 Demo Video
 
