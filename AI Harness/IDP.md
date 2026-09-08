@@ -130,8 +130,9 @@ Obsidian
 | | NEO | Can Run It| https://github.com/owainlewis/neo |
 
 - colibri - https://github.com/JustVugg/colibri
+- https://github.com/RunMaestro/Maestro
 
-
+- https://github.com/MikeTheCanuck/mentats
 - Compute
 -     Omrach/W11 SOE
 -     Guacamole / NX Server / TailScale
