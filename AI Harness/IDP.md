@@ -55,6 +55,7 @@ Obsidian
 | | Nemo | Autonomous agent framework | https://github.com/NVIDIA-NeMo/labs-OO-Agents| 
 | | Machinest | Machinest | https://github.com/owainlewis/machinist | 
 | OpenWorker |https://github.com/andrewyng/openworker|
+| Osmatic ODS | https://github.com/Osmantic/ODS |
 | **AI Routing & Gateways** | OmniRoute | Multi-provider routing | https://github.com/diegosouzapw/OmniRoute |
 | | OmniRoute Online | Hosted routing platform | https://omniroute.online |
 | | OpenRouter | Multi-model gateway | https://openrouter.ai |
