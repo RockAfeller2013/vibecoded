@@ -29,9 +29,27 @@ flowchart TB
     G -->|OpenAI API| X1
     G -->|OpenAI API| X2
 ```
+```mermaid
+flowchart TB
+    subgraph P["Proxmox"]
+        O["ODS\nLinux VM"]
+    end
 
-## Why this architecture
+    subgraph M1["Apple Silicon #1"]
+        A1["MLX / oMLX"]
+        Q["Qwen / Model A"]
+        A1 --> Q
+    end
 
+    subgraph M2["Apple Silicon #2"]
+        A2["MLX / oMLX"]
+        K["Kimi / GLM / Model B"]
+        A2 --> K
+    end
+
+    O -->|"OpenAI-compatible API"| A1
+    O -->|"OpenAI-compatible API"| A2
+```
 The Linux VM handles orchestration and application services:
 
 - ODS
