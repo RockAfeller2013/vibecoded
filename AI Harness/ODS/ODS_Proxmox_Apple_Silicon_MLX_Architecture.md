@@ -591,3 +591,114 @@ flowchart LR
 ```
 
 This design separates **orchestration from inference**: Proxmox provides the ODS platform, while the Apple Silicon machines provide dedicated high-performance LLM inference.
+
+# MLX vs oMLX
+
+ODS
+ │
+ │ OpenAI API
+ ▼
+Mac #1
+oMLX coordinator
+ │
+ │ MLX distributed
+ │
+ ▼
+Mac #2
+
+| Capability                                  | **Apple MLX**                             | **oMLX**                                   |
+| ------------------------------------------- | ----------------------------------------- | ------------------------------------------ |
+| Open source                                 | Yes                                       | Yes, Apache 2.0                            |
+| Apple Silicon native                        | **Yes**                                   | **Yes — built on MLX**                     |
+| Single-Mac inference                        | **Excellent**                             | **Excellent**                              |
+| OpenAI-compatible API                       | Via MLX-LM/server tooling                 | **Yes, built in**                          |
+| Multi-model serving                         | Low-level/framework capability            | **Yes**                                    |
+| Continuous batching                         | Primarily framework capability            | **Yes**                                    |
+| Paged/persistent KV cache                   | Framework-level                           | **Yes**                                    |
+| SSD KV cache                                | No core feature                           | **Yes**                                    |
+| Run one model across 2 Macs                 | **Yes, at framework level**               | **Yes — dedicated cluster implementation** |
+| Unequal RAM Macs                            | Possible, but you build the orchestration | **Supported by oMLX cluster**              |
+| Automatic layer placement                   | You implement/use a higher-level tool     | **Yes**                                    |
+| Memory-aware shard planning                 | Framework-level                           | **Yes**                                    |
+| Pipeline parallelism                        | Supported through distributed primitives  | **Implemented for cluster inference**      |
+| JACCL / Thunderbolt RDMA                    | **Yes**                                   | **Yes**                                    |
+| TCP Ring                                    | **Yes**                                   | **Yes**                                    |
+| KV cache remains local to shard             | Depends on implementation                 | **Yes**                                    |
+| Cluster monitoring                          | No                                        | **Yes**                                    |
+| Cluster API                                 | No high-level server                      | **Yes**                                    |
+| Model-serving API                           | Build/use MLX-LM                          | **Yes**                                    |
+| Best for building your own inference system | **Yes**                                   | No — higher-level                          |
+| Best for "run huge model across two Macs"   | Good foundation                           | **Better choice**                          |
+| Maturity of 2-Mac clustering                | Framework capability                      | **Experimental**                           |
+| Recommended for your project                | Foundation                                | **My choice**                              |
+
+MLX
+ │
+ ├── Metal
+ ├── MLX distributed
+ │     ├── Ring
+ │     ├── JACCL
+ │     └── MPI
+ │
+ └── MLX-LM
+
+o MLX
+ │
+ ├── Metal
+ ├── MLX distributed
+ │     ├── Ring
+ │     ├── JACCL
+ │     └── MPI
+ │
+ └── MLX-LM
+
+Mac Studio #1
+256 GB
+        │
+        │ Layers 0–N
+        │
+        ▼
+┌─────────────────────┐
+│       MLX/oMLX      │
+│                     │
+│  Layers 0-60        │
+│  KV cache           │
+└──────────┬──────────┘
+           │
+           │ Thunderbolt / JACCL
+           ▼
+┌─────────────────────┐
+│       MLX/oMLX      │
+│                     │
+│  Layers 61-120      │
+│  KV cache           │
+└─────────────────────┘
+        │
+Mac Studio #2
+128 GB
+
+```mermaid
+flowchart TB
+    ODS["ODS\nProxmox Linux VM"]
+    
+    ODS --> API["oMLX OpenAI API"]
+
+    API --> R0["Mac #1\nMLX / oMLX\nRank 0"]
+
+    R0 <-->|"JACCL / Thunderbolt"| R1["Mac #2\nMLX / oMLX\nRank 1"]
+
+    R0 --> L1["Model layers\n0 → N"]
+    R1 --> L2["Model layers\nN+1 → End"]
+```
+
+ODS
+ │
+ │ OpenAI API
+ ▼
+Mac #1
+oMLX coordinator
+ │
+ │ MLX distributed
+ │
+ ▼
+Mac #2
