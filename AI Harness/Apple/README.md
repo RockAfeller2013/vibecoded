@@ -12,6 +12,14 @@
 
 - Core AI
 - Foundation Models
+
+# Foundation Models SDK for Python Documentatio
+
+Requirements : Apple officially released macOS Golden Gate (macOS 27) on September 14, 2026. 
+
+I am testing it 14 hours after release. Word
+
+- https://apple.github.io/python-apple-fm-sdk/
   
 # Apple Core AI
 
