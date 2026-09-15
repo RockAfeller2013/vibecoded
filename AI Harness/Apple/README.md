@@ -10,7 +10,9 @@
 - https://developer.apple.com/videos/wwdc2026/?topic=ai%20%26%20machine%20learning
 - Explore distributed inference and training with MLX - https://developer.apple.com/videos/play/wwdc2026/233/
 
-
+- Core AI
+- Foundation Models
+  
 # Apple Core AI
 
 - https://developer.apple.com/documentation/coreai
