@@ -1,0 +1,3 @@
+- upload all Electric Bills,
+- Out put Solar design
+- compare with Energy providers side by side, swap and get commision
