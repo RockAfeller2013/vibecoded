@@ -20,6 +20,8 @@ Requirements : Apple officially released macOS Golden Gate (macOS 27) on Septemb
 I am testing it 14 hours after release. Word
 
 - https://apple.github.io/python-apple-fm-sdk/
+- Introducing the Third Generation of Apple’s Foundation Models - https://machinelearning.apple.com/research/introducing-third-generation-of-apple-foundation-models
+ 
   
 # Apple Core AI
 
