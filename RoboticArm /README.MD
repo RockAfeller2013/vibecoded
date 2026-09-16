@@ -1,4 +1,4 @@
-# Robotic Arm 
+# Wire suspended Robotic Arm [Remote controlled] - with different cleaning, vaccum, hand accessories 
 
 'Robotic Arm  Suspended from the Kitchen Ceiling that claw fingers that can extend to clean the kitchen.'
 
