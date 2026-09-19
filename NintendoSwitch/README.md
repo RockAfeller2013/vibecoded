@@ -6,3 +6,7 @@
 # Kids gaming
 
 - Contiun with more handheld retro games using iPhone and game controllers https://retrocatalog.com/best-gaming-handhelds#entry-thor
+
+- https://chatgpt.com/c/6aadd06d-39ac-83ec-972b-84fd57fe6ce0
+- Detecting human body poses in 3D with Vision https://developer.apple.com/documentation/vision/detecting-human-body-poses-in-3d-with-vision?changes=_10&utm_source=chatgpt.com
+- https://developer.apple.com/documentation/foundationmodels/generate-dynamic-game-content-with-guided-generation-and-tools?utm_source=chatgpt.com
