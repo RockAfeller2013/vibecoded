@@ -4,6 +4,7 @@
 - Builds a Learning Wiki/Cloudlan/Jupiter Notebook
 - Convert this to Agent Skills
 - https://github.com/virgiliojr94/book-to-skill
+- https://openmaic.io/#explore
 
 # Open Source Deep Research Platform Comparison
 
