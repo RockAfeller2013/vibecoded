@@ -5,6 +5,7 @@
 - Convert this to Agent Skills
 - https://github.com/virgiliojr94/book-to-skill
 - https://openmaic.io/#explore
+- https://open.maic.chat/
 
 # Open Source Deep Research Platform Comparison
 
