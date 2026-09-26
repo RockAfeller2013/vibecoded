@@ -9,6 +9,11 @@
 - Run local agentic AI on the Mac using MLX - https://developer.apple.com/videos/play/wwdc2026/232/
 - https://developer.apple.com/videos/wwdc2026/?topic=ai%20%26%20machine%20learning
 - Explore distributed inference and training with MLX - https://developer.apple.com/videos/play/wwdc2026/233/
+- Discover container machines
+
+Apple Containers and Foundation Models
+- https://www.apple.com/au/newsroom/2025/06/apple-supercharges-its-tools-and-technologies-for-developers/
+- https://developer.apple.com/videos/play/wwdc2026/389/
 
 - Core AI
 - Foundation Models
