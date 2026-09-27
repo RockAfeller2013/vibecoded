@@ -17,6 +17,16 @@ No backend, no install, no build tools — just open `index.html` in a browser.
 - Then click search 
 ---
 
+# Synology Photo API
+
+```bash
+- SynologyPhotosAPI - https://github.com/zeichensatz/SynologyPhotosAPI
+- https://community.synology.com/enu/forum/1/post/151693
+- https://community.synology.com/enu/forum/1/post/145996?reply=463030
+- https://github.com/jmathai/synology-photos-reindexer
+
+```
+
 ## CORS errors BYPASS
 
 ```
