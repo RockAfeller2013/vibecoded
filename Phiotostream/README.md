@@ -53,6 +53,25 @@ open -na "Google Chrome" --args \
 4. On the **Applications** tab, make sure **File Station** is **allowed**
 5. Click **Done**
 
+## 3. Check the Synology Photos configuration
+
+```
+3. Check the Synology Photos configuration
+
+Your photo folder is managed by Synology Photos. Its Shared Space has separate permissions from File Station permissions. Synology explicitly documents that Synology Photos folder permissions are managed in Photos settings, not through File Station. 
+Synology Knowledge Center
++1
+
+In DSM:
+
+Open Synology Photos.
+
+Go to Settings → Shared Space.
+
+Confirm Shared Space is enabled.
+
+Check the folder permissions for the account you're using.
+```
 ---
 
 ### 2. Find your NAS IP / port
