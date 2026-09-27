@@ -14,7 +14,9 @@ No backend, no install, no build tools — just open `index.html` in a browser.
 - Pick by Date, 
 - dont dislay if the date doesnt has got any files, it sees to show the last avaiable month
 - File explorer 
-- Then click search 
+- Then click search
+- Synology Folder API - https://account.synology.com/en-uk/support/4046294/detail
+  
 ---
 
 # Synology Photo API
