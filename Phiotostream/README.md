@@ -53,20 +53,14 @@ open -na "Google Chrome" --args \
 4. On the **Applications** tab, make sure **File Station** is **allowed**
 5. Click **Done**
 
-## 3. Check the Synology Photos configuration
+## 3. Synology /photo folder permisions
 
 ```
-3. Check the Synology Photos configuration
-
-Your photo folder is managed by Synology Photos. Its Shared Space has separate permissions from File Station permissions. Synology explicitly documents that Synology Photos folder permissions are managed in Photos settings, not through File Station. 
-Synology Knowledge Center
-+1
-
-In DSM:
-
-Open Synology Photos.
-
-Go to Settings → Shared Space.
+Your /photo folder is managed by Synology Photos. Its Shared Space has separate permissions from File Station permissions. Synology explicitly documents that Synology Photos folder permissions are managed in Photos settings, not through File Station. 
+1. Open Synology Photos.
+2. Go to Settings → Shared Space.
+3. Permissions | Set Access Permissions
+4. Allow all users and guests to view photos and videos in the roof folder of Shared Space
 
 Confirm Shared Space is enabled.
 
