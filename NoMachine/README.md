@@ -1,2 +1,3 @@
 - multi-user Linux Operating systems with everything configured inside the browser with login using gmail/outlook, etc. you get all the free resources configured for you.
 - https://distrosea.com/view/
+- https://chatgpt.com/c/6abc72aa-fd34-83ec-9e3f-75dee188678e
