@@ -1,0 +1,2 @@
+- multi-user Linux Operating systems with everything configured inside the browser with login using gmail/outlook, etc. you get all the free resources configured for you.
+- https://distrosea.com/view/
