@@ -16,3 +16,4 @@ The Robot Report
 So: no single product on the market today is exactly "a ceiling-suspended robotic arm with extending claw fingers that cleans your kitchen." But the Stringman project is a real, working, open-source version of almost that exact concept — just general-purpose rather than kitchen-specific. If you're picturing something more polished/consumer-ready, that still seems to be a few years off.
 
 https://www.youtube.com/watch?v=vsL1EHt5iBY
+https://www.youtube.com/watch?v=mKCVol2iWcc
