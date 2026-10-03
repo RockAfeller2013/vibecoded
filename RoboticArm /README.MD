@@ -26,3 +26,4 @@ So: no single product on the market today is exactly "a ceiling-suspended roboti
 - https://www.youtube.com/watch?v=4RIKQsfrcdA
 - https://www.youtube.com/watch?v=FTvssUTSrzg
 - https://www.youtube.com/watch?v=df7o1xK8pZ4
+- https://chatgpt.com/c/6ac0c64d-878c-83ec-ab63-e80e7909a292
