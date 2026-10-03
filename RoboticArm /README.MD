@@ -21,3 +21,7 @@ So: no single product on the market today is exactly "a ceiling-suspended roboti
 - https://www.youtube.com/watch?v=tEhbO2z7bMU
 - https://www.kickstarter.com/projects/gesture-platforms/gesture-hw1-a-10-dof-robotic-hand-and-wrist
 - https://www.youtube.com/watch?v=DhcWVqxF_wo
+- https://www.youtube.com/shorts/rB5YNfF1mmk
+- https://www.youtube.com/watch?v=PUprZVUo5U0
+- https://www.youtube.com/watch?v=4RIKQsfrcdA
+- https://www.youtube.com/watch?v=FTvssUTSrzg
