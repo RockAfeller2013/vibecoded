@@ -7,3 +7,9 @@ Purpose, to automate , review / triage of alerts, and take action via playbooks 
 - https://www.deeptempo.ai/open-source
 - https://old.gigahack.md/deeptech-gigahack-2024-meet-the-top-10-winning-teams/
 - https://aegis-skills.vercel.app/skills/attack-surface-mapping
+
+
+# EndPoint Agent
+
+- https://fleetdm.com/
+- https://github.com/fleetdm/fleet?utm_source=chatgpt.com
