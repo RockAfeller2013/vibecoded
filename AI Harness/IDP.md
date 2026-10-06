@@ -412,3 +412,6 @@ Cost metering (OpenCost)
 | Messaging            | NATS                  |
 | Observability        | Langfuse              |
 | Frontend             | Open WebUI            |
+
+- https://odysseusai.dev/
+- https://heretic-project.org/
