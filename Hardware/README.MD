@@ -1,5 +1,7 @@
 - Dumb Phone, Call and SMS Only.
 -    https://www.hmd.com/en_au/support/nokia-3210-user-guide/keys-and-parts
+-    https://dumbermini.com/
+-    Optus X Filp
 - MP3 Player , CD, Speaker with Storage 
 -    https://www.jbhifi.com.au/products/laser-bluetooth-portable-cd-mp3-boombox-with-fm-radio-player
 - Watch, GPS, Time, Timmers, MP3 audio jack only.
