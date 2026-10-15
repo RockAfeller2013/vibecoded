@@ -1,2 +1,3 @@
-
+- iPhone App to send movement to Game Server, Game server runs accelerated games, using Wifi or Bluetooth driver. 
 - https://chatgpt.com/c/69ec4bb4-f024-8320-b717-94ef95e5e8f0
+- https://www.createwithoscar.com/
