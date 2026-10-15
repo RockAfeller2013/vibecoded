@@ -1,0 +1,2 @@
+- build music based on my libarary
+- Mix music based on DJ Techniques. and automix feature
