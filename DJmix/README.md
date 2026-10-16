@@ -26,3 +26,10 @@ If you specifically need a standalone index.html, it can provide a form for ente
 Option B: Enable WebDAV or Audio Station on your Synology
 If you don't want to run a local terminal script:
 Enable WebDAV in your Synology Package Center. WebDAV runs over standard HTTP/HTTPS, allowing standard browser fetch() requests with Basic Auth to browse folders and stream audio files directly from the NAS
+
+
+- Music Assistant for Proxmox VE - https://github.com/jingato/music-assistant-proxmox
+- Installation and Deployment - https://deepwiki.com/music-assistant/server/1.1-installation-and-deployment
+- https://developers.music-assistant.io/ - https://developers.music-assistant.io/
+
+
