@@ -30,6 +30,6 @@ Enable WebDAV in your Synology Package Center. WebDAV runs over standard HTTP/HT
 
 - Music Assistant for Proxmox VE - https://github.com/jingato/music-assistant-proxmox
 - Installation and Deployment - https://deepwiki.com/music-assistant/server/1.1-installation-and-deployment
-- https://developers.music-assistant.io/ - https://developers.music-assistant.io/
+- Music Assistant Developer - https://developers.music-assistant.io/
 
 
