@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mac Studio — MLX LLM Cluster Cost Calculator</title>
+  
+  <!-- Bootstrap 5 & Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- Custom Apple Store UI CSS -->
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap');
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+      text-decoration: none;
+    }
+
+    :root {
+      --apple-bg: #000000;
+      --apple-card-bg: #161617;
+      --apple-card-border: rgba(255, 255, 255, 0.12);
+      --apple-text: #f5f5f7;
+      --apple-text-secondary: #86868b;
+      --apple-blue: #2997ff;
+      --apple-green: #30d158;
+      --apple-purple: #bf5af2;
+      --apple-yellow: #ffd60a;
+      --apple-red: #ff453a;
+      --apple-pill-bg: #1d1d1f;
+    }
+
+    [data-bs-theme="light"] {
+      --apple-bg: #f5f5f7;
+      --apple-card-bg: #ffffff;
+      --apple-card-border: rgba(0, 0, 0, 0.08);
+      --apple-text: #1d1d1f;
+      --apple-text-secondary: #86868b;
+      --apple-pill-bg: #e8e8ed;
+    }
+
+    body {
+      background-color: var(--apple-bg);
+      color: var(--apple-text);
+      padding-bottom: 3rem;
+    }
+
+    /* Navigation Bar */
+    nav {
+      width: 100%;
+      height: 48px;
+      background: #000000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--apple-card-border);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin: 0 20px;
+    }
+
+    nav ul li a {
+      font-weight: 300;
+      color: #adadad;
+      transition: 600ms;
+      font-size: 0.9rem;
+    }
+
+    nav ul li a:hover {
+      color: #f5f5f7;
+    }
+
+    /* Hero Banner */
+    .welcome {
+      width: 100%;
+      height: 280px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.9) 100%), 
+                  url("https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/thai-aos-en-banner-hero-20160202?wid=1440&hei=689&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=0");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--apple-card-border);
+    }
+
+    .welcome h1 {
+      color: #fff;
+      font-weight: 300;
+      font-size: 2.4rem;
+      letter-spacing: -0.02em;
+    }
+
+    .welcome p {
+      color: #adadad;
+      font-weight: 300;
+      font-size: 1.1rem;
+      margin-top: 8px;
+    }
+
+    /* Cards */
+    .grid-product {
+      background: var(--apple-card-bg);
+      border: 1px solid var(--apple-card-border);
+      border-radius: 18px;
+      padding: 24px;
+      transition: .3s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .grid-product:hover {
+      border-color: var(--apple-blue);
+    }
+
+    .hero-price {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--apple-green);
+      letter-spacing: -0.02em;
+    }
+
+    .section-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--apple-text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    /* Pill Selection Buttons */
+    .apple-pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .apple-pill {
+      background: var(--apple-pill-bg);
+      color: var(--apple-text);
+      border: 1px solid var(--apple-card-border);
+      border-radius: 12px;
+      padding: 8px 16px;
+      font-size: 0.88rem;
+      font-weight: 400;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .apple-pill:hover {
+      border-color: var(--apple-blue);
+    }
+
+    .apple-pill.active {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    /* Memory Visualiser Bar */
+    .memory-bar-container {
+      height: 26px;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      background: rgba(120, 120, 128, 0.2);
+    }
+
+    .memory-bar-segment {
+      height: 100%;
+      transition: width 0.35s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .seg-weights { background-color: var(--apple-blue); }
+    .seg-scales { background-color: var(--apple-purple); }
+    .seg-kv { background-color: var(--apple-green); }
+    .seg-runtime { background-color: var(--apple-yellow); color: #000; }
+    .seg-macos { background-color: #64d2ff; color: #000; }
+    .seg-safety { background-color: var(--apple-red); }
+    .seg-free { background-color: rgba(255, 255, 255, 0.15); color: var(--apple-text); }
+
+    .legend-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    /* Tooltips */
+    .tooltip-icon {
+      color: var(--apple-blue);
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-left: 6px;
+    }
+
+    /* Footer */
+    footer {
+      width: 100%;
+      background: #111112;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 4rem;
+      padding: 30px 0;
+      border-top: 1px solid var(--apple-card-border);
+    }
+
+    .footer-main {
+      width: 90%;
+      max-width: 1140px;
+    }
+
+    .footer-detail {
+      font-size: 0.75rem;
+      color: #7f8c8d;
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .footer-copyright {
+      color: #7f8c8d;
+      font-size: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION BAR -->
+<nav>
+  <div class="d-flex align-items-center gap-2 text-white fw-bold">
+    <i class="bi bi-apple fs-5"></i>
+    <span>Mac Studio <span class="fw-light text-secondary">| MLX Cluster Calculator</span></span>
+  </div>
+  <ul>
+    <li><a href="https://www.apple.com/au/shop/buy-mac/mac-studio" target="_blank">Apple AU Store</a></li>
+    <li><a href="https://github.com/ml-explore/mlx" target="_blank">Apple MLX Framework</a></li>
+  </ul>
+  <div class="d-flex align-items-center gap-2">
+    <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="btnThemeToggle" onclick="toggleTheme()">
+      <i class="bi bi-sun-fill" id="themeIcon"></i> <span id="themeText">Light Mode</span>
+    </button>
+    <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="resetDefaults()">
+      Reset
+    </button>
+  </div>
+</nav>
+
+<!-- WELCOME HERO SECTION -->
+<div class="welcome">
+  <h1>Mac Studio MLX LLM Cluster Cost Calculator</h1>
+  <p>Calculate minimum Apple Silicon hardware requirements & AUD cluster costs for large language models.</p>
+</div>
+
+<!-- MAIN CALCULATOR LAYOUT -->
+<div class="container-xl px-4">
+  <div class="row g-4">
+    
+    <!-- LEFT PANEL: INPUT CONTROLS -->
+    <div class="col-lg-5 col-xl-4">
+      <div class="grid-product">
+        
+        <!-- 1. MODEL SELECTION -->
+        <div class="mb-4">
+          <label class="section-title"><i class="bi bi-cpu me-1"></i> Select Model Architecture</label>
+          <select class="form-select form-select-lg bg-body-tertiary border-0 fs-6 fw-bold" id="modelSelect" onchange="onModelChange()"></select>
+
+          <div class="p-3 mt-3 rounded-3 bg-body-tertiary small text-secondary">
+            <div class="d-flex justify-content-between mb-1">
+              <span>Architecture:</span>
+              <span id="lblArch" class="fw-bold text-body">-</span>
+            </div>
+            <div class="d-flex justify-content-between mb-1">
+              <span>Total Parameters:</span>
+              <span id="lblParams" class="fw-bold text-body">-</span>
+            </div>
+            <div class="d-flex justify-content-between mb-1" id="rowActiveParams">
+              <span>Active Parameters (MoE):</span>
+              <span id="lblActiveParams" class="fw-bold text-body">-</span>
+            </div>
+            <div class="d-flex justify-content-between mb-1">
+              <span>Native Context Window:</span>
+              <span id="lblNativeCtx" class="fw-bold text-body">-</span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span>Repository Source:</span>
+              <a id="lblSource" href="#" target="_blank" class="text-primary text-decoration-none fw-bold">HuggingFace <i class="bi bi-box-arrow-up-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. QUANTISATION WITH TOOLTIP -->
+        <div class="mb-4">
+          <div class="d-flex align-items-center mb-2">
+            <label class="section-title mb-0"><i class="bi bi-sliders me-1"></i> Model Quantisation</label>
+            <i class="bi bi-question-circle-fill tooltip-icon" 
+               data-bs-toggle="tooltip" 
+               data-bs-placement="top" 
+               data-bs-title="Model Quantisation: Reduces model memory footprint by compressing FP16 weights into lower-bit representations (e.g. 4-bit or 8-bit). Lower bits save VRAM and cost, but may slightly impact accuracy."></i>
+          </div>
+          <div class="apple-pill-group" id="quantPillsGroup"></div>
+        </div>
+
+        <!-- 3. INFERENCE CONFIGURATION WITH TOOLTIPS -->
+        <div class="mb-4">
+          <div class="d-flex align-items-center mb-2">
+            <label class="section-title mb-0"><i class="bi bi-speedometer2 me-1"></i> Context & Concurrency</label>
+            <i class="bi bi-question-circle-fill tooltip-icon" 
+               data-bs-toggle="tooltip" 
+               data-bs-placement="top" 
+               data-bs-title="Context & Concurrency: Defines token processing length and simultaneous request scaling. Longer prompt lengths and higher user counts exponentially scale KV cache memory consumption."></i>
+          </div>
+          
+          <div class="mb-3">
+            <div class="d-flex justify-content-between small mb-1">
+              <span>Context Length (Tokens)</span>
+              <span id="lblCtxVal" class="fw-bold text-primary">8,192</span>
+            </div>
+            <input type="range" class="form-range" id="inputContext" min="1024" max="1000000" step="1024" value="8192" oninput="calculate()">
+          </div>
+
+          <div class="mb-3">
+            <div class="d-flex justify-content-between small mb-1">
+              <span class="d-flex align-items-center">
+                Max Generation Tokens
+                <i class="bi bi-question-circle-fill tooltip-icon" 
+                   data-bs-toggle="tooltip" 
+                   data-bs-placement="top" 
+                   data-bs-title="Max Generation Tokens: Upper limit on output tokens generated per request. Combined with context length to determine peak KV cache allocation requirements per user stream."></i>
+              </span>
+              <span id="lblGenVal" class="fw-bold text-primary">2,048</span>
+            </div>
+            <input type="range" class="form-range" id="inputGenLength" min="128" max="16384" step="128" value="2048" oninput="calculate()">
+          </div>
+
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label small d-flex align-items-center">
+                Concurrent Users
+                <i class="bi bi-question-circle-fill tooltip-icon" 
+                   data-bs-toggle="tooltip" 
+                   data-bs-placement="top" 
+                   data-bs-title="Concurrent Users: Number of simultaneous prompt execution streams served in parallel. Total KV Cache RAM = Per-Request KV Memory × Concurrent Users."></i>
+              </label>
+              <input type="number" class="form-control" id="inputConcurrency" value="1" min="1" max="256" onchange="calculate()">
+            </div>
+            <div class="col-6">
+              <label class="form-label small d-flex align-items-center">
+                Batch Size
+                <i class="bi bi-question-circle-fill tooltip-icon" 
+                   data-bs-toggle="tooltip" 
+                   data-bs-placement="top" 
+                   data-bs-title="Batch Size: Number of sequence forward passes executed together in MLX Metal matrix operations. Higher batching increases throughput at the expense of temporary runtime buffer RAM."></i>
+              </label>
+              <input type="number" class="form-control" id="inputBatch" value="1" min="1" max="64" onchange="calculate()">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small d-flex align-items-center">
+              KV Cache Quantisation
+              <i class="bi bi-question-circle-fill tooltip-icon" 
+                 data-bs-toggle="tooltip" 
+                 data-bs-placement="top" 
+                 data-bs-title="KV Cache Quantisation: Quantises Key-Value attention states stored during inference. Converting KV cache from FP16 to 8-bit or 4-bit reduces KV RAM up to 75% for long-context requests."></i>
+            </label>
+            <select class="form-select form-select-sm" id="selectKVCache" onchange="calculate()">
+              <option value="16">FP16 / BF16 (Uncompressed)</option>
+              <option value="8">8-bit KV Cache Quantisation (v2)</option>
+              <option value="4">4-bit KV Cache Quantisation (v2)</option>
+            </select>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label small d-flex align-items-center">
+              Safety Memory Margin (%)
+              <i class="bi bi-question-circle-fill tooltip-icon" 
+                 data-bs-toggle="tooltip" 
+                 data-bs-placement="top" 
+                 data-bs-title="Safety Memory Margin (%): Buffer added over calculated inference memory to guard against Metal unified memory allocation spikes, context fragmentation, and system process headroom."></i>
+            </label>
+            <input type="number" class="form-control form-control-sm" id="inputSafetyMargin" value="10" min="0" max="50" onchange="calculate()">
+          </div>
+        </div>
+
+        <!-- 4. TARGET HARDWARE -->
+        <div>
+          <label class="section-title"><i class="bi bi-display me-1"></i> Target Apple Hardware</label>
+          <select class="form-select form-select-lg bg-body-tertiary border-0 fs-6 fw-bold mb-2" id="hardwareSelect" onchange="onHardwareChange()"></select>
+
+          <div class="form-check form-switch mt-2">
+            <input class="form-check-input" type="checkbox" id="chkCustomPrice" onchange="toggleCustomPrice()">
+            <label class="form-check-label small" for="chkCustomPrice">Custom Unit Price Override</label>
+          </div>
+          <div id="customPriceBox" class="mt-2 d-none">
+            <div class="input-group input-group-sm">
+              <span class="input-group-text">A$</span>
+              <input type="number" class="form-control" id="inputCustomPrice" placeholder="Custom AUD Price" onchange="calculate()">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: DASHBOARD METRICS -->
+    <div class="col-lg-7 col-xl-8">
+      
+      <!-- HERO SUMMARY CARD -->
+      <div class="grid-product mb-4">
+        <div class="row align-items-center g-4">
+          <div class="col-md-7">
+            <div class="section-title mb-1">Estimated Apple Silicon Cluster</div>
+            <div class="hero-price mb-2" id="resTotalCost">A$15,499</div>
+            <div class="fs-5 fw-bold mb-1" id="resHardwareDesc">1x Mac Studio (256 GB)</div>
+            <div class="small text-secondary" id="resUnitPrice">Verified Price: A$15,499.00 AUD (Apple AU Store)</div>
+          </div>
+          <div class="col-md-5 border-start-md ps-md-4">
+            <div class="mb-3">
+              <div class="section-title">Total Unified Memory</div>
+              <div class="fs-3 fw-bold" id="resTotalRAM">256 GB</div>
+              <div class="small text-secondary" id="resUsableRAM">Usable RAM: ~244 GB</div>
+            </div>
+            <div>
+              <div class="section-title mb-1">MLX Compatibility Status</div>
+              <span id="resStatusBadge" class="badge bg-success text-black fs-6 px-3 py-2 rounded-pill">Supported — Single Mac</span>
+              <div class="small text-secondary mt-1" id="resExecutionMethod">Single Mac Standalone Execution</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEMORY BREAKDOWN VISUALISER BAR -->
+      <div class="grid-product mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span class="section-title mb-0">Cluster Memory Allocation Visualiser</span>
+          <span class="small fw-bold" id="lblMemRatio">0 GB / 256 GB</span>
+        </div>
+
+        <div class="memory-bar-container mb-3" id="memoryStackedBar"></div>
+
+        <div class="d-flex flex-wrap gap-3 small text-secondary">
+          <div><span class="legend-dot seg-weights"></span> Weights: <span id="legWeights" class="fw-bold text-body">0 GB</span></div>
+          <div><span class="legend-dot seg-scales"></span> Scales/Meta: <span id="legScales" class="fw-bold text-body">0 GB</span></div>
+          <div><span class="legend-dot seg-kv"></span> KV Cache: <span id="legKV" class="fw-bold text-body">0 GB</span></div>
+          <div><span class="legend-dot seg-runtime"></span> Runtime Buffers: <span id="legRuntime" class="fw-bold text-body">0 GB</span></div>
+          <div><span class="legend-dot seg-macos"></span> macOS Overhead: <span id="legMacOS" class="fw-bold text-body">0 GB</span></div>
+          <div><span class="legend-dot seg-safety"></span> Safety Margin: <span id="legSafety" class="fw-bold text-body">0 GB</span></div>
+          <div><span class="legend-dot seg-free"></span> Free RAM: <span id="legFree" class="fw-bold text-body">0 GB</span></div>
+        </div>
+      </div>
+
+      <!-- DETAILED BREAKDOWN TABLES -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <div class="grid-product h-100">
+            <h6 class="fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2"><i class="bi bi-memory me-2"></i> Inference Memory Sizing</h6>
+            <table class="table table-sm text-secondary mb-0 small">
+              <tbody>
+                <tr>
+                  <td>Model Weights</td>
+                  <td class="text-end fw-bold text-body" id="tbWeightSize">-</td>
+                </tr>
+                <tr>
+                  <td>Quant Scales & Overhead</td>
+                  <td class="text-end fw-bold text-body" id="tbMetaSize">-</td>
+                </tr>
+                <tr>
+                  <td>KV Cache (<span id="tbKVInfo">FP16</span>)</td>
+                  <td class="text-end fw-bold text-body" id="tbKVSize">-</td>
+                </tr>
+                <tr>
+                  <td>Runtime Scratchpad</td>
+                  <td class="text-end fw-bold text-body" id="tbRuntimeSize">-</td>
+                </tr>
+                <tr>
+                  <td>Safety Reserve Margin</td>
+                  <td class="text-end fw-bold text-body" id="tbSafetySize">-</td>
+                </tr>
+                <tr class="table-active">
+                  <td class="fw-bold text-body">Total Required RAM</td>
+                  <td class="text-end fw-bold text-primary" id="tbTotalInferenceMem">-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="grid-product h-100">
+            <h6 class="fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2"><i class="bi bi-gear me-2"></i> Hardware & Port Specifications</h6>
+            <table class="table table-sm text-secondary mb-0 small">
+              <tbody>
+                <tr>
+                  <td>Hardware Model</td>
+                  <td class="text-end fw-bold text-body" id="tbHardwareName">-</td>
+                </tr>
+                <tr>
+                  <td>Unified RAM / Node</td>
+                  <td class="text-end fw-bold text-body" id="tbRamPerMac">-</td>
+                </tr>
+                <tr>
+                  <td>Usable RAM (Minus macOS)</td>
+                  <td class="text-end fw-bold text-body" id="tbUsablePerMac">-</td>
+                </tr>
+                <tr>
+                  <td>SSD Requirement</td>
+                  <td class="text-end fw-bold text-body" id="tbSSDPerMac">-</td>
+                </tr>
+                <tr>
+                  <td>Inference Strategy</td>
+                  <td class="text-end fw-bold text-body" id="tbInferenceStrategy">-</td>
+                </tr>
+                <tr class="table-active">
+                  <td class="fw-bold text-body">Data Source</td>
+                  <td class="text-end fw-bold text-body" id="tbVerifiedDate">-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPATIBILITY ALERT BOX -->
+      <div id="alertBox" class="alert alert-info d-flex align-items-start gap-3 rounded-3 mb-4" role="alert">
+        <i class="bi bi-info-circle-fill fs-4 flex-shrink-0" id="alertIcon"></i>
+        <div>
+          <h6 class="alert-heading fw-bold mb-1" id="alertTitle">MLX Execution Analysis</h6>
+          <div class="small" id="alertBody">Select model and hardware parameters to compute MLX cluster cost requirements.</div>
+        </div>
+      </div>
+
+      <!-- QUANTISATION COMPARISON MATRIX -->
+      <div class="grid-product mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span class="section-title mb-0">Quantisation Comparison Matrix</span>
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="exportCSV()"><i class="bi bi-filetype-csv me-1"></i> Export CSV</button>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="exportJSON()"><i class="bi bi-filetype-json me-1"></i> Export JSON</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0 text-center small">
+            <thead>
+              <tr>
+                <th>Quantisation</th>
+                <th>Weights Size</th>
+                <th>Total RAM Required</th>
+                <th>Required Mac Studios</th>
+                <th>Cluster Cost (AUD)</th>
+                <th>MLX Status</th>
+              </tr>
+            </thead>
+            <tbody id="tblQuantComparison"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-detail">
+      Apple, Mac Studio, MacBook Pro, and Apple Silicon are trademarks of Apple Inc., registered in the U.S. and other countries. MLX and MLX-LM are open-source machine learning frameworks developed by Apple. Prices listed in AUD from Apple Store Australia.
+    </div>
+    <div class="footer-copyright">
+      <div>Copyright © 2026 Apple MLX Cluster Estimator. All rights reserved.</div>
+      <div class="footer-lang">
+        <p>Australia (AUD)</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- JavaScript Engine & Bootstrap Tooltips -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ============================================================================
+// HARDWARE & MODEL CATALOGUES
+// ============================================================================
+
+const HARDWARE_CATALOGUE = [
+  {
+    id: "mac-studio-256",
+    name: "Mac Studio (30-core CPU, 64-core GPU, 256GB)",
+    chip: "M-Series Ultra",
+    unifiedMemoryGB: 256,
+    ssdCapacityGB: 1024,
+    priceAUD: 15499.00,
+    ports: "6x Thunderbolt 5, 2x USB-A, HDMI, 10Gb Ethernet, SDXC",
+    sourceUrl: "https://www.apple.com/au/shop/buy-mac/mac-studio",
+    verifiedDate: "2026-03-15",
+    verified: true
+  },
+  {
+    id: "macbook-pro-128",
+    name: "MacBook Pro 16\" (M4 Max, 128 GB)",
+    chip: "M4 Max",
+    unifiedMemoryGB: 128,
+    ssdCapacityGB: 1024,
+    priceAUD: 6499.00,
+    ports: "3x Thunderbolt 5, HDMI, SDXC",
+    sourceUrl: "https://www.apple.com/au/shop/buy-mac/macbook-pro",
+    verifiedDate: "2024-11-01",
+    verified: true
+  },
+  {
+    id: "mac-pro-192",
+    name: "Mac Pro (M3 Ultra, 192 GB)",
+    chip: "M3 Ultra",
+    unifiedMemoryGB: 192,
+    ssdCapacityGB: 1024,
+    priceAUD: 11999.00,
+    ports: "8x Thunderbolt 4, 2x HDMI, 2x 10Gb Ethernet",
+    sourceUrl: "https://www.apple.com/au/shop/buy-mac/mac-pro",
+    verifiedDate: "2024-06-05",
+    verified: true
+  }
+];
+
+const MODEL_CATALOGUE = [
+  // ---- Newly added: largest open-weight models (Oct 2026) ----
+  // NOTE: layer/head/KV dimensions and some context windows are ESTIMATES (estimated:true)
+  // because they were not found in the sources; verify against each model's config.json.
+  {
+    id: "kimi-k3-2.8t",
+    name: "Kimi K3 (2.8T MoE)",
+    family: "Moonshot",
+    totalParamsB: 2800,
+    activeParamsB: 104,
+    isMoE: true,
+    numLayers: 64,
+    hiddenSize: 8192,
+    numAttentionHeads: 128,
+    numKVHeads: 128,
+    isMLA: true,
+    mlaKvDim: 576,
+    contextWindow: 1000000,
+    sourceUrl: "https://huggingface.co/moonshotai",
+    quants: ["2-bit", "3-bit", "4-bit", "6-bit"],
+    distributedSupported: true,
+    estimated: true,
+    specNote: "Active params reported as ~104B (some sources say ~50B). Layer/KV dims estimated."
+  },
+  {
+    id: "qwen3-8-2.4t",
+    name: "Qwen3.8 (2.4T MoE)",
+    family: "Qwen",
+    totalParamsB: 2400,
+    activeParamsB: 95,
+    isMoE: true,
+    numLayers: 96,
+    hiddenSize: 8192,
+    numAttentionHeads: 64,
+    numKVHeads: 8,
+    isMLA: false,
+    contextWindow: 262144,
+    sourceUrl: "https://huggingface.co/Qwen",
+    quants: ["2-bit", "3-bit", "4-bit", "6-bit"],
+    distributedSupported: true,
+    estimated: true,
+    specNote: "Layer/head dims and context window estimated. Confirm weights are released; larger Qwen models carry a revenue-share licence above US$50M/yr."
+  },
+  {
+    id: "mistral-large-4",
+    name: "Mistral Large 4 (~1T MoE)",
+    family: "Mistral",
+    totalParamsB: 1000,
+    activeParamsB: 52,
+    isMoE: true,
+    numLayers: 88,
+    hiddenSize: 8192,
+    numAttentionHeads: 64,
+    numKVHeads: 8,
+    isMLA: false,
+    contextWindow: 262144,
+    sourceUrl: "https://huggingface.co/mistralai",
+    quants: ["2-bit", "3-bit", "4-bit", "6-bit", "8-bit"],
+    distributedSupported: true,
+    estimated: true,
+    specNote: "Total parameters are approximate (~1T). Layer/head dims and context window estimated."
+  },
+  {
+    id: "inkling-975b",
+    name: "Inkling — Thinking Machines (975B MoE)",
+    family: "Thinking Machines",
+    totalParamsB: 975,
+    activeParamsB: 41,
+    isMoE: true,
+    numLayers: 80,
+    hiddenSize: 8192,
+    numAttentionHeads: 64,
+    numKVHeads: 8,
+    isMLA: false,
+    contextWindow: 262144,
+    sourceUrl: "https://huggingface.co/models?search=inkling",
+    quants: ["2-bit", "3-bit", "4-bit", "6-bit", "8-bit"],
+    distributedSupported: true,
+    estimated: true,
+    specNote: "Layer/head dims and context window estimated."
+  },
+  {
+    id: "muse-spark-open-816b",
+    name: "Muse Spark Open — Meta (816B MoE)",
+    family: "Meta",
+    totalParamsB: 816,
+    activeParamsB: 42,
+    isMoE: true,
+    numLayers: 80,
+    hiddenSize: 8192,
+    numAttentionHeads: 64,
+    numKVHeads: 8,
+    isMLA: false,
+    contextWindow: 262144,
+    sourceUrl: "https://huggingface.co/models?search=muse-spark",
+    quants: ["2-bit", "3-bit", "4-bit", "6-bit", "8-bit"],
+    distributedSupported: true,
+    estimated: true,
+    specNote: "Layer/head dims and context window estimated. Licence requires 'Built with Muse Spark Open' attribution; agreement with Meta for API sellers above US$20M."
+  },
+  {
+    id: "glm-5-3-753b",
+    name: "GLM-5.3 — Z.ai (753B MoE)",
+    family: "Z.ai",
+    totalParamsB: 753,
+    activeParamsB: 40,
+    isMoE: true,
+    numLayers: 80,
+    hiddenSize: 6144,
+    numAttentionHeads: 96,
+    numKVHeads: 8,
+    isMLA: false,
+    contextWindow: 200000,
+    sourceUrl: "https://huggingface.co/zai-org",
+    quants: ["2-bit", "3-bit", "4-bit", "6-bit", "8-bit"],
+    distributedSupported: true,
+    estimated: true,
+    specNote: "Active params taken from GLM-5.2 (40B). Layer/head dims and context window estimated."
+  },
+  // ---- Original catalogue ----
+  {
+    id: "deepseek-v4-flash-284b",
+    name: "DeepSeek V4 Flash (284B MoE)",
+    family: "DeepSeek",
+    totalParamsB: 284,
+    activeParamsB: 13,
+    isMoE: true,
+    numLayers: 64,
+    hiddenSize: 7168,
+    numAttentionHeads: 128,
+    numKVHeads: 128,
+    isMLA: true,
+    mlaKvDim: 512,
+    contextWindow: 1000000,
+    sourceUrl: "https://huggingface.co/mlx-community/DeepSeek-V4-Flash-4bit",
+    quants: ["2-bit", "3-bit", "4-bit", "6-bit", "8-bit"],
+    distributedSupported: true
+  },
+  {
+    id: "deepseek-v4-pro-1.6t",
+    name: "DeepSeek V4 Pro (1.6T MoE)",
+    family: "DeepSeek",
+    totalParamsB: 1600,
+    activeParamsB: 49,
+    isMoE: true,
+    numLayers: 128,
+    hiddenSize: 8192,
+    numAttentionHeads: 128,
+    numKVHeads: 128,
+    isMLA: true,
+    mlaKvDim: 512,
+    contextWindow: 1000000,
+    sourceUrl: "https://huggingface.co/mlx-community/DeepSeek-V4-Pro",
+    quants: ["2-bit", "3-bit", "4-bit", "6-bit"],
+    distributedSupported: true
+  },
+  {
+    id: "deepseek-v3-671b",
+    name: "DeepSeek V3 (671B MoE)",
+    family: "DeepSeek",
+    totalParamsB: 671,
+    activeParamsB: 37,
+    isMoE: true,
+    numLayers: 61,
+    hiddenSize: 7168,
+    numAttentionHeads: 128,
+    numKVHeads: 128,
+    isMLA: true,
+    mlaKvDim: 512,
+    contextWindow: 128000,
+    sourceUrl: "https://huggingface.co/deepseek-ai/DeepSeek-V3",
+    quants: ["2-bit", "3-bit", "4-bit", "6-bit", "8-bit"],
+    distributedSupported: true
+  },
+  {
+    id: "deepseek-r1-671b",
+    name: "DeepSeek R1 (671B MoE Reasoning)",
+    family: "DeepSeek",
+    totalParamsB: 671,
+    activeParamsB: 37,
+    isMoE: true,
+    numLayers: 61,
+    hiddenSize: 7168,
+    numAttentionHeads: 128,
+    numKVHeads: 128,
+    isMLA: true,
+    mlaKvDim: 512,
+    contextWindow: 128000,
+    sourceUrl: "https://huggingface.co/deepseek-ai/DeepSeek-R1",
+    quants: ["2-bit", "3-bit", "4-bit", "6-bit", "8-bit"],
+    distributedSupported: true
+  },
+  {
+    id: "llama-3-3-70b",
+    name: "Llama 3.3 70B Instruct",
+    family: "Llama",
+    totalParamsB: 70,
+    activeParamsB: 70,
+    isMoE: false,
+    numLayers: 80,
+    hiddenSize: 8192,
+    numAttentionHeads: 64,
+    numKVHeads: 8,
+    isMLA: false,
+    contextWindow: 128000,
+    sourceUrl: "https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct",
+    quants: ["3-bit", "4-bit", "6-bit", "8-bit", "FP16"],
+    distributedSupported: true
+  },
+  {
+    id: "llama-3-1-405b",
+    name: "Llama 3.1 405B Instruct",
+    family: "Llama",
+    totalParamsB: 405,
+    activeParamsB: 405,
+    isMoE: false,
+    numLayers: 126,
+    hiddenSize: 16384,
+    numAttentionHeads: 128,
+    numKVHeads: 16,
+    isMLA: false,
+    contextWindow: 128000,
+    sourceUrl: "https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct",
+    quants: ["2-bit", "3-bit", "4-bit", "6-bit", "8-bit"],
+    distributedSupported: true
+  },
+  {
+    id: "qwen-2-5-72b",
+    name: "Qwen 2.5 72B Instruct",
+    family: "Qwen",
+    totalParamsB: 72,
+    activeParamsB: 72,
+    isMoE: false,
+    numLayers: 80,
+    hiddenSize: 8192,
+    numAttentionHeads: 64,
+    numKVHeads: 8,
+    isMLA: false,
+    contextWindow: 131072,
+    sourceUrl: "https://huggingface.co/Qwen/Qwen2.5-72B-Instruct",
+    quants: ["3-bit", "4-bit", "6-bit", "8-bit", "FP16"],
+    distributedSupported: true
+  },
+  {
+    id: "mixtral-8x22b",
+    name: "Mixtral 8x22B v0.1 (MoE)",
+    family: "Mistral",
+    totalParamsB: 141,
+    activeParamsB: 39,
+    isMoE: true,
+    numLayers: 56,
+    hiddenSize: 6144,
+    numAttentionHeads: 48,
+    numKVHeads: 8,
+    isMLA: false,
+    contextWindow: 65536,
+    sourceUrl: "https://huggingface.co/mistralai/Mixtral-8x22B-v0.1",
+    quants: ["3-bit", "4-bit", "6-bit", "8-bit"],
+    distributedSupported: true
+  }
+];
+
+const QUANT_BITS = {
+  "2-bit": 2.15,
+  "3-bit": 3.20,
+  "4-bit": 4.25,
+  "6-bit": 6.35,
+  "8-bit": 8.40,
+  "FP16": 16.0
+};
+
+const MACOS_RESERVE_GB = 12.0;
+const RUNTIME_BASE_GB = 2.5;
+let currentQuant = "4-bit";
+
+// ============================================================================
+// APP INIT & EVENT HANDLERS
+// ============================================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+
+  populateModels();
+  populateHardware();
+  onModelChange();
+});
+
+function populateModels() {
+  const sel = document.getElementById("modelSelect");
+  sel.innerHTML = "";
+  MODEL_CATALOGUE.forEach(m => {
+    const opt = document.createElement("option");
+    opt.value = m.id;
+    opt.textContent = `${m.name} (${m.totalParamsB}B)`;
+    sel.appendChild(opt);
+  });
+}
+
+function populateHardware() {
+  const sel = document.getElementById("hardwareSelect");
+  sel.innerHTML = "";
+  HARDWARE_CATALOGUE.forEach(h => {
+    const opt = document.createElement("option");
+    opt.value = h.id;
+    opt.textContent = `${h.name} - A$${h.priceAUD.toLocaleString()}`;
+    sel.appendChild(opt);
+  });
+}
+
+function onModelChange() {
+  const modelId = document.getElementById("modelSelect").value;
+  const model = MODEL_CATALOGUE.find(m => m.id === modelId);
+  if (!model) return;
+
+  document.getElementById("lblArch").textContent = model.isMoE ? "Mixture of Experts (MoE)" : "Dense Transformer";
+  document.getElementById("lblParams").textContent = `${model.totalParamsB}B`;
+  
+  const rowActive = document.getElementById("rowActiveParams");
+  if (model.isMoE) {
+    rowActive.style.display = "flex";
+    document.getElementById("lblActiveParams").textContent = `${model.activeParamsB}B`;
+  } else {
+    rowActive.style.display = "none";
+  }
+
+  document.getElementById("lblNativeCtx").textContent = `${model.contextWindow.toLocaleString()} tokens`;
+  document.getElementById("lblSource").href = model.sourceUrl;
+
+  const ctxSlider = document.getElementById("inputContext");
+  ctxSlider.max = model.contextWindow;
+  if (parseInt(ctxSlider.value) > model.contextWindow) {
+    ctxSlider.value = model.contextWindow;
+  }
+
+  const pillGroup = document.getElementById("quantPillsGroup");
+  pillGroup.innerHTML = "";
+  
+  if (!model.quants.includes(currentQuant)) {
+    currentQuant = model.quants[0];
+  }
+
+  model.quants.forEach(q => {
+    const pill = document.createElement("div");
+    pill.className = `apple-pill ${q === currentQuant ? 'active' : ''}`;
+    pill.textContent = q;
+    pill.onclick = () => {
+      document.querySelectorAll(".apple-pill").forEach(p => p.classList.remove("active"));
+      pill.classList.add("active");
+      currentQuant = q;
+      calculate();
+    };
+    pillGroup.appendChild(pill);
+  });
+
+  calculate();
+}
+
+function onHardwareChange() {
+  const hwId = document.getElementById("hardwareSelect").value;
+  const hw = HARDWARE_CATALOGUE.find(h => h.id === hwId);
+  if (hw && document.getElementById("chkCustomPrice").checked) {
+    document.getElementById("inputCustomPrice").value = hw.priceAUD;
+  }
+  calculate();
+}
+
+function toggleCustomPrice() {
+  const chk = document.getElementById("chkCustomPrice").checked;
+  const box = document.getElementById("customPriceBox");
+  box.classList.toggle("d-none", !chk);
+  if (chk) {
+    const hwId = document.getElementById("hardwareSelect").value;
+    const hw = HARDWARE_CATALOGUE.find(h => h.id === hwId);
+    if (hw) document.getElementById("inputCustomPrice").value = hw.priceAUD;
+  }
+  calculate();
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute("data-bs-theme") === "dark";
+  const newTheme = isDark ? "light" : "dark";
+  html.setAttribute("data-bs-theme", newTheme);
+  
+  document.getElementById("themeIcon").className = newTheme === "dark" ? "bi bi-sun-fill" : "bi bi-moon-stars-fill";
+  document.getElementById("themeText").textContent = newTheme === "dark" ? "Light Mode" : "Dark Mode";
+}
+
+function resetDefaults() {
+  document.getElementById("modelSelect").selectedIndex = 0;
+  document.getElementById("hardwareSelect").selectedIndex = 0;
+  document.getElementById("inputContext").value = 8192;
+  document.getElementById("inputGenLength").value = 2048;
+  document.getElementById("inputConcurrency").value = 1;
+  document.getElementById("inputBatch").value = 1;
+  document.getElementById("selectKVCache").value = "16";
+  document.getElementById("inputSafetyMargin").value = 10;
+  document.getElementById("chkCustomPrice").checked = false;
+  document.getElementById("customPriceBox").classList.add("d-none");
+  currentQuant = "4-bit";
+  onModelChange();
+}
+
+// ============================================================================
+// CALCULATION ENGINE
+// ============================================================================
+
+function calculateModelMemoryGB(model, quantKey) {
+  const bpw = QUANT_BITS[quantKey] || 4.25;
+  const weightBytes = (model.totalParamsB * 1e9 * bpw) / 8;
+  const weightGB = weightBytes / (1024 * 1024 * 1024);
+  const scaleOverheadGB = bpw < 16 ? weightGB * 0.05 : 0;
+  return { weightGB, scaleOverheadGB };
+}
+
+function calculateKVMemoryGB(model, contextLen, concurrency, kvBits) {
+  const bytesPerVal = kvBits / 8;
+  let totalKVBytes = 0;
+
+  if (model.isMLA) {
+    totalKVBytes = model.numLayers * model.mlaKvDim * contextLen * concurrency * bytesPerVal;
+  } else {
+    const headDim = model.hiddenSize / model.numAttentionHeads;
+    totalKVBytes = model.numLayers * (2 * model.numKVHeads * headDim) * contextLen * concurrency * bytesPerVal;
+  }
+
+  return totalKVBytes / (1024 * 1024 * 1024);
+}
+
+function calculate() {
+  const modelId = document.getElementById("modelSelect").value;
+  const contextLen = parseInt(document.getElementById("inputContext").value);
+  const genLen = parseInt(document.getElementById("inputGenLength").value);
+  const concurrency = parseInt(document.getElementById("inputConcurrency").value);
+  const batchSize = parseInt(document.getElementById("inputBatch").value);
+  const kvBits = parseInt(document.getElementById("selectKVCache").value);
+  const safetyMarginPct = parseFloat(document.getElementById("inputSafetyMargin").value) / 100.0;
+  const hwId = document.getElementById("hardwareSelect").value;
+
+  const model = MODEL_CATALOGUE.find(m => m.id === modelId);
+  const hw = HARDWARE_CATALOGUE.find(h => h.id === hwId);
+
+  document.getElementById("lblCtxVal").textContent = contextLen.toLocaleString();
+  document.getElementById("lblGenVal").textContent = genLen.toLocaleString();
+
+  if (!model || !hw) return;
+
+  let unitPriceAUD = hw.priceAUD;
+  if (document.getElementById("chkCustomPrice").checked) {
+    const customP = parseFloat(document.getElementById("inputCustomPrice").value);
+    if (!isNaN(customP) && customP > 0) unitPriceAUD = customP;
+  }
+
+  const { weightGB, scaleOverheadGB } = calculateModelMemoryGB(model, currentQuant);
+  const kvCacheGB = calculateKVMemoryGB(model, contextLen + genLen, concurrency, kvBits);
+  const activeParams = model.isMoE ? model.activeParamsB : model.totalParamsB;
+  const runtimeBufferGB = RUNTIME_BASE_GB + (batchSize * activeParams * 0.02);
+
+  const rawSubtotalGB = weightGB + scaleOverheadGB + kvCacheGB + runtimeBufferGB;
+  const safetyBufferGB = rawSubtotalGB * safetyMarginPct;
+  const totalInferenceGB = rawSubtotalGB + safetyBufferGB;
+
+  const usableMemPerMacGB = hw.unifiedMemoryGB - MACOS_RESERVE_GB;
+  let requiredMacs = Math.ceil(totalInferenceGB / usableMemPerMacGB);
+  if (requiredMacs < 1) requiredMacs = 1;
+
+  let executionMethod = "";
+  let badgeClass = "";
+  let statusText = "";
+  let alertTitle = "";
+  let alertBody = "";
+
+  if (requiredMacs === 1) {
+    executionMethod = "Single Mac Standalone Execution";
+    badgeClass = "bg-success text-black";
+    statusText = "Supported — Single Mac";
+    alertTitle = "Single Mac Deployment Supported";
+    alertBody = `This configuration requires ${totalInferenceGB.toFixed(1)} GB RAM, fitting fully within a single ${hw.name} (${usableMemPerMacGB.toFixed(1)} GB usable memory).`;
+  } else {
+    executionMethod = `MLX Distributed Cluster (${requiredMacs}x Nodes)`;
+    badgeClass = "bg-primary text-white";
+    statusText = "Supported — MLX Cluster";
+    alertTitle = `Distributed MLX Cluster Required (${requiredMacs}x Units)`;
+    alertBody = `Memory requirement (${totalInferenceGB.toFixed(1)} GB) exceeds single node capacity. MLX native distributed execution (\`mlx.core.distributed\`) spans across ${requiredMacs}x Mac Studios connected over Thunderbolt 5 / 10GbE network.`;
+  }
+
+  const totalCostAUD = requiredMacs * unitPriceAUD;
+
+  // Render Top Hero Summary
+  document.getElementById("resTotalCost").textContent = `A$${totalCostAUD.toLocaleString('en-AU', {maximumFractionDigits: 0})}`;
+  document.getElementById("resHardwareDesc").textContent = `${requiredMacs}x ${hw.name}`;
+  document.getElementById("resUnitPrice").textContent = `Unit Price: A$${unitPriceAUD.toLocaleString('en-AU')} AUD (${hw.verified ? 'Apple AU Store' : 'Custom'})`;
+  document.getElementById("resTotalRAM").textContent = `${requiredMacs * hw.unifiedMemoryGB} GB`;
+  document.getElementById("resUsableRAM").textContent = `Usable RAM: ~${(requiredMacs * usableMemPerMacGB).toFixed(1)} GB`;
+
+  const badgeEl = document.getElementById("resStatusBadge");
+  badgeEl.className = `badge fs-6 px-3 py-2 rounded-pill ${badgeClass}`;
+  badgeEl.textContent = statusText;
+  document.getElementById("resExecutionMethod").textContent = executionMethod;
+
+  // Render Stacked Bar
+  renderStackedBar(weightGB, scaleOverheadGB, kvCacheGB, runtimeBufferGB, safetyBufferGB, MACOS_RESERVE_GB, hw.unifiedMemoryGB * requiredMacs);
+
+  // Render Metric Breakdown
+  document.getElementById("tbWeightSize").textContent = `${weightGB.toFixed(2)} GB`;
+  document.getElementById("tbMetaSize").textContent = `${scaleOverheadGB.toFixed(2)} GB`;
+  document.getElementById("tbKVInfo").textContent = `${kvBits}-bit`;
+  document.getElementById("tbKVSize").textContent = `${kvCacheGB.toFixed(2)} GB`;
+  document.getElementById("tbRuntimeSize").textContent = `${runtimeBufferGB.toFixed(2)} GB`;
+  document.getElementById("tbSafetySize").textContent = `${safetyBufferGB.toFixed(2)} GB`;
+  document.getElementById("tbTotalInferenceMem").textContent = `${totalInferenceGB.toFixed(2)} GB`;
+
+  document.getElementById("tbHardwareName").textContent = hw.name;
+  document.getElementById("tbRamPerMac").textContent = `${hw.unifiedMemoryGB} GB`;
+  document.getElementById("tbUsablePerMac").textContent = `${usableMemPerMacGB.toFixed(1)} GB`;
+  document.getElementById("tbSSDPerMac").textContent = `~${Math.ceil((weightGB + scaleOverheadGB) * 1.25)} GB Free SSD`;
+  document.getElementById("tbInferenceStrategy").textContent = executionMethod;
+  document.getElementById("tbVerifiedDate").textContent = `Apple Store (${hw.verifiedDate})`;
+
+  // Update Alert Box
+  document.getElementById("alertTitle").textContent = alertTitle;
+  if (model.estimated) {
+    alertBody += `<div class="mt-2 text-warning"><i class="bi bi-exclamation-triangle-fill me-1"></i><strong>Estimated specs:</strong> ${model.specNote}</div>`;
+  }
+  document.getElementById("alertBody").innerHTML = alertBody;
+
+  // Render Comparison Matrix Table
+  renderQuantComparisonTable(model, contextLen, genLen, concurrency, kvBits, safetyMarginPct, hw, unitPriceAUD);
+}
+
+function renderStackedBar(weights, scales, kv, runtime, safety, macos, totalCapacity) {
+  const totalUsed = weights + scales + kv + runtime + safety + macos;
+  const maxCap = Math.max(totalCapacity, totalUsed);
+
+  document.getElementById("lblMemRatio").textContent = `${totalUsed.toFixed(1)} GB / ${totalCapacity} GB`;
+
+  const bar = document.getElementById("memoryStackedBar");
+  bar.innerHTML = `
+    <div class="memory-bar-segment seg-weights" style="width: ${(weights/maxCap)*100}%" title="Weights">${weights > 8 ? weights.toFixed(1)+'G' : ''}</div>
+    <div class="memory-bar-segment seg-scales" style="width: ${(scales/maxCap)*100}%" title="Scales"></div>
+    <div class="memory-bar-segment seg-kv" style="width: ${(kv/maxCap)*100}%" title="KV Cache">${kv > 6 ? kv.toFixed(1)+'G' : ''}</div>
+    <div class="memory-bar-segment seg-runtime" style="width: ${(runtime/maxCap)*100}%" title="Runtime"></div>
+    <div class="memory-bar-segment seg-macos" style="width: ${(macos/maxCap)*100}%" title="macOS"></div>
+    <div class="memory-bar-segment seg-safety" style="width: ${(safety/maxCap)*100}%" title="Safety"></div>
+    <div class="memory-bar-segment seg-free" style="width: ${Math.max(0, ((maxCap - totalUsed)/maxCap)*100)}%" title="Free"></div>
+  `;
+
+  document.getElementById("legWeights").textContent = `${weights.toFixed(1)} GB`;
+  document.getElementById("legScales").textContent = `${scales.toFixed(1)} GB`;
+  document.getElementById("legKV").textContent = `${kv.toFixed(1)} GB`;
+  document.getElementById("legRuntime").textContent = `${runtime.toFixed(1)} GB`;
+  document.getElementById("legMacOS").textContent = `${macos.toFixed(1)} GB`;
+  document.getElementById("legSafety").textContent = `${safety.toFixed(1)} GB`;
+  document.getElementById("legFree").textContent = `${Math.max(0, maxCap - totalUsed).toFixed(1)} GB`;
+}
+
+function renderQuantComparisonTable(model, contextLen, genLen, concurrency, kvBits, safetyMarginPct, hw, unitPriceAUD) {
+  const tbody = document.getElementById("tblQuantComparison");
+  tbody.innerHTML = "";
+  const usableMem = hw.unifiedMemoryGB - MACOS_RESERVE_GB;
+
+  model.quants.forEach(qKey => {
+    const { weightGB, scaleOverheadGB } = calculateModelMemoryGB(model, qKey);
+    const kvCacheGB = calculateKVMemoryGB(model, contextLen + genLen, concurrency, kvBits);
+    const activeParams = model.isMoE ? model.activeParamsB : model.totalParamsB;
+    const runtimeBufferGB = RUNTIME_BASE_GB + (1 * activeParams * 0.02);
+    
+    const subtotal = weightGB + scaleOverheadGB + kvCacheGB + runtimeBufferGB;
+    const totalMem = subtotal + (subtotal * safetyMarginPct);
+
+    let macsReq = Math.ceil(totalMem / usableMem);
+    if (macsReq < 1) macsReq = 1;
+
+    const totalCost = macsReq * unitPriceAUD;
+
+    const tr = document.createElement("tr");
+    if (qKey === currentQuant) tr.className = "table-active fw-bold";
+
+    tr.innerHTML = `
+      <td>${qKey}</td>
+      <td>${(weightGB + scaleOverheadGB).toFixed(1)} GB</td>
+      <td class="text-primary fw-bold">${totalMem.toFixed(1)} GB</td>
+      <td class="fw-bold fs-6">${macsReq}</td>
+      <td class="text-success fw-bold">A$${totalCost.toLocaleString('en-AU')}</td>
+      <td><span class="badge ${macsReq === 1 ? 'bg-success text-black' : 'bg-primary'}">${macsReq === 1 ? 'Single Node' : 'MLX Cluster'}</span></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ============================================================================
+// EXPORT CONTROLS
+// ============================================================================
+
+function exportCSV() {
+  const model = MODEL_CATALOGUE.find(m => m.id === document.getElementById("modelSelect").value);
+  const hw = HARDWARE_CATALOGUE.find(h => h.id === document.getElementById("hardwareSelect").value);
+  let csv = `Quantisation,Weights (GB),Total RAM Required (GB),Required Mac Studios,Cluster Cost (AUD)\n`;
+  document.querySelectorAll("#tblQuantComparison tr").forEach(r => {
+    const cols = r.querySelectorAll("td");
+    if (cols.length) csv += `"${cols[0].innerText}",${cols[1].innerText.replace(' GB','')},${cols[2].innerText.replace(' GB','')},${cols[3].innerText},${cols[4].innerText.replace('A$','').replace(/,/g,'')}\n`;
+  });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+  a.download = `mlx_mac_studio_cost_${model.id}.csv`;
+  a.click();
+}
+
+function exportJSON() {
+  const model = MODEL_CATALOGUE.find(m => m.id === document.getElementById("modelSelect").value);
+  const hw = HARDWARE_CATALOGUE.find(h => h.id === document.getElementById("hardwareSelect").value);
+  const data = { model, hardware: hw, timestamp: new Date().toISOString() };
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
+  a.download = `mlx_cluster_config_${model.id}.json`;
+  a.click();
+}
+</script>
+</body>
+</html>
