@@ -1,5 +1,8 @@
 # Apple MLX LLM Cluster Cost Calculator
 
+- https://gemini.google.com/app/b55263f0c68bdb04?hl=en-AU
+- https://www.apple.com/au/shop/buy-mac/mac-studio?
+
 Build a complete, single-file `index.html` frontend-only calculator using HTML5, CSS3, Bootstrap 5, and vanilla JavaScript.
 
 ## Objective
