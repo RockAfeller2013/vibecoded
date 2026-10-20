@@ -18,7 +18,8 @@
 - https://github.com/heygen-com/hyperframes
 - https://github.com/penecho/penecho
 - https://gamma.app/pricing
-
+- https://animejs.com/documentation/adapters/threejs-adapter/threejs-instanced-and-batched-meshes
+- 
 ## JavaScript Libaraies 
 
 - https://gsap.com/showcase/
