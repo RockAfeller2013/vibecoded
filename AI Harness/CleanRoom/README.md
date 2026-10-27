@@ -4,6 +4,8 @@
 - Review API
 - Use BurpSuit
 - Review Screenshots
+- Playwrite
+- https://mobbin.com/finance
 - rea
 - REA-Reconstruction-Companion - https://github.com/ShadowSwaps/REA-Reconstruction-Companion
 - https://github.com/morluto/rea
