@@ -2,6 +2,8 @@
 
 # Use AI to gereate AI procedural image
 
+- Single Page, Vertical Scroll Websites, with simple contact form and 3D background which moves or Partical Effects, with simple domain registrations
+
 Example - https://gamma.app/
 
 - Powerfull Websites - https://www.facebook.com/reel/715110534944386
