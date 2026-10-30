@@ -10,6 +10,7 @@ Example - https://gamma.app/
 -Export to web format
 - Create a Onepage scroll website
 - React 3D Animation Website Tutorial with ThreeJS (WebGi) & GSAP - https://www.youtube.com/watch?v=IyBhFma4H1A
+- https://lnkd.in/p/ggN-QsKb
 
 - following links and examples should provide solid insight into that workflow if you're interested.
 
