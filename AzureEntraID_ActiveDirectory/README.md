@@ -1,0 +1,2 @@
+- https://maester.dev/docs/next/tests/
+- https://chatgpt.com/c/6ae42e92-2434-83ec-b64a-b30f5f59a4d0
