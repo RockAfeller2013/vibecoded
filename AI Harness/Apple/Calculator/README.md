@@ -1,6 +1,6 @@
 # Unitycloud.com website and Calculator
 
-1. Add Menu, Home, About, Services, Blog, Contact.
+1. Add Menu, Home, About, Services, Apps, Blog, Contact.
 2. Add Local Gold Coast Burlier Heads Based business
 
 ```text
@@ -21,3 +21,7 @@ AI-powered operation
 Managed IT, Cyber Security, Procurement and Licensing, AI Automation
 
 ```
+3. App
+5.   Local AI Calcualtor
+6.   Password Generator
+7.   Threat Landscape 
