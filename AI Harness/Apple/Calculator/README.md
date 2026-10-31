@@ -25,3 +25,18 @@ Managed IT, Cyber Security, Procurement and Licensing, AI Automation
 5.   Local AI Calcualtor
 6.   Password Generator
 7.   Threat Landscape 
+
+```text
+Keep the IT services, simple, 
+
+Managed IT staff augmentation and 1oo% from Sri Lanka
+Active/Active Resilent Data centre design
+Wireless Deployment and Data anayslsi for retail
+Managed Signage 
+Proceument and Licensing
+Managed and Co-Managed
+https://www.ct.com.au/products/queensland/managed-services
+https://www.neweratech.com/en-au/locations
+
+- Prepurchas
+```
