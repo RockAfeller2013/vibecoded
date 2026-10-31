@@ -3,6 +3,7 @@
 - https://gemini.google.com/app/b55263f0c68bdb04?hl=en-AU
 - https://www.apple.com/au/shop/buy-mac/mac-studio?
 - https://chatgpt.com/c/6addc567-1610-83ec-b190-047fe23afa6b
+- https://unitycloud.com/apps/app1.html?nocache=202610311320
 
 
 Build a complete, single-file `index.html` frontend-only calculator using HTML5, CSS3, Bootstrap 5, and vanilla JavaScript.
