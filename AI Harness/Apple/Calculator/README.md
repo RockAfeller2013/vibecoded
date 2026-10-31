@@ -4,6 +4,10 @@
 2. Add Local Gold Coast Burlier Heads Based business
 3. Add Projects and write up (active/Active design), SOC Design, BaaS, IaaS,etc.
 
+## Menu
+
+- Home, About Services, Industries, Projects, Apps, Blog, Contact
+
 ```text
 Home Page
 LEVELUP your technology.
