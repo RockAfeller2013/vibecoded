@@ -2,6 +2,7 @@
 
 1. Add Menu, Home, About, Services, Apps, Blog, Contact.
 2. Add Local Gold Coast Burlier Heads Based business
+3. Add Projects and write up (active/Active design), SOC Design, BaaS, IaaS,etc.
 
 ```text
 Home Page
