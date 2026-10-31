@@ -35,6 +35,8 @@ Managed IT, Cyber Security, Procurement and Licensing, AI Automation
 - vCISO
 - vInfraArchitect
 - vCyberArchitect
+- https://www.clearitsolutions.com.au/managed-it-services/
+- https://www.hutchisonit.com.au/services/
   
 ```text
 Keep the IT services, simple, 
