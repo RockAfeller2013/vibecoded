@@ -26,6 +26,16 @@ Managed IT, Cyber Security, Procurement and Licensing, AI Automation
 6.   Password Generator
 7.   Threat Landscape 
 
+
+## Services
+
+- Remote IT support, Service Desk and Staff Augmentation
+- Managed IT Services
+- Migrations and Architectur
+- vCISO
+- vInfraArchitect
+- vCyberArchitect
+  
 ```text
 Keep the IT services, simple, 
 
