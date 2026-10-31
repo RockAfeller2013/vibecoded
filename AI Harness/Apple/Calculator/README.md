@@ -40,3 +40,7 @@ https://www.neweratech.com/en-au/locations
 
 - Prepurchas
 ```
+
+## A!
+
+- Migrate Legacy Apps to modern SaaS in a secured ZTNA environment 
