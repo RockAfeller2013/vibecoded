@@ -6,7 +6,7 @@
 
 ## Menu
 
-- Home, About Services, Industries, Projects, Apps, Blog, Contact
+- Home, About Services, Industries, Projects, Apps, Partners, Blog, Contact
 
 ```text
 Home Page
