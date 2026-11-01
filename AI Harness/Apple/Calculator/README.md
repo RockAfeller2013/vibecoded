@@ -117,6 +117,12 @@ Managed IT, Cyber Security, Procurement and Licensing, AI Automation
 7.   Threat Landscape 
 
 
+## Industroies
+
+- Non-for profit/aged care
+- Constructions/Contactors
+- Education
+  
 ## Services
 
 - Remote IT support, Service Desk and Staff Augmentation
