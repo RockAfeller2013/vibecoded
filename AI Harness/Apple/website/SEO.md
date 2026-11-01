@@ -51,3 +51,8 @@ Contact email: which of hello@unitycloud.com and hello@unitycloud.ai is correct.
 Send the business details and I’ll start Phase 1.
 
 ```
+- Google Maps
+- Linkedin Ads
+- Facebook Ads
+- youbtube
+- QR Codes, Gorilla Advertising and T-Shorts
