@@ -15,18 +15,35 @@ Broadbeach
 Mermaid Beach
 Southport
 Greater Gold Coast
-- Menu must be fixed at the top, with home, about. services, industries, projects, blog, contact.
+- Menu must be fixed at the top, with home, about. services, industries, projects, apps, blog, contact.
 - All Pages must follow the look and feel, including bootstrap.
 - It must implement Posthob, and other analytics in the future on each page
 - Enable, Google, and other site searches, including, integration with Linkedin, youutube, facebook advertising
 - each of the services, projects, blog, menu is populated, following, json format, which then loads the corresponding html.
 - All Pages myst follow the Index.html vertical scroll look and feel, with the menu visible at the top.
-
+- use the index.html as the basis
 [
   { "name": "IT Services", "url": "services/ITServices.html" },
 ]
 
-eview the attached website files and existing working pages. I want to implement a centralised, reusable navigation and menu architecture that is maintained consistently across the entire website.
+- Folder Structure
+
+/index.html
+/about.html
+/services/services.json
+/services/ITServices.html
+/apps/apps.json
+/apps/app1.html
+/blog/blog.json
+/blog/blog0001.html
+/industries/industries.json
+/industries/education.html
+/industries/agedcare.html
+/projects/projects.json
+/protject/project1.html
+
+
+Review the attached website files and existing working pages. I want to implement a centralised, reusable navigation and menu architecture that is maintained consistently across the entire website.
 
 Requirements
 
