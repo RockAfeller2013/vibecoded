@@ -4,6 +4,84 @@
 2. Add Local Gold Coast Burlier Heads Based business
 3. Add Projects and write up (active/Active design), SOC Design, BaaS, IaaS,etc.
 
+
+```text
+Website - https://unitycloud.com/
+- Website must be SEO optimised to attract local business in Gold Coast, Australia
+- Menu must be fixed at the top, with home, about. services, industries, projects, blog, contact.
+- All Pages must follow the look and feel, including bootstrap.
+- It must implement Posthob, and other analytics in the future on each page
+- Enable, Google, and other site searches, including, integration with Linkedin, youutube, facebook advertising
+- each of the services, projects, blog, menu is populated, following, json format, which then loads the corresponding html.
+- All Pages myst follow the Index.html vertical scroll look and feel, with the menu visible at the top.
+
+[
+  { "name": "IT Services", "url": "services/ITServices.html" },
+]
+
+eview the attached website files and existing working pages. I want to implement a centralised, reusable navigation and menu architecture that is maintained consistently across the entire website.
+
+Requirements
+
+Centralised Menu Management
+
+Create a single menu.js and menu.css to manage the website's navigation, menus, dropdowns and associated styling.
+
+The menu must be maintained in one central location rather than duplicated across individual HTML pages.
+
+Changes to the menu or its styling should automatically apply across all pages.
+
+Consistent Website Integration
+
+Ensure the shared menu works correctly across all existing pages:
+
+index.html / home.html
+
+about.html
+
+services.html
+
+apps.html
+
+blog.html
+
+contact.html
+
+Review the attached working pages to understand the existing design, navigation structure and functionality.
+
+Preserve the current website branding, responsive design, styling and functionality.
+
+Analytics and Tracking
+
+Ensure PostHog analytics is initialised consistently across every page.
+
+Any other existing analytics, tracking scripts or integrations must also work globally.
+
+Avoid duplicate initialisation or duplicate page-view events when navigating between pages.
+
+Ensure page views and relevant user interactions are tracked correctly.
+
+Maintainability and Performance
+
+Avoid duplicating navigation HTML across individual pages.
+
+Use a lightweight, reusable JavaScript approach compatible with the existing website architecture.
+
+Ensure the implementation works with standard static HTML hosting without requiring a backend or build framework.
+
+Ensure menu loading does not negatively affect SEO, accessibility, page performance or mobile navigation.
+
+Before Making Changes
+
+First, review the attached files and existing implementation.
+
+Recommend the best architectural approach for centralising the menu, CSS and analytics across all pages.
+
+Explain which files need to be created or modified and how they will work together.
+
+Do not rebuild the website or unnecessarily change existing pages. Prioritise a maintainable solution that allows me to manage the entire website's navigation and shared functionality from a single location.
+
+```
 ## Menu
 
 - Home, About Services, Industries, Projects, Apps, Partners, Blog, Contact
