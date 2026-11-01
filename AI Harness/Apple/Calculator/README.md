@@ -7,7 +7,14 @@
 
 ```text
 Website - https://unitycloud.com/
-- Website must be SEO optimised to attract local business in Gold Coast, Australia
+- Website must be SEO optimised to attract local business in Gold Coast, Australia, Robina HQ
+Burleigh Heads
+Varsity Lakes
+Miami
+Broadbeach
+Mermaid Beach
+Southport
+Greater Gold Coast
 - Menu must be fixed at the top, with home, about. services, industries, projects, blog, contact.
 - All Pages must follow the look and feel, including bootstrap.
 - It must implement Posthob, and other analytics in the future on each page
