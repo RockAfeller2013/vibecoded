@@ -1,3 +1,4 @@
+```text
 High-level plan
 
 I’d do these in four phases, highest SEO value first. Each is independent, so you can reorder them.
@@ -48,3 +49,5 @@ Phase 3 IDs: GA4, GTM, Meta, LinkedIn and Google Ads, only when you’re ready.
 Contact email: which of hello@unitycloud.com and hello@unitycloud.ai is correct.
 
 Send the business details and I’ll start Phase 1.
+
+```
