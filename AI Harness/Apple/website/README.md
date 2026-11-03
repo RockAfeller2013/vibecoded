@@ -4,6 +4,7 @@
 
 ## Apps
 
+- SPF, DKIM, and DMARC 
 - Free Cyber Templates
 - ISO AI Template
 - Free Tools convert
