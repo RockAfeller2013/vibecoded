@@ -9,3 +9,10 @@
 - ISO AI Template
 - Free Tools convert
 - Cyber Awareness Training - SAE
+
+## After-hours support
+
+- https://outsourcedstaff.com.au/how-it-works/
+- https://www.fspglobal.com/after-hours-customer-service-outsourcing/
+- https://cxdirectory.com.au/outsourcing/247-call-answering-services
+- https://www.officehq.com.au/service/live-call-answering/after-hours-virtual-receptionist/
