@@ -21,3 +21,8 @@
 ## Server Builder
 
 - https://chatgpt.com/c/6aece705-b8bc-83ec-9116-f21c199de214
+
+## Project Manifold (In house Dark Factory.) 
+
+- https://chatgpt.com/c/6aee7d14-a3a8-83ec-a143-3c705cd046ec
+- 
