@@ -3,6 +3,7 @@
 
 - https://chatgpt.com/c/6aee7d14-a3a8-83ec-a143-3c705cd046ec
 - Access Internal apps via (ZTNA Broser) into your own apps running inside your own data centre via a Enterprise Browser (https://chatgpt.com/c/6aefd198-2354-83ec-8b31-3947d6508473)
+- https://chatgpt.com/c/6aefb08f-5a4c-83ec-aead-41202a806f92
 
 
 # Democratization of AI
