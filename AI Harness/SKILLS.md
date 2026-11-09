@@ -4,3 +4,4 @@
 - https://sandyclaw.permiso.io/
 - https://github.com/DietrichGebert/ponytail
 - https://signals.forwardfuture.ai/loop-library/
+- https://github.com/mattpocock/skills
