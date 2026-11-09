@@ -22,4 +22,6 @@
 
 - https://chatgpt.com/c/6aece705-b8bc-83ec-9116-f21c199de214
 
+## GPU Services
 
+- https://auradigitalglobal.com/configurator/
